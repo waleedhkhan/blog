@@ -1,0 +1,67 @@
+---
+import { Icon } from "astro-icon/components";
+
+import AppLink from "@/components/astro/ui/AppLink.astro";
+
+import CopyPostLink from "@/components/vue/CopyPostLink.vue";
+
+interface Props {
+  slug: string;
+  title: string;
+}
+
+const { slug, title } = Astro.props;
+
+const postUrl = encodeURIComponent(`${Astro.site?.toString()}/posts/${slug}`);
+const postText = `I just read '${title}' by Namchee
+
+`;
+---
+
+<div class=":uno: flex items-center space-x-4">
+  <CopyPostLink client:visible>
+    <Icon
+      name="lucide:link"
+      class=":uno: w-4 h-auto transition-colors group-hover:text-heading group-focus:text-heading md:w-[18px]"
+    />
+
+    <Icon
+      slot="close"
+      name="lucide:x"
+      class=":uno: h-auto transition-colors group-hover:text-heading group-focus:text-heading w-[14px]"
+    />
+  </CopyPostLink>
+
+  <AppLink
+    href={`https://twitter.com/intent/post?text=${encodeURIComponent(postText) + postUrl}`}
+    title="Share Post on Twitter"
+    class=":uno: group"
+  >
+    <Icon
+      name="simple-icons:x"
+      class=":uno: w-4 h-auto md:w-[18px] group-hover:text-heading group-focus:text-heading transition-color"
+    />
+  </AppLink>
+
+  <AppLink
+    href={`https://www.linkedin.com/sharing/share-offsite/?url=${postUrl}`}
+    title="Share Post on LinkedIn"
+    class=":uno: group"
+  >
+    <Icon
+      name="simple-icons:linkedin"
+      class=":uno: w-4 md:w-[18px] h-auto transition-color group-hover:text-heading group-focus:text-heading"
+    />
+  </AppLink>
+
+  <AppLink
+    href={`https://bsky.app/intent/compose?text=${postText}%20${postUrl}`}
+    title="Share Post on Bluesky"
+    class=":uno: group"
+  >
+    <Icon
+      name="simple-icons:bluesky"
+      class=":uno: w-4 md:w-[18px] h-auto transition-color group-hover:text-heading group-focus:text-heading"
+    />
+  </AppLink>
+</div>

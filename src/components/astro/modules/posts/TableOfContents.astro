@@ -1,0 +1,24 @@
+---
+import type { MarkdownHeading } from "astro";
+
+import generateToC from "@/scripts/toc";
+
+import ToCList from "./TocList.astro";
+
+interface Props {
+  headings: MarkdownHeading[];
+}
+
+const { headings } = Astro.props;
+const tocList = generateToC(headings);
+---
+
+<nav
+  class=":uno: text-sm max-w-64"
+>
+  <p class=":uno: mb-4 font-semibold text-heading transition-colors">
+    In this post
+  </p>
+
+  <ToCList headings={tocList} />
+</nav>

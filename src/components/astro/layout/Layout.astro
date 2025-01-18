@@ -1,0 +1,153 @@
+---
+import "@/assets/styles/global.css";
+import "@/assets/styles/toggle.css";
+
+import { getCollection } from "astro:content";
+
+import Footer from "@/components/astro/layout/Footer.astro";
+import Navigation from "./Navigation.astro";
+
+export interface Props {
+  title: string;
+  description: string;
+
+  og?: string;
+}
+
+const postCollection = await getCollection("posts");
+const posts = postCollection
+  .filter((post) => !post.data.isDraft)
+  .sort((a, b) => b.data.publishedAt.getTime() - a.data.publishedAt.getTime())
+  .map((collection) => ({
+    title: collection.data.title || "",
+    href: `/posts/${collection.slug}`,
+  }));
+
+const { title, description, og } = Astro.props;
+
+const url = Astro.url;
+const ogHost = import.meta.env.DEV
+  ? `${url.protocol}//${url.host}`
+  : import.meta.env.SITE;
+const ogFile = og ? `${og}.png` : "og.png";
+
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <link
+      rel="icon"
+      href="/icon-light.svg"
+      type="image/svg+xml"
+      class=":uno: favicon"
+    />
+
+    <meta name="generator" content={Astro.generator} />
+    <link rel="canonical" href={canonicalURL} />
+
+    <meta property="og:url" content="https://www.namchee.dev/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={`${ogHost}/${ogFile}`} />
+
+    <!-- Twitter Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta property="twitter:domain" content="lakban_hitam" />
+    <meta property="twitter:url" content="https://www.namchee.dev" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={`${ogHost}/${ogFile}`} />
+
+    <meta name="description" content={description} />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+    <link
+      rel="webmention"
+      href="https://webmention.io/www.namchee.dev/webmention"
+    />
+    <link
+      rel="preload"
+      href="/fonts/inter.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <link
+      rel="preload"
+      href="/fonts/jetbrains-mono.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+
+    <title>{title}</title>
+    <script is:inline>
+      // do not try to optimize this. is:inline is there to avoid pre-opt that causes theme flicker
+      const docEl = document.documentElement;
+      const svgIcon = document.querySelector(".favicon");
+      const media = window.matchMedia("(prefers-color-scheme: dark)");
+
+      let theme = media.matches ? "dark" : "light";
+      if (
+        typeof window.localStorage !== "undefined" &&
+        window.localStorage.getItem("theme")
+      ) {
+        theme = window.localStorage.getItem("theme");
+      }
+
+      const toggleTheme = (theme) => {
+        const method = theme === "light" ? "remove" : "add";
+
+        docEl.classList[method]("dark");
+        svgIcon.href = theme === "light" ? "/icon-light.svg" : "/icon-dark.svg";
+        window.localStorage.setItem("theme", theme);
+      };
+
+      toggleTheme(theme);
+    </script>
+
+    <script defer src="https://cloud.umami.is/script.js" data-website-id="16f41ca8-561c-4f45-8943-0c80934f59ff"></script>
+  </head>
+  <body
+    class=":uno: bg-background transition-colors text-content flex flex-col font-sans min-h-screen mx-auto antialiased"
+  >
+    <Navigation posts={posts} />
+
+    <main class=":uno: w-full mx-auto flex-1 max-w-[832px] px-8 leading-[1.75] mt-24 mb-32 md:mt-32 space-y-16">
+      <slot />
+    </main>
+
+    <div class=":uno: w-full max-w-[832px] mx-auto">
+      <Footer />
+    </div>
+  </body>
+</html>
+
+<script>
+  console.log(`
+               ▄███▄▄███▄
+                 ▄█▀▀██
+        ▄█      ██    ▀█      █▌
+       ███████▄██      ██▄██████▌
+      ███      ▀██    ▄█▀      ███
+     █▀ █▌      ▀██  ██▀      ▄█ ▀█
+         ██▄     ▄████▌     ▄██
+          ██▀▀██▀██████▀██▀▀██
+     ▄  ██       ██▀▀██       █▌ ▄
+     ████       ██▀  ▀██       ███
+       ███▄▄▄▄███      ███▄▄▄▄███
+        ██      █      █      ██
+         ▀      ▀█▄  ▄█▀      ▀
+               ▄▄██████▄▄
+
+        Hey there developers 🤓!
+    There's nothing here, so scram!
+`);
+</script>

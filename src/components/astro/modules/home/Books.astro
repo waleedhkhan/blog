@@ -1,0 +1,44 @@
+---
+import { Image } from "astro:assets";
+import { Icon } from "astro-icon/components";
+
+import AppLink from "@/components/astro/ui/AppLink.astro";
+
+import { getCurrentlyReadBooks } from "@/scripts/now-reading";
+
+const books = await getCurrentlyReadBooks();
+---
+
+<ul>
+  {
+    books.map((book) => {
+      return (
+        <li class=":uno: flex space-x-6">
+          <Image
+            src={book.cover}
+            alt={book.title}
+            inferSize
+            class=":uno: rounded h-[120px] w-[80px] object-fill!"
+          />
+
+          <div class=":uno: flex flex-col justify-center">
+            <AppLink
+              href={book.url}
+              class=":uno: group text-heading/85 font-medium transition-colors hover:text-heading focus:text-heading inline-flex items-center leading-[1.75] space-x-1 w-fit"
+            >
+              <span>{book.title}</span>
+
+              <Icon
+                name="lucide:arrow-up-right"
+                class=":uno: w-4 h-auto transition-all text-heading/50 group-hover:text-heading group-focus:text-heading group-focus:rotate-45 group-hover:rotate-45 flex-shrink-0"
+              />
+            </AppLink>
+
+            <p class=":uno: text-sm leading-normal italic">{book.subtitle}</p>
+            <p class=":uno: mt-4 text-heading/85 transition-colors text-sm">{book.author.join(" & ")}</p>
+          </div>
+        </li>
+      );
+    })
+  }
+</ul>

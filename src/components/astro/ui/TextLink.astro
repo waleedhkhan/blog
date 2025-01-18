@@ -1,0 +1,32 @@
+---
+import type { HTMLAttributes } from "astro/types";
+
+import AppLink from "@/components/astro/ui/AppLink.astro";
+
+type Props = HTMLAttributes<'a'>;
+
+const { class: className, ...props } = Astro.props;
+
+const baseClass = `:uno:
+  text-heading/85
+  font-medium
+  cursor-pointer
+  decoration-heading
+  decoration-opacity-25
+  dark:decoration-opacity-30
+  transition-colors
+  hover:text-heading
+  focus:text-heading
+  hover:decoration-primary
+  focus:decoration-primary
+  underline
+  underline-offset-4
+  dark:text-opacity-85
+  hover:dark:text-opacity-100
+  focus:dark:text-opacity-100`;
+---
+
+<AppLink
+  class:list={[baseClass, className]}
+  {...props}
+><slot /></AppLink>

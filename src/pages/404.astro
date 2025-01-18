@@ -1,0 +1,87 @@
+---
+import "@/assets/styles/global.css";
+
+import AppLink from "@/components/astro/ui/AppLink.astro";
+import TextLink from "@/components/astro/ui/TextLink.astro";
+---
+
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <link
+      rel="icon"
+      href="/icon-light.svg"
+      type="image/svg+xml"
+      class=":uno: favicon"
+    />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+    <title>404 &mdash; Not Found</title>
+    <script is:inline>
+      // same as base layout
+      const docEl = document.documentElement;
+      const svgIcon = document.querySelector('.favicon');
+      const media = window.matchMedia('(prefers-color-scheme: dark)');
+
+      let theme = media.matches ? 'dark' : 'light';
+      if (
+        typeof window.localStorage !== 'undefined' &&
+        window.localStorage.getItem('theme')
+      ) {
+        theme = window.localStorage.getItem('theme');
+      }
+
+      const toggleTheme = (theme) => {
+        const method = theme === 'light' ? 'remove' : 'add';
+
+        docEl.classList[method]('dark');
+        svgIcon.href = theme === 'light' ? '/icon-light.svg' : '/icon-dark.svg';
+        window.localStorage.setItem('theme', theme);
+      };
+
+
+      window.addEventListener('storage', () => {
+        const newTheme = window.localStorage.getItem('theme');
+        toggleTheme(newTheme);
+      });
+
+      media.addEventListener('change', () => {
+        const newTheme = media.matches ? 'dark' : 'light';
+        toggleTheme(newTheme);
+      });
+
+      toggleTheme(theme);
+    </script>
+  </head>
+
+  <body>
+    <div
+      class=":uno: grid transition-colors w-screen h-screen place-items-center bg-background text-content font-sans px-8"
+    >
+      <div class=":uno: grid place-items-center">
+        <h1 class=":uno: text-heading tracking-tight text-7xl font-medium">404</h1>
+
+        <p class=":uno: text-xl mt-8 text-balance text-center">
+          Yes, page isn't here so you're lost. <TextLink href="/"
+            >Go home</TextLink
+          >
+        </p>
+
+        <AppLink href='#' class="text-xs relative top-16 lucky__try">Feeling lucky instead?</AppLink>
+      </div>
+    </div>
+
+    <script>
+      const gacha = document.querySelector('.lucky__try');
+
+      gacha.addEventListener('click', () => {
+        // cool video
+        window.open('https://youtu.be/dQw4w9WgXcQ?si=ef9xir6ogPQL5Plq');
+      });
+    </script>
+  </body>
+</html>
+

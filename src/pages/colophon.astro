@@ -1,0 +1,255 @@
+---
+import { Icon } from "astro-icon/components";
+
+import Layout from "@/components/astro/layout/Layout.astro";
+import TextLink from "@/components/astro/ui/TextLink.astro";
+import AppLink from "@/components/astro/ui/AppLink.astro";
+
+const inspirations = [
+  {
+    name: "Fabian Schlutz",
+    href: "https://www.fabianschultz.com/",
+  },
+  {
+    name: "Linus Rogge",
+    href: "https://linusrogge.com/",
+  },
+  {
+    name: "Connell McCarthy",
+    href: "https://connellmccarthy.com/",
+  },
+  {
+    name: "Marco Koenig",
+    href: "https://www.marcokoenig.de/",
+  },
+  {
+    name: "John Zanussi",
+    href: "https://johnzanussi.com/",
+  },
+  {
+    name: "Jacky Efendi",
+    href: "https://jackyef.com/",
+  },
+  {
+    name: "60FPS Design",
+    href: "https://www.60fps.design/",
+  },
+  {
+    name: "Curated Design",
+    href: "https://www.curated.design/",
+  },
+  {
+    name: "Minimal Gallery",
+    href: "https://minimal.gallery/",
+  },
+  {
+    name: "One Page Love",
+    href: "https://onepagelove.com/",
+  },
+  {
+    name: "Dead Simple Sites",
+    href: "https://deadsimplesites.com/",
+  },
+  {
+    name: "Cahya Wibawa",
+    href: "https://cahyawibawa.dev/",
+  },
+];
+
+const title = "Colophon";
+const description =
+  "A full list of resources and technologies that empowers namchee.dev";
+
+const sha = process.env.CF_PAGES_COMMIT_SHA || "418ed9f";
+---
+
+<Layout title={title} description={description} og="og-colophon">
+  <section class=":uno: grid grid-cols-12 gap-4">
+    <div class=":uno: col-start-1 col-end-13 md:col-end-4 mb-8 md:mb-0">
+      <h1 class=":uno: text-2xl text-heading font-semibold tracking-tight transition-colors">
+        Colophon
+      </h1>
+
+      <div
+        class="mt-2 md:mt-4 space-y-0 space-x-4 md:space-y-2 md:space-x-0 flex md:flex-col"
+      >
+        <time
+          class=":uno: flex items-center space-x-2"
+          title="Last Updated on 17 November 2024"
+        >
+          <Icon name="lucide:history" class=":uno: w-4 h-auto" />
+          <span class="text-xs">17 November 2024</span>
+        </time>
+
+        <p
+          class=":uno: flex items-center space-x-2 font-mono transition-colors hover:text-heading focus:text-heading"
+        >
+          <Icon name="simple-icons:github" class=":uno: w-4 h-auto" />
+
+          <AppLink
+            href={`https://github.com/Namchee/site/tree/${sha}`}
+            class="text-xs">Namchee/site#{sha.slice(0, 7)}</AppLink
+          >
+        </p>
+      </div>
+    </div>
+
+    <div class=":uno: col-start-1 md:col-start-5 col-end-13 space-y-4">
+      <p>
+        This website is statically-generated with <TextLink
+          href="https://astro.build/"
+        >
+          Astro</TextLink
+        > combined with <TextLink href="https://vuejs.org/"> Vue</TextLink> in the
+        mix that empowers reactive components. Stylings are powered by <TextLink
+          href="https://unocss.dev/"
+        >
+          UnoCSS</TextLink
+        >, an on-demand atomic CSS engine.
+      </p>
+
+      <p>
+        Website is hosted with 100% renewable energy on <TextLink
+          href="https://pages.cloudflare.com/"
+        >
+          Cloudflare Pages</TextLink
+        >. Site analytics are powered by <TextLink
+        href="https://umami.is/"
+      >Umami</TextLink>.
+      </p>
+    </div>
+  </section>
+
+  <section class=":uno: grid grid-cols-12 gap-4">
+    <h2
+      class=":uno: col-start-1 col-end-13 md:col-end-4 text-heading font-semibold transition-colors"
+    >
+      Design
+    </h2>
+
+    <div class=":uno: col-start-1 md:col-start-5 col-end-13 space-y-4">
+      <p>
+        Colors are extracted from <TextLink href="https://www.untitledui.com/">
+          Untitled UI</TextLink
+        > design system and <TextLink
+          href="https://tailwindcss.com/docs/customizing-colors"
+          >TailwindCSS</TextLink
+        > color system with a few twist of my own.
+      </p>
+
+      <p>
+        There are 2 typefaces that are used in this website: Inter and JetBrains
+        Mono.
+      </p>
+
+      <p>
+        <TextLink href="https://rsms.me/inter/">Inter</TextLink> is a neo-grosteque
+        sans-serif designed as a workhorse typeface for a wide range of applications,
+        including user interfaces. Inter is used as the main font of this website,
+        serving as the typeface body copies and headings alike.
+      </p>
+
+      <p>
+        <TextLink href="https://www.jetbrains.com/lp/mono/">
+          JetBrains Mono</TextLink
+        > is a monospaced font created by JetBrains and distributed under the SIL
+        Font License. JetBrains Mono is used in codeblocks and miscellanous accents.
+      </p>
+    </div>
+  </section>
+
+  <section class=":uno: grid grid-cols-12 gap-4">
+    <h2
+      class=":uno: col-start-1 col-end-13 md:col-end-4 text-heading font-semibold transition-colors"
+    >
+      Graphical Contents
+    </h2>
+
+    <div class=":uno: col-start-1 md:col-start-5 col-end-13 space-y-4">
+      <p>
+        Most of the images on my posts are taken from various sources with
+        attribution that can be found under the image. Diagrams are made with <TextLink
+          href="https://miro.com/">Miro</TextLink
+        > and
+        <TextLink href="https://mermaid.js.org/">Mermaid</TextLink>.
+      </p>
+
+      <p>
+        Icons are handpicked from the combination of <TextLink
+          href="https://lucide.dev/"
+        >
+          Lucide</TextLink
+        > for the general UI icons and <TextLink
+          href="https://simpleicons.org/"
+        >
+          Simple Icons</TextLink
+        > for all brand icons, except for theme switcher icon which is taken from
+        <TextLink href="https://toggles.dev/">toggles.dev</TextLink>.
+      </p>
+
+      <p>
+        Icons are served with the help of <TextLink
+          href="https://iconify.design/"
+        >
+          Iconify</TextLink
+        >.
+      </p>
+    </div>
+  </section>
+
+  <section class=":uno: grid grid-cols-12 gap-4">
+    <h2
+      class=":uno: col-start-1 col-end-13 md:col-end-4 text-heading font-semibold transition-colors"
+    >
+      Inspirations
+    </h2>
+
+    <div class=":uno: col-start-1 md:col-start-5 col-end-13 space-y-4">
+      <p>
+        The design of this website is influenced by multiple sources I stumbled
+        upon. Below is the list of inspirations that influences this website in
+        no particular order:
+      </p>
+
+      <ul class=":uno: grid grid-cols-1 sm:grid-cols-2 gap-y-2 gap-x-4">
+        {
+          inspirations.map((inspiration) => (
+            <li>
+              <AppLink
+                href={inspiration.href}
+                class=":uno: group text-heading/85 hover:text-heading focus:text-heading transition-colors inline-flex items-center font-medium space-x-1"
+              >
+                <span>{inspiration.name}</span>
+                <Icon
+                  name="lucide:arrow-up-right"
+                  class=":uno: w-4 h-auto text-heading/50 group-hover:text-heading group-focus:text-heading transition-all group-hover:rotate-45 group-focus:rotate-45"
+                />
+              </AppLink>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <section class=":uno: grid grid-cols-12 gap-4">
+    <h2
+      class=":uno: col-start-1 col-end-13 md:col-end-4 text-heading font-semibold transition-colors"
+    >
+      Open Source
+    </h2>
+
+    <div class=":uno: col-start-1 md:col-start-5 col-end-13 space-y-4">
+      <p>
+        This website is open-sourced and can be found on my <TextLink
+          href="https://www.github.com/Namchee/site"
+        >
+          GitHub</TextLink
+        >. If you find a bug on this site, feel free to create an
+        <TextLink href="https://github.com/Namchee/site/issues">
+          issue</TextLink
+        >.
+      </p>
+    </div>
+  </section>
+</Layout>

@@ -1,0 +1,70 @@
+---
+import CopyCode from "@/components/vue/CopyCode.vue";
+
+import Clipboard from "@/components/astro/icons/Clipboard.astro";
+import Check from "@/components/astro/icons/Check.astro";
+
+const meta: Record<string, string> = {};
+const {
+  "data-meta": dataMeta,
+  "data-code": dataCode,
+  class: className,
+  ...props
+} = Astro.props;
+
+if (dataMeta) {
+  dataMeta.split(",").forEach((prop: string) => {
+    const tokens = prop.split("=");
+    meta[tokens[0].trim()] = tokens[1];
+  });
+}
+
+const title = meta.title;
+const copy = 'copy' in meta;
+const noLang = 'noLang' in meta;
+---
+
+<figure
+  class:list={[
+    ":uno:",
+    "my-4",
+    "overflow-hidden",
+    "border",
+    "border-separator",
+    "transition-colors",
+    "rounded-md",
+    "focus-within:border-content/35",
+  ]}
+>
+  {
+    (title || copy) && (
+      <figcaption class="flex justify-between items-center text-xs leading-normal border-separator bg-surface text-balance transition-all p-2 px-4 border-b rounded-t-md">
+        <p class="text-content transition-colors">{title}</p>
+
+        {copy && (
+          <CopyCode code={dataCode} client:visible>
+            <Clipboard class=":uno: size-[14px] transition-colors text-content/70 group-hover:text-heading group-focus:text-heading flex-shrink-0" />
+
+            <Check
+              slot="copied"
+              class=":uno: size-[14px] text-success flex-shrink-0"
+            />
+          </CopyCode>
+        )}
+      </figcaption>
+    )
+  }
+
+  <div class="relative">
+    <p
+      class:list={[
+        "absolute top-3 right-4 font-mono text-sm text-content/50",
+        { hidden: noLang },
+      ]}
+    >
+      {props['data-language']}
+    </p>
+
+    <pre class={`${className} rounded-none py-2 focus:outline-none`} {...props}><slot /></pre>
+  </div>
+</figure>
