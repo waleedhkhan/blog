@@ -54,3 +54,6 @@ Icon?
 
 # Generated files
 *.astro-generated
+node_modules
+node_modules
+node_modules
