@@ -1,20 +1,15 @@
 ---
 import { Icon } from "astro-icon/components";
-
 import Layout from "@/components/astro/layout/Layout.astro";
-
 import TextLink from "@/components/astro/ui/TextLink.astro";
-
 import Profile from "@/components/astro/modules/home/Profile.astro";
-import Projects from "@/components/astro/modules/home/Projects.astro";
 import Posts from "@/components/astro/modules/home/Posts.astro";
 import Experiences from "@/components/astro/modules/home/Experiences.astro";
-import Books from "@/components/astro/modules/home/Books.astro";
 import AppLink from "@/components/astro/ui/AppLink.astro";
 
-const title = "Namchee — Software Engineer";
+const title = "Waleed — Software Engineer";
 const description =
-  "Namchee is a no-nonsense software engineer that is dedicated to solving real-life problems through performant and sustainable software-based solutions.";
+  "Hi, I’m Waleed —a technology and business leader passionate about crafting impactful digital products and helping teams work smarter. Over the years, I’ve collaborated with industry giants like eBay, PayPal, and Adobe to create scalable solutions that drive meaningful change.";
 ---
 
 <Layout title={title} description={description}>
@@ -23,58 +18,15 @@ const description =
 
     <div class="col-start-1 col-end-13 md:col-start-5 space-y-4 leading-[1.75]">
       <p>
-        Hello, Halo, 你 好. My name is Cristopher, or Namchee in the online
-        space. I'm a software engineer with passion of solving real-life
-        problems through <span
-          class="font-medium text-heading/85 transition-colors">performant</span
-        > and <span class="font-medium text-heading/85 transition-colors"
-          >sustainable</span
-        > solutions. Currently, I create practical solutions at <TextLink
-          href="https://glair.ai/"
-        >
-          GLAIR</TextLink
-        >.
+        Hi there! I’m Waleed – welcome to my personal website! 😊 I’m a software engineer based in the vibrant city of Berlin, with over a decade of experience designing and operating large-scale e-commerce systems.
       </p>
 
-      <p>
-        I stumbled upon the world of code when I was searching for a way to
-        cheat at a Facebook game during my junior high school days. Although my
-        account got banned for trying to cheat, the journey serves as my first
-        step into software engineering.
+    <p>
+        I’m passionate about creating simple, functional, and beautifully designed applications. I love diving into the latest innovations in tech, where I have a deep appreciation for high-quality, practical products that combine utility with sleek aesthetics. Thanks for stopping by – feel free to explore and connect!
+      </p>
       </p>
 
-      <p>
-        Outside of professional work, I love playing around new tech I have
-        discovered during my daily exploration. Whenever I feel the burnout is
-        approaching fast, you can find me playing video games with my trusty
-        little war machine or building my <TextLink href="/library"
-          >reading habit</TextLink
-        >.
-      </p>
-    </div>
-  </section>
 
-  <section class=":uno: grid grid-cols-12 gap-4">
-    <h2
-      class=":uno: col-start-1 col-end-13 transition-colors md:col-end-4 font-semibold tracking-tight text-heading"
-    >
-      Selected Projects
-    </h2>
-
-    <div class="col-start-1 col-end-13 md:col-start-5 space-y-4 leading-[1.75]">
-      <Projects />
-
-      <AppLink
-        class=":uno: mt-8 inline-flex items-center hover:text-heading focus:text-heading arrow__link"
-        href="https://github.com/Namchee?tab=repositories"
-      >
-        <Icon name="lucide:arrow-right" class=":uno: w-4 arrow__before" />
-        <span class=":uno: link__text inline-block">View all projects</span>
-        <Icon
-          name="lucide:arrow-up-right"
-          class=":uno: w-4 opacity-0 -translate-x-8 arrow__after"
-        />
-      </AppLink>
     </div>
   </section>
 
@@ -111,18 +63,6 @@ const description =
 
     <div class="col-start-1 col-end-13 md:col-start-5 space-y-4 leading-[1.75]">
       <Experiences />
-    </div>
-  </section>
-
-  <section class=":uno: grid grid-cols-12 gap-4">
-    <h2
-      class=":uno: col-start-1 col-end-13 md:col-end-4 font-semibold tracking-tight text-heading transition-colors"
-    >
-      Now Reading
-    </h2>
-
-    <div class="col-start-1 col-end-13 md:col-start-5 space-y-4 leading-[1.75]">
-      <Books />
     </div>
   </section>
 </Layout>

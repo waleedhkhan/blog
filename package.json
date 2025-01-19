@@ -1,5 +1,5 @@
 {
-  "name": "@namchee/site",
+  "name": "@waleed/blog",
   "version": "0.1.0",
   "private": true,
   "type": "module",
@@ -21,8 +21,6 @@
     "@astrojs/vue": "^5.0.3",
     "@iconify-json/lucide": "^1.2.10",
     "@iconify-json/simple-icons": "^1.1.105",
-    "@namchee/astro-subfont": "^0.1.0",
-    "@namchee/eslint-config": "^2.1.0",
     "@shikijs/transformers": "^1.6.4",
     "@types/eslint": "^9.6.1",
     "@types/node": "^20.14.2",

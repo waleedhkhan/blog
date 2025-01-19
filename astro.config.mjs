@@ -56,6 +56,6 @@ export default defineConfig({
   image: {
     domains: ['books.google.com', 'assets.literal.club', 'res.cloudinary.com'],
   },
-  site: 'https://www.namchee.dev',
+  site: 'https://www.waleed.dev',
   prefetch: true,
 });

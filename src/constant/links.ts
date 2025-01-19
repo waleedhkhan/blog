@@ -11,9 +11,9 @@ export const links = [
     href: '/posts',
   },
   {
-    icon: 'lucide:library',
-    name: 'Library',
-    href: '/library',
+    icon: 'lucide:user',
+    name: 'About',
+    href: '/about',
   },
   {
     icon: 'lucide:cog',

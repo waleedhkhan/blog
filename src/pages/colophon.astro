@@ -7,58 +7,15 @@ import AppLink from "@/components/astro/ui/AppLink.astro";
 
 const inspirations = [
   {
-    name: "Fabian Schlutz",
-    href: "https://www.fabianschultz.com/",
+    name: "Manuel Moreal",
+    href: "https://manuelmoreale.com",
   },
-  {
-    name: "Linus Rogge",
-    href: "https://linusrogge.com/",
-  },
-  {
-    name: "Connell McCarthy",
-    href: "https://connellmccarthy.com/",
-  },
-  {
-    name: "Marco Koenig",
-    href: "https://www.marcokoenig.de/",
-  },
-  {
-    name: "John Zanussi",
-    href: "https://johnzanussi.com/",
-  },
-  {
-    name: "Jacky Efendi",
-    href: "https://jackyef.com/",
-  },
-  {
-    name: "60FPS Design",
-    href: "https://www.60fps.design/",
-  },
-  {
-    name: "Curated Design",
-    href: "https://www.curated.design/",
-  },
-  {
-    name: "Minimal Gallery",
-    href: "https://minimal.gallery/",
-  },
-  {
-    name: "One Page Love",
-    href: "https://onepagelove.com/",
-  },
-  {
-    name: "Dead Simple Sites",
-    href: "https://deadsimplesites.com/",
-  },
-  {
-    name: "Cahya Wibawa",
-    href: "https://cahyawibawa.dev/",
-  },
+
 ];
 
 const title = "Colophon";
 const description =
-  "A full list of resources and technologies that empowers namchee.dev";
+  "A full list of resources and technologies that empowers waleed.de";
 
 const sha = process.env.CF_PAGES_COMMIT_SHA || "418ed9f";
 ---
@@ -87,13 +44,12 @@ const sha = process.env.CF_PAGES_COMMIT_SHA || "418ed9f";
           <Icon name="simple-icons:github" class=":uno: w-4 h-auto" />
 
           <AppLink
-            href={`https://github.com/Namchee/site/tree/${sha}`}
-            class="text-xs">Namchee/site#{sha.slice(0, 7)}</AppLink
+            href={`https://github.com/waleedhkhan/blog/tree/${sha}`}
+            class="text-xs">waleedhkhan/blog#{sha.slice(0, 7)}</AppLink
           >
         </p>
       </div>
     </div>
-
     <div class=":uno: col-start-1 md:col-start-5 col-end-13 space-y-4">
       <p>
         This website is statically-generated with <TextLink
@@ -113,9 +69,7 @@ const sha = process.env.CF_PAGES_COMMIT_SHA || "418ed9f";
           href="https://pages.cloudflare.com/"
         >
           Cloudflare Pages</TextLink
-        >. Site analytics are powered by <TextLink
-        href="https://umami.is/"
-      >Umami</TextLink>.
+        >. 
       </p>
     </div>
   </section>
@@ -242,11 +196,11 @@ const sha = process.env.CF_PAGES_COMMIT_SHA || "418ed9f";
     <div class=":uno: col-start-1 md:col-start-5 col-end-13 space-y-4">
       <p>
         This website is open-sourced and can be found on my <TextLink
-          href="https://www.github.com/Namchee/site"
+          href="https://github.com/waleedhkhan/blog.git"
         >
           GitHub</TextLink
         >. If you find a bug on this site, feel free to create an
-        <TextLink href="https://github.com/Namchee/site/issues">
+        <TextLink href="https://github.com/waleedhkhan/blog/issues">
           issue</TextLink
         >.
       </p>

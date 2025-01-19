@@ -8,7 +8,7 @@ const posts = (await getCollection("posts"))
   .filter((post) => !post.data.isDraft)
   .sort((a, b) => b.data.publishedAt.getTime() - a.data.publishedAt.getTime());
 
-const title = "My Personal Thoughts — Namchee";
+const title = "My Personal Thoughts — Waleed";
 const description =
   "Food for thoughts or just passing whims in form of well-written posts that covers various topics.";
 ---
