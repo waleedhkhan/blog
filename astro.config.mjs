@@ -56,6 +56,6 @@ export default defineConfig({
   image: {
     domains: ['books.google.com', 'assets.literal.club', 'res.cloudinary.com'],
   },
-  site: 'https://www.waleed.dev',
+  site: 'https://www.waleed.de',
   prefetch: true,
 });
