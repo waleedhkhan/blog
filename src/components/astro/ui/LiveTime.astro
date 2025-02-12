@@ -1,0 +1,22 @@
+<div id="live-time" class="font-medium text-heading/85 mt-2">
+  Loading...
+</div>
+
+<script>
+  function updateTime() {
+    const timeElement = document.getElementById('live-time');
+    const now = new Date();
+    const timeString = now.toLocaleTimeString('en-US', { 
+      hour: '2-digit', 
+      minute: '2-digit',
+      hour12: true 
+    });
+    if (timeElement) {
+      timeElement.textContent = timeString;
+    }
+  }
+
+  // Update immediately and then every second
+  updateTime();
+  setInterval(updateTime, 1000);
+</script>

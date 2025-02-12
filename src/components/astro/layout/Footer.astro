@@ -1,7 +1,7 @@
 ---
 import AppLink from "@/components/astro/ui/AppLink.astro";
 import Logo from "@/components/astro/ui/Logo.astro";
-
+import LiveTime from "@/components/astro/ui/LiveTime.astro";
 
 const contacts = [
   {
@@ -55,20 +55,23 @@ const contacts = [
 
     </p>
     
-    <div class="flex space-x-4">
-      <AppLink
-        href="/rss.xml"
-        class="font-medium text-heading/85 transition-colors hover:text-heading focus:text-heading"
-      >
-        RSS
-      </AppLink>
+    <div class="flex flex-col items-end">
+      <div class="flex space-x-4">
+        <AppLink
+          href="/rss.xml"
+          class="font-medium text-heading/85 transition-colors hover:text-heading focus:text-heading"
+        >
+          RSS
+        </AppLink>
 
-      <AppLink
-        href="/colophon"
-        class="font-medium text-heading/85 transition-colors hover:text-heading focus:text-content"
-      >
-        Colophon
-      </AppLink>
+        <AppLink
+          href="/colophon"
+          class="font-medium text-heading/85 transition-colors hover:text-heading focus:text-content"
+        >
+          Colophon
+        </AppLink>
+      </div>
+      <LiveTime />
     </div>
   </div>
 </footer>
