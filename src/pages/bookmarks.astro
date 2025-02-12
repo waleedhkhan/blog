@@ -4,6 +4,15 @@ import bookmarksData from "@/data/bookmarks.json";
 
 const title = "Bookmarks — Waleed";
 const description = "A collection of useful links and resources";
+
+function shortenUrl(url: string) {
+  try {
+    const urlObj = new URL(url);
+    return `${urlObj.hostname}${urlObj.pathname === '/' ? '' : '...'}`;
+  } catch {
+    return url;
+  }
+}
 ---
 
 <Layout title={title} description={description}>
@@ -13,28 +22,29 @@ const description = "A collection of useful links and resources";
       <p class=":uno: text-lg leading-[1.75]">{description}</p>
     </div>
 
-    <div class=":uno: relative overflow-x-auto sm:rounded-lg">
-      <table class=":uno: w-full text-left">
-        <thead class=":uno: text-sm uppercase border-b">
+    <div class=":uno: relative">
+      <table class=":uno: w-full text-left text-sm border border-gray-100 dark:border-gray-800">
+        <thead class=":uno: text-xs text-gray-500 dark:text-gray-400">
           <tr>
-            <th class=":uno: px-6 py-3">Name</th>
-            <th class=":uno: px-6 py-3">Category</th>
-            <th class=":uno: px-6 py-3">URL</th>
+            <th class=":uno: px-4 py-2">Name</th>
+            <th class=":uno: px-4 py-2">Category</th>
+            <th class=":uno: px-4 py-2">URL</th>
           </tr>
         </thead>
-        <tbody>
+        <tbody class=":uno: divide-y divide-gray-100/50 dark:divide-gray-800/50">
           {bookmarksData.bookmarks.map((bookmark) => (
-            <tr class=":uno: border-b transition-colors hover:bg-gray-50/50 dark:hover:bg-gray-800/50">
-              <td class=":uno: px-6 py-4 font-medium">{bookmark.name}</td>
-              <td class=":uno: px-6 py-4">{bookmark.category}</td>
-              <td class=":uno: px-6 py-4">
+            <tr class=":uno: transition-colors hover:bg-gray-50/30 dark:hover:bg-gray-800/30">
+              <td class=":uno: px-4 py-3 font-medium text-gray-900 dark:text-gray-100">{bookmark.name}</td>
+              <td class=":uno: px-4 py-3 text-gray-600 dark:text-gray-400">{bookmark.category}</td>
+              <td class=":uno: px-4 py-3">
                 <a
                   href={bookmark.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  class=":uno: text-blue-600 hover:underline dark:text-blue-400"
+                  class=":uno: text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300"
+                  title={bookmark.url}
                 >
-                  {bookmark.url}
+                  {shortenUrl(bookmark.url)}
                 </a>
               </td>
             </tr>
