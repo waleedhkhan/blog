@@ -1,0 +1,46 @@
+---
+import Layout from "@/components/astro/layout/Layout.astro";
+import bookmarksData from "@/data/bookmarks.json";
+
+const title = "Bookmarks — Waleed";
+const description = "A collection of useful links and resources";
+---
+
+<Layout title={title} description={description}>
+  <section class=":uno: space-y-8">
+    <div class=":uno: space-y-4">
+      <h1 class=":uno: font-semibold text-2xl tracking-tight text-heading">Bookmarks</h1>
+      <p class=":uno: text-lg leading-[1.75]">{description}</p>
+    </div>
+
+    <div class=":uno: relative overflow-x-auto sm:rounded-lg">
+      <table class=":uno: w-full text-left">
+        <thead class=":uno: text-sm uppercase border-b">
+          <tr>
+            <th class=":uno: px-6 py-3">Name</th>
+            <th class=":uno: px-6 py-3">Category</th>
+            <th class=":uno: px-6 py-3">URL</th>
+          </tr>
+        </thead>
+        <tbody>
+          {bookmarksData.bookmarks.map((bookmark) => (
+            <tr class=":uno: border-b transition-colors hover:bg-gray-50/50 dark:hover:bg-gray-800/50">
+              <td class=":uno: px-6 py-4 font-medium">{bookmark.name}</td>
+              <td class=":uno: px-6 py-4">{bookmark.category}</td>
+              <td class=":uno: px-6 py-4">
+                <a
+                  href={bookmark.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class=":uno: text-blue-600 hover:underline dark:text-blue-400"
+                >
+                  {bookmark.url}
+                </a>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  </section>
+</Layout>
