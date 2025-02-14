@@ -1,0 +1,32 @@
+---
+---
+
+<html lang="en">
+  <head>
+    <title>Prefetch Test</title>
+  </head>
+  <body>
+    <h1>Prefetch Test Page</h1>
+    
+    <h2>Should Prefetch:</h2>
+    <ul>
+      <li><a href="/about">About Page</a></li>
+      <li><a href="/blog">Blog Page</a></li>
+    </ul>
+
+    <h2>Should Not Prefetch:</h2>
+    <ul>
+      <li><a href="/bookmarks">Bookmarks</a></li>
+      <li><a href="/rss.xml">RSS Feed</a></li>
+      <li><a href="https://github.com">External Link</a></li>
+    </ul>
+
+    <p>To test:</p>
+    <ol>
+      <li>Open Chrome DevTools (F12)</li>
+      <li>Go to Network tab</li>
+      <li>Hover over the links above</li>
+      <li>Look for prefetch requests in the Network panel</li>
+    </ol>
+  </body>
+</html>

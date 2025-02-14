@@ -57,5 +57,8 @@ export default defineConfig({
     domains: ['books.google.com', 'assets.literal.club', 'res.cloudinary.com'],
   },
   site: 'https://www.waleed.de',
-  prefetch: true,
+  prefetch: {
+    prefetchAll: true,
+    selector: ':not(a[href*="/bookmarks"]):not(a[href*="/rss"]):not(a[href^="http"]):not(a[href^="https"])'
+  },
 });

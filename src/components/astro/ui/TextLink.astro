@@ -3,9 +3,13 @@ import type { HTMLAttributes } from "astro/types";
 
 import AppLink from "@/components/astro/ui/AppLink.astro";
 
-type Props = HTMLAttributes<'a'>;
+interface Props {
+  href: string;
+  class?: string;
+  title?: string;
+}
 
-const { class: className, ...props } = Astro.props;
+const { href, class: className, title, ...props } = Astro.props;
 
 const baseClass = `:uno:
   text-heading/85
@@ -26,7 +30,10 @@ const baseClass = `:uno:
   focus:dark:text-opacity-100`;
 ---
 
-<AppLink
+<a
+  href={href}
   class:list={[baseClass, className]}
+  title={title}
+  data-astro-prefetch
   {...props}
-><slot /></AppLink>
+><slot /></a>
