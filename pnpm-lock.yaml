@@ -35,9 +35,6 @@ importers:
       class-variance-authority:
         specifier: ^0.7.0
         version: 0.7.1
-      mermaid-isomorphic:
-        specifier: ^3.0.0
-        version: 3.0.0(playwright@1.49.1)
       radix-vue:
         specifier: ^1.9.7
         version: 1.9.12(vue@3.5.13(typescript@5.7.3))
