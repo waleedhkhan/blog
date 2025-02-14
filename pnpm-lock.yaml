@@ -20,6 +20,9 @@ importers:
       '@iconify/vue':
         specifier: ^4.1.2
         version: 4.3.0(vue@3.5.13(typescript@5.7.3))
+      '@netlify/edge-functions':
+        specifier: ^2.11.1
+        version: 2.11.1
       '@vueuse/core':
         specifier: ^10.11.0
         version: 10.11.1(vue@3.5.13(typescript@5.7.3))
@@ -1142,6 +1145,9 @@ packages:
     engines: {node: '>=20'}
     peerDependencies:
       eslint: ~9
+
+  '@netlify/edge-functions@2.11.1':
+    resolution: {integrity: sha512-pyQOTZ8a+ge5lZlE+H/UAHyuqQqtL5gE0pXrHT9mOykr3YQqnkB2hZMtx12odatZ87gHg4EA+UPyMZUbLfnXvw==}
 
   '@nodelib/fs.scandir@2.1.5':
     resolution: {integrity: sha512-vq24Bq3ym5HEQm2NKCr3yXDwjc7vTsEThRDnkp2DK9p1uqLR+DHurm/NOTo0KG7HYHU7eppKZj3MyqYuMBf62g==}
@@ -6594,6 +6600,8 @@ snapshots:
       - eslint-plugin-import-x
       - supports-color
       - typescript
+
+  '@netlify/edge-functions@2.11.1': {}
 
   '@nodelib/fs.scandir@2.1.5':
     dependencies:

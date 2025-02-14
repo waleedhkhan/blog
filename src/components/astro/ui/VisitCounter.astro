@@ -1,0 +1,19 @@
+---
+---
+<div id="visit-counter" class=":uno: text-center text-sm text-gray-500 mt-8">
+  Total Visits: <span>Loading...</span>
+</div>
+
+<script>
+  async function updateVisitorCount() {
+    try {
+      const response = await fetch('/.netlify/functions/counter');
+      const data = await response.json();
+      document.querySelector('#visit-counter span').textContent = data.count.toString();
+    } catch (error) {
+      console.error('Failed to fetch visitor count:', error);
+    }
+  }
+
+  updateVisitorCount();
+</script>
