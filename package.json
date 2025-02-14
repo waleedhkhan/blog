@@ -14,10 +14,10 @@
     "lint:fix": "eslint src --fix"
   },
   "devDependencies": {
+    "@antfu/eslint-config": "^2.8.0",
     "@astrojs/check": "^0.9.4",
     "@astrojs/sitemap": "^3.2.1",
     "@astrojs/vue": "^5.0.3",
-    "@antfu/eslint-config": "^2.8.0",
     "@iconify-json/lucide": "^1.2.10",
     "@iconify-json/simple-icons": "^1.1.105",
     "@shikijs/transformers": "^1.6.4",
@@ -59,6 +59,7 @@
   "dependencies": {
     "@astrojs/mdx": "^4.0.3",
     "@astrojs/rss": "^4.0.10",
+    "@fontsource/inter": "^5.1.1",
     "@iconify/vue": "^4.1.2",
     "@vueuse/core": "^10.11.0",
     "astro-icon": "^1.1.1",

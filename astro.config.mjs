@@ -1,22 +1,14 @@
 import { defineConfig } from 'astro/config';
-
 import vue from '@astrojs/vue';
 import mdx from '@astrojs/mdx';
 import sitemap from '@astrojs/sitemap';
-
 import icon from 'astro-icon';
 import robotsTxt from 'astro-robots-txt';
-
 import unocss from 'unocss/astro';
-
 import rehypeMathjax from 'rehype-mathjax';
 import { transformerMetaHighlight } from '@shikijs/transformers';
-
-import { subset } from '@namchee/astro-subfont';
-
+import { subset } from '@fontsource/inter';
 import { remarkPlugins } from './src/plugins/remark';
-// import remarkMermaid from 'remark-mermaidjs';
-
 
 // https://astro.build/config
 export default defineConfig({
@@ -34,7 +26,6 @@ export default defineConfig({
     }),
     sitemap(),
     robotsTxt(),
-    subset(),
   ],
   markdown: {
     remarkPlugins: [...remarkPlugins],
