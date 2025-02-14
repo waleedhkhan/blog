@@ -6,7 +6,6 @@ import { getCollection } from "astro:content";
 
 import Footer from "@/components/astro/layout/Footer.astro";
 import Navigation from "./Navigation.astro";
-import VisitCounter from "../ui/VisitCounter.astro";
 
 export interface Props {
   title: string;
@@ -40,7 +39,6 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
-    <link rel="manifest" href="/manifest.webmanifest" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <link rel="icon" href="/favicon.ico" sizes="any" />
     <link
@@ -61,7 +59,6 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 
     <!-- Twitter Meta Tags -->
     <meta name="twitter:card" content="summary_large_image" />
-    <meta property="twitter:domain" content="lakban_hitam" />
     <meta property="twitter:url" content="https://www.waleed.de" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
@@ -69,10 +66,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 
     <meta name="description" content={description} />
     <link rel="sitemap" href="/sitemap-index.xml" />
-    <link
-      rel="webmention"
-      href="https://webmention.io/www.waleed.de/webmention"
-    />
+  
     <link
       rel="preload"
       href="/fonts/inter.woff2"
@@ -114,7 +108,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
       toggleTheme(theme);
     </script>
 
-    <script defer src="https://cloud.umami.is/script.js" data-website-id="16f41ca8-561c-4f45-8943-0c80934f59ff"></script>
+ 
   </head>
   <body
     class=":uno: bg-background transition-colors text-content flex flex-col font-sans min-h-screen mx-auto antialiased"
@@ -127,29 +121,10 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 
     <div class=":uno: w-full max-w-[832px] mx-auto">
       <Footer />
-      <VisitCounter />
     </div>
   </body>
 </html>
 
 <script>
-  console.log(`
-               ▄███▄▄███▄
-                 ▄█▀▀██
-        ▄█      ██    ▀█      █▌
-       ███████▄██      ██▄██████▌
-      ███      ▀██    ▄█▀      ███
-     █▀ █▌      ▀██  ██▀      ▄█ ▀█
-         ██▄     ▄████▌     ▄██
-          ██▀▀██▀██████▀██▀▀██
-     ▄  ██       ██▀▀██       █▌ ▄
-     ████       ██▀  ▀██       ███
-       ███▄▄▄▄███      ███▄▄▄▄███
-        ██      █      █      ██
-         ▀      ▀█▄  ▄█▀      ▀
-               ▄▄██████▄▄
 
-        Hey there developers 🤓!
-    There's nothing here, so scram!
-`);
 </script>
