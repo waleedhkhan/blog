@@ -15,6 +15,8 @@ import { transformerMetaHighlight } from '@shikijs/transformers';
 import { subset } from '@namchee/astro-subfont';
 
 import { remarkPlugins } from './src/plugins/remark';
+import remarkMermaid from 'remark-mermaidjs';
+
 
 // https://astro.build/config
 export default defineConfig({
@@ -35,7 +37,7 @@ export default defineConfig({
     subset(),
   ],
   markdown: {
-    remarkPlugins: remarkPlugins,
+    remarkPlugins: [...remarkPlugins, remarkMermaid],
     rehypePlugins: [rehypeMathjax],
     shikiConfig: {
       transformers: [
