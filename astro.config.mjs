@@ -54,15 +54,4 @@ export default defineConfig({
     prefetchAll: true,
     selector: ':not(a[href*="/bookmarks"]):not(a[href*="/rss"]):not(a[href^="http"]):not(a[href^="https"])'
   },
-  output: 'server',
-  adapter: cloudflare({
-    runtime: {
-      bindings: {
-        DB: {
-          type: 'd1',
-          id: '139da35e-db5a-4ee2-8b63-862bccdc7d4a' // Get this from wrangler d1 create command
-        }
-      }
-    }
-  })
 });
