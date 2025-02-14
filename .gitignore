@@ -26,8 +26,7 @@ build/
 
 # macOS system files
 .DS_Store
-.AppleDouble
-.LSOverride
+**/.DS_Store
 
 # macOS Finder attributes
 Icon?
@@ -54,8 +53,3 @@ Icon?
 
 # Generated files
 *.astro-generated
-node_modules
-node_modules
-node_modules
-.DS_Store
-.DS_Store

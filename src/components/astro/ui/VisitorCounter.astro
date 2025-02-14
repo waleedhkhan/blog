@@ -1,0 +1,21 @@
+---
+const db = Astro.locals.runtime.env.DB;
+const result = await db.prepare("SELECT count FROM visitors WHERE id = 1").first();
+const visitorCount = result?.count || 0;
+---
+
+<div class="text-sm text-heading/85">
+  <span>{visitorCount.toLocaleString()}</span> visitors
+</div>
+
+<script>
+  // Update counter when page loads
+  fetch('/api/visitors')
+    .then(response => response.json())
+    .then(data => {
+      const counterElement = document.querySelector('[data-visitor-count]');
+      if (counterElement && data.count) {
+        counterElement.textContent = data.count.toLocaleString();
+      }
+    });
+</script>

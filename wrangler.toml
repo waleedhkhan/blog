@@ -1,0 +1,10 @@
+name = "user-counter"
+type = "javascript"
+account_id = "e8f489a7dc39591905c02fa916eb8556"
+workers_dev = true
+compatibility_date = "2022-01-01"
+
+[[d1_databases]]
+binding = "user-counter"
+database_name = "user-counter"
+database_id = "139da35e-db5a-4ee2-8b63-862bccdc7d4a"

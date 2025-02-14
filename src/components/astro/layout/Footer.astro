@@ -2,6 +2,7 @@
 import AppLink from "@/components/astro/ui/AppLink.astro";
 import Logo from "@/components/astro/ui/Logo.astro";
 import LiveTime from "@/components/astro/ui/LiveTime.astro";
+import VisitorCounter from "@/components/astro/ui/VisitorCounter.astro";
 
 const contacts = [
   {
@@ -45,11 +46,8 @@ const contacts = [
           );
         })
       }
+      <VisitorCounter />
     </div>
-    <div class="text-sm text-heading/85">
-      <span id="visitor-count">-</span> visitors
-    </div>
-  </div>
 
   <div class="flex items-center justify-between mt-4 md:mt-[43px]">
     <p>
@@ -79,16 +77,3 @@ const contacts = [
   </div>
 </footer>
 
-<script>
-  const updateVisitorCount = async () => {
-    try {
-      const response = await fetch('info-e8f.workers.dev');
-      const data = await response.json();
-      document.getElementById('visitor-count').textContent = data.count.toLocaleString();
-    } catch (error) {
-      console.error('Error fetching visitor count:', error);
-    }
-  };
-
-  updateVisitorCount();
-</script>
