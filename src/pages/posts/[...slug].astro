@@ -56,3 +56,8 @@ const frontmatter = {
     }}
   />
 </PostLayout>
+
+<script define:vars={{ slug: frontmatter.slug }}>
+  // Increment view counter when post is viewed
+  fetch(`https://api.countapi.xyz/hit/blog-${slug}/views`);
+</script>
