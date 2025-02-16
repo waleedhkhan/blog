@@ -36,11 +36,13 @@ blog/
 ## Key Features
 
 - **Performance First**
+
   - Zero client-side JavaScript by default (islands architecture)
   - Optimal asset loading and caching strategies
   - Core Web Vitals optimization
 
 - **Content Management**
+
   - MDX support with custom components
   - Math equations via remark-math
   - Diagrams with Mermaid.js
@@ -78,6 +80,7 @@ pnpm lint
 ## Content Authoring
 
 Blog posts are written in MDX and support:
+
 - Custom Vue components
 - Mathematical equations (LaTeX syntax)
 - Code syntax highlighting with Shiki
@@ -85,27 +88,32 @@ Blog posts are written in MDX and support:
 - Automatic image optimization
 
 Example MDX post:
-```mdx
+
+````mdx
 ---
 title: Example Post
 date: 2024-03-21
 description: An example blog post
 ---
 
-import MyComponent from '@/components/MyComponent.vue'
+import MyComponent from "@/components/MyComponent.vue";
 
 # {frontmatter.title}
 
 <MyComponent />
 
 ## Math Example
+
 $E = mc^2$
 
 ## Diagram Example
+
 ```mermaid
 graph TD
     A-->B
 ```
+````
+
 ```
 
 ## Performance Optimizations
@@ -119,3 +127,4 @@ graph TD
 
 ## License
 This project is licensed under the [MIT license](./LICENSE)
+```
