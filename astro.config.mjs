@@ -1,14 +1,14 @@
-import { defineConfig } from 'astro/config';
-import vue from '@astrojs/vue';
-import mdx from '@astrojs/mdx';
-import sitemap from '@astrojs/sitemap';
-import icon from 'astro-icon';
-import robotsTxt from 'astro-robots-txt';
-import unocss from 'unocss/astro';
-import rehypeMathjax from 'rehype-mathjax';
-import { transformerMetaHighlight } from '@shikijs/transformers';
-import { subset } from '@fontsource/inter';
-import { remarkPlugins } from './src/plugins/remark';
+import { defineConfig } from "astro/config";
+import vue from "@astrojs/vue";
+import mdx from "@astrojs/mdx";
+import sitemap from "@astrojs/sitemap";
+import icon from "astro-icon";
+import robotsTxt from "astro-robots-txt";
+import unocss from "unocss/astro";
+import rehypeMathjax from "rehype-mathjax";
+import { transformerMetaHighlight } from "@shikijs/transformers";
+import { subset } from "@fontsource/inter";
+import { remarkPlugins } from "./src/plugins/remark";
 
 // https://astro.build/config
 export default defineConfig({
@@ -20,8 +20,8 @@ export default defineConfig({
     mdx(),
     icon({
       include: {
-        simpleIcons: ['github', 'linkedin', 'bluesky', 'x'],
-        lucide: ['*'],
+        simpleIcons: ["github", "linkedin", "bluesky", "x"],
+        lucide: ["*"],
       },
     }),
     sitemap(),
@@ -34,24 +34,25 @@ export default defineConfig({
       transformers: [
         {
           pre(hast) {
-            hast.properties['data-meta'] = this.options.meta?.__raw;
-            hast.properties['data-code'] = this.source;
-          }
+            hast.properties["data-meta"] = this.options.meta?.__raw;
+            hast.properties["data-code"] = this.source;
+          },
         },
         transformerMetaHighlight(),
       ],
       themes: {
-        light: 'one-light',
-        dark: 'tokyo-night',
-      }
-    }
+        light: "one-light",
+        dark: "tokyo-night",
+      },
+    },
   },
   image: {
-    domains: ['books.google.com', 'assets.literal.club', 'res.cloudinary.com'],
+    domains: ["books.google.com", "assets.literal.club", "res.cloudinary.com"],
   },
-  site: 'https://www.waleed.de',
+  site: "https://www.waleed.de",
   prefetch: {
     prefetchAll: true,
-    selector: ':not(a[href*="/bookmarks"]):not(a[href*="/rss"]):not(a[href^="http"]):not(a[href^="https"])'
+    selector:
+      ':not(a[href*="/bookmarks"]):not(a[href*="/rss"]):not(a[href^="http"]):not(a[href^="https"])',
   },
 });

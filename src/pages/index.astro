@@ -6,11 +6,19 @@ import Profile from "@/components/astro/modules/home/Profile.astro";
 import Posts from "@/components/astro/modules/home/Posts.astro";
 import Experiences from "@/components/astro/modules/home/Experiences.astro";
 import AppLink from "@/components/astro/ui/AppLink.astro";
+import BaseLayout from '../layouts/BaseLayout.astro';
 
 const title = "Waleed — Software Engineer";
 const description =
   "Hi, I’m Waleed —a technology and business leader passionate about crafting impactful digital products and helping teams work smarter. Over the years, I’ve collaborated with industry giants like eBay, PayPal, and Adobe to create scalable solutions that drive meaningful change.";
 ---
+
+<BaseLayout title="Home" description="Welcome to my blog">
+  <main>
+    <h1>Welcome to my blog</h1>
+    <p>This is a simple Astro site.</p>
+  </main>
+</BaseLayout>
 
 <Layout title={title} description={description}>
   <section class=":uno: grid grid-cols-12 gap-4">
