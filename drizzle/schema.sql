@@ -1,8 +1,0 @@
-CREATE TABLE IF NOT EXISTS visitors (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    count INTEGER DEFAULT 0,
-    last_visit DATETIME DEFAULT CURRENT_TIMESTAMP
-);
-
--- Insert initial record
-INSERT OR IGNORE INTO visitors (id, count) VALUES (1, 0);

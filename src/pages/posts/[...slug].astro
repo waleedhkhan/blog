@@ -56,23 +56,3 @@ const frontmatter = {
     }}
   />
 </PostLayout>
-
-<script define:vars={{ slug: frontmatter.slug }}>
-  // Increment view counter when post is viewed
-  const countUrl = `https://api.countapi.xyz/hit/blog-${slug}/views`;
-  console.log('Attempting to increment view count:', countUrl);
-
-  fetch(countUrl)
-    .then(response => {
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-      return response.json();
-    })
-    .then(data => {
-      console.log('View count updated successfully:', data);
-    })
-    .catch(error => {
-      console.error('Error updating view count:', error);
-    });
-</script>
