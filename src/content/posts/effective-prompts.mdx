@@ -1,0 +1,223 @@
+---
+title: "Effective Prompts"
+publishedAt: 2025-02-16
+subtitle: "Craft prompts intentionally"
+tags:
+  - technology
+  - startups
+  - business
+  - music
+---
+
+import DescriptionList from "@/components/astro/modules/posts/html/DescriptionList.astro";
+import DescriptionTerm from "@/components/astro/modules/posts/html/DescriptionTerm.astro";
+import DescriptionItem from "@/components/astro/modules/posts/html/DescriptionItem.astro";
+
+Prompting is both an art and a science. You can throw random words into an LLM and hope it gives you gold, or you can craft prompts intentionally, nudging the model toward the output you actually want. Most people underestimate how much control they have over an LLM’s response until they learn the right techniques.
+
+---
+
+## 1. Understanding Prompt Conditioning
+
+LLMs generate output based on probabilities. Every word you add to a prompt shapes the model’s response. Even small tweaks can make a big difference. Consider these variations:
+
+**Example:**
+
+- **"Tell me about Apple."** → Mixed response (company or fruit).
+- **"Tell me about Apple, the tech company."** → Focused on Apple Inc.
+- **"Tell me about Apple, the fruit."** → Focused on apples as a fruit.
+
+The more specific you are, the better your results.
+
+---
+
+## 2. Assigning Roles to Improve Accuracy
+
+Instead of asking for a generic answer, provide context for the model’s persona.
+
+### Example: Teaching LLMs to Explain Differently
+
+- **"Explain how a car engine works."** → General explanation.
+- **"You are a preschool teacher. Explain how a car engine works."** → Simple, analogy-based explanation.
+- **"You are an automotive engineer. Explain how a car engine works."** → Technical and in-depth response.
+
+### Example: Content Moderation Task
+
+- **"Is this image generation prompt safe?"** → Basic yes/no.
+- **"Claude, you are an expert content moderator. Identify harmful aspects."** → More nuanced response.
+- **"Claude, you are responsible for filtering harmful prompts. List concerns."** → Structured breakdown of concerns.
+
+---
+
+## 3. Structured Input and Output for Cleaner Responses
+
+Using structured input helps improve response clarity and consistency.
+
+### Example: Extracting Product Details
+
+Instead of:
+
+```plaintext
+Extract product details from this description.
+```
+
+Use structured instructions:
+
+```xml
+Extract the <name>, <size>, <price>, and <color> from this product <description>.
+<description>
+The SmartHome Mini is a compact smart home assistant available in black or white for 49.99€.
+</description>
+```
+
+Expected Output:
+
+```xml
+<name>SmartHome Mini</name>
+<size>Compact</size>
+<price>49.99€</price>
+<color>Black or White</color>
+```
+
+For JSON:
+
+```json
+{
+  "name": "SmartHome Mini",
+  "size": "Compact",
+  "price": "49.99€",
+  "color": "Black or White"
+}
+```
+
+---
+
+## 4. Prefilling Responses to Guide Output
+
+LLMs can be forced into a particular structure by preloading part of the response.
+
+### Example: Enforcing XML Formatting
+
+```xml
+Extract the <name>, <size>, <price>, and <color> from this product <description>.
+
+<description>
+The UltraPhone X is a powerful smartphone available in midnight blue for 999€
+</description>
+
+Return the extracted attributes within <attributes>.
+```
+
+Prefilled Assistant Response:
+
+```xml
+<attributes><name>
+```
+
+Ensures the model follows the structure correctly.
+
+---
+
+## 5. N-shot Prompting for Better Learning
+
+Providing examples helps LLMs understand tasks better.
+
+### Example: Sentiment Analysis
+
+Instead of:
+
+```plaintext
+Analyze the sentiment of this review: "The battery life is amazing, but the screen is too dim."
+```
+
+Use multiple examples:
+
+```plaintext
+Review: "The battery life is great!"
+Sentiment: Positive
+
+Review: "The screen is too dim."
+Sentiment: Negative
+
+Review: "The battery life is amazing, but the screen is too dim."
+Sentiment:
+```
+
+---
+
+## 6. Chain-of-Thought Prompting for Complex Reasoning
+
+Instead of asking for an answer outright, tell the model to think step by step.
+
+### Example: Summarizing a Meeting Transcript
+
+```xml
+Claude, you are responsible for summarizing a meeting <transcript>.
+
+<transcript>
+The team discussed launching the new product next quarter. They also decided on pricing and marketing strategy.
+</transcript>
+
+Think step by step about what should be included in a <summary>.
+```
+
+Expected Output:
+
+```xml
+<summary>
+- Decision: Launch next quarter
+- Pricing: Set at 499€
+- Marketing: Focus on social media
+</summary>
+```
+
+---
+
+## 7. Splitting Large Prompts into Multiple Steps
+
+Large, complex tasks can be broken down into smaller prompts for better accuracy.
+
+### Example: Multi-Step Information Extraction
+
+- **Step 1:** Extract key topics from the meeting transcript.
+- **Step 2:** Verify that extracted key topics match the transcript.
+- **Step 3:** Rewrite the verified key points into a bullet-point summary.
+
+---
+
+## 8. Fine-Tuning for Optimal Context Placement
+
+For Claude, the best format often follows:
+
+- **Role or Responsibility** (e.g., "You are a financial analyst...")
+- **Context or Document** (e.g., "Here is the earnings report...")
+- **Task Instructions** (e.g., "Summarize the key financial highlights...")
+- **Prefilled Response** (if needed)
+
+Testing different structures can yield better results.
+
+---
+
+## 9. Avoiding Hallucinations with Guardrails
+
+To minimize incorrect answers, allow the model to say “I don’t know.”
+
+### Example: Ensuring Accuracy
+
+```xml
+Answer based only on the <context> below.
+
+<context>
+Apple Inc. was founded in 1976.
+</context>
+
+Question: When was Apple Inc. founded?
+
+If the answer is not in the <context>, respond with "I don’t know."
+```
+
+---
+
+## Final Thoughts
+
+Prompt engineering is about clarity, precision, and understanding how LLMs operate. The more specific and structured your prompt, the better your results. Experiment with roles, structure, prefilled responses, and multi-step workflows to get the most reliable outputs.
