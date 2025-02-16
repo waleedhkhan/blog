@@ -1,12 +1,11 @@
 ---
 import { getCollection } from 'astro:content';
-
 import AppLink from "@/components/astro/ui/AppLink.astro";
 
 const posts = (await getCollection('posts'))
   .filter(post => !post.data.isDraft)
   .sort((a, b) => b.data.publishedAt.getTime() - a.data.publishedAt.getTime())
-  .slice(0, 3);
+  .slice(0, 6);
 ---
 
 <!-- reduce spacing for one-liners -->
@@ -33,11 +32,3 @@ const posts = (await getCollection('posts'))
 </ul>
 
 <script>
-  // Fetch view counts for all posts
-  document.querySelectorAll('.views-counter').forEach(async (counter) => {
-    const slug = counter.getAttribute('data-slug');
-    const response = await fetch(`https://api.countapi.xyz/get/blog-${slug}/views`);
-    const data = await response.json();
-    counter.textContent = `${data.value || 0} views`;
-  });
-</script>
