@@ -1,13 +1,5 @@
 ---
-import type { HTMLAttributes } from "astro/types";
-
 import AppLink from "@/components/astro/ui/AppLink.astro";
-
-interface Props {
-  href: string;
-  class?: string;
-  title?: string;
-}
 
 const { href, class: className, title, ...props } = Astro.props;
 

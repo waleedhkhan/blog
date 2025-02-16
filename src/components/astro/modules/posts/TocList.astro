@@ -1,12 +1,6 @@
 ---
 import AppLink from "@/components/astro/ui/AppLink.astro";
 
-import type { Heading } from "@/scripts/toc";
-
-interface Props {
-  headings: Heading[];
-}
-
 const { headings } = Astro.props;
 
 const marginMap = {
