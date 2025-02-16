@@ -3,10 +3,8 @@ title: "Effective Prompts"
 publishedAt: 2025-02-16
 subtitle: "Craft prompts intentionally"
 tags:
-  - technology
-  - startups
-  - business
-  - music
+  - ai
+  - LLM's
 ---
 
 import DescriptionList from "@/components/astro/modules/posts/html/DescriptionList.astro";
@@ -29,8 +27,6 @@ LLMs generate output based on probabilities. Every word you add to a prompt shap
 
 The more specific you are, the better your results.
 
----
-
 ## 2. Assigning Roles to Improve Accuracy
 
 Instead of asking for a generic answer, provide context for the model’s persona.
@@ -46,8 +42,6 @@ Instead of asking for a generic answer, provide context for the model’s person
 - **"Is this image generation prompt safe?"** → Basic yes/no.
 - **"Claude, you are an expert content moderator. Identify harmful aspects."** → More nuanced response.
 - **"Claude, you are responsible for filtering harmful prompts. List concerns."** → Structured breakdown of concerns.
-
----
 
 ## 3. Structured Input and Output for Cleaner Responses
 
@@ -90,8 +84,6 @@ For JSON:
 }
 ```
 
----
-
 ## 4. Prefilling Responses to Guide Output
 
 LLMs can be forced into a particular structure by preloading part of the response.
@@ -115,8 +107,6 @@ Prefilled Assistant Response:
 ```
 
 Ensures the model follows the structure correctly.
-
----
 
 ## 5. N-shot Prompting for Better Learning
 
@@ -142,8 +132,6 @@ Sentiment: Negative
 Review: "The battery life is amazing, but the screen is too dim."
 Sentiment:
 ```
-
----
 
 ## 6. Chain-of-Thought Prompting for Complex Reasoning
 
@@ -171,8 +159,6 @@ Expected Output:
 </summary>
 ```
 
----
-
 ## 7. Splitting Large Prompts into Multiple Steps
 
 Large, complex tasks can be broken down into smaller prompts for better accuracy.
@@ -182,8 +168,6 @@ Large, complex tasks can be broken down into smaller prompts for better accuracy
 - **Step 1:** Extract key topics from the meeting transcript.
 - **Step 2:** Verify that extracted key topics match the transcript.
 - **Step 3:** Rewrite the verified key points into a bullet-point summary.
-
----
 
 ## 8. Fine-Tuning for Optimal Context Placement
 
@@ -195,8 +179,6 @@ For Claude, the best format often follows:
 - **Prefilled Response** (if needed)
 
 Testing different structures can yield better results.
-
----
 
 ## 9. Avoiding Hallucinations with Guardrails
 
@@ -215,8 +197,6 @@ Question: When was Apple Inc. founded?
 
 If the answer is not in the <context>, respond with "I don’t know."
 ```
-
----
 
 ## Final Thoughts
 
