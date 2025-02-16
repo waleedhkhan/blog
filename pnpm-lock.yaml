@@ -26,6 +26,9 @@ importers:
       '@vueuse/core':
         specifier: ^10.11.0
         version: 10.11.1(vue@3.5.13(typescript@5.7.3))
+      astro-analytics:
+        specifier: ^2.7.0
+        version: 2.7.0
       astro-icon:
         specifier: ^1.1.1
         version: 1.1.5
@@ -1964,6 +1967,9 @@ packages:
   astring@1.9.0:
     resolution: {integrity: sha512-LElXdjswlqjWrPpJFg1Fx4wpkOCxj1TDHlSV4PlaRxHGWko024xICaa97ZkMfs6DRKlCguiAI+rbXv5GWwXIkg==}
     hasBin: true
+
+  astro-analytics@2.7.0:
+    resolution: {integrity: sha512-/qctBn7LF9DS3ff2YYFrYtCkLLw2fboPDJUgg3HErygGbEBvebW/eGRftZH4ykDJhlCvwTsSEKz/vff7WllyAw==}
 
   astro-eslint-parser@0.16.3:
     resolution: {integrity: sha512-CGaBseNtunAV2DCpwBXqTKq8+9Tw65XZetMaC0FsMoZuLj0gxNIkbCf2QyKYScVrNOU7/ayfNdVw8ZCSHBiqCg==}
@@ -7619,6 +7625,8 @@ snapshots:
   assertion-error@2.0.1: {}
 
   astring@1.9.0: {}
+
+  astro-analytics@2.7.0: {}
 
   astro-eslint-parser@0.16.3:
     dependencies:

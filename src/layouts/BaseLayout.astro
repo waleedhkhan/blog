@@ -1,4 +1,5 @@
 ---
+import { UmamiAnalytics } from 'astro-analytics';
 const { title, description } = Astro.props;
 ---
 <html lang="en">
@@ -7,6 +8,10 @@ const { title, description } = Astro.props;
     <meta name="viewport" content="width=device-width" />
     <title>{title}</title>
     <meta name="description" content={description} />
+    <UmamiAnalytics 
+      websiteId="e4767b20-41c0-4a7b-ba76-fdbca452dfe1"
+      src="https://cloud.umami.is/script.js"
+    />
   </head>
   <body>
     <slot />
