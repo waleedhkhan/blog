@@ -54,6 +54,7 @@
     "@vueuse/core": "^10.11.0",
     "astro-analytics": "^2.7.0",
     "astro-icon": "^1.1.1",
+    "astro-umami-analytics": "^0.1.0",
     "canvas-confetti": "^1.9.3",
     "class-variance-authority": "^0.7.0",
     "radix-vue": "^1.9.7",
