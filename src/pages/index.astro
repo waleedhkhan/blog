@@ -7,6 +7,7 @@ import Posts from "@/components/astro/modules/home/Posts.astro";
 import Experiences from "@/components/astro/modules/home/Experiences.astro";
 import AppLink from "@/components/astro/ui/AppLink.astro";
 import BaseLayout from '../layouts/BaseLayout.astro';
+import Customers from "@/components/astro/modules/home/Customers.astro";
 
 const title = "Waleed — Software Engineer";
 const description =
@@ -19,7 +20,7 @@ const description =
 
     <div class="col-start-1 col-end-13 md:col-start-5 space-y-4 leading-[1.75]">
       <p>
-        Hi there! I’m Waleed – welcome to my personal website! 😊 I’m a software engineer based in the vibrant city of Berlin, with over a decade of experience designing and operating large-scale e-commerce systems.
+        Hi there! I’m Waleed – welcome to my personal website! I’m a software engineer based in the vibrant city of Berlin, with over a decade of experience designing and operating large-scale e-commerce systems.
       </p>
 
     <p>
@@ -64,6 +65,18 @@ const description =
 
     <div class="col-start-1 col-end-13 md:col-start-5 space-y-4 leading-[1.75]">
       <Experiences />
+    </div>
+  </section>
+
+  <section class=":uno: grid grid-cols-12 gap-4">
+    <h2
+      class=":uno: col-start-1 col-end-13 md:col-end-4 font-semibold tracking-tight text-heading transition-colors"
+    >
+      Customers
+    </h2>
+
+    <div class="col-start-1 col-end-13 md:col-start-5 space-y-4 leading-[1.75]">
+      <Customers />
     </div>
   </section>
 </Layout>

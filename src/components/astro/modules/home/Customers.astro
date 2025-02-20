@@ -1,0 +1,89 @@
+---
+import AppLink from '@/components/astro/ui/AppLink.astro';
+
+const colors = [
+  'bg-gradient-to-br from-pink-300/90 to-purple-400/90 hover:from-pink-400/90 hover:to-purple-500/90 text-white',
+  'bg-gradient-to-br from-emerald-300/90 to-teal-400/90 hover:from-emerald-400/90 hover:to-teal-500/90 text-white',
+  'bg-gradient-to-br from-amber-300/90 to-orange-400/90 hover:from-amber-400/90 hover:to-orange-500/90 text-white',
+  'bg-gradient-to-br from-sky-300/90 to-blue-400/90 hover:from-sky-400/90 hover:to-blue-500/90 text-white',
+  'bg-gradient-to-br from-rose-300/90 to-red-400/90 hover:from-rose-400/90 hover:to-red-500/90 text-white',
+  'bg-gradient-to-br from-indigo-300/90 to-violet-400/90 hover:from-indigo-400/90 hover:to-violet-500/90 text-white',
+];
+
+const customers = [
+  {
+    name: 'PayPal',
+    link: 'https://paypal.com',
+  },
+  {
+    name: 'Adobe',
+    link: 'https://adobe.com',
+  },
+  {
+    name: 'eBay',
+    link: 'https://ebay.com',
+  },
+  {
+    name: 'Fineartmultiple',
+    link: 'https://microsoft.com',
+  },
+  {
+    name: 'Amazon',
+    link: 'https://amazon.com',
+  },
+  {
+    name: 'Stadt Wien',
+    link: 'https://www.wien.gv.at',
+  },
+
+  {
+    name: 'Douglas',
+    link: 'https://www.douglas.at/de',
+  },
+
+  {
+    name: 'Gardoré',
+    link: 'https://corporate.aboutyou.de/de/presse/about-you-uebernimmt-den-online-marktplatz-fuer-frauen-business-mode-gardore'
+  },
+
+  {
+    name: 'ElephantHR',
+    link: 'https://www.elephant-hr.de/'
+  },
+
+
+];
+---
+
+<div class=":uno: grid grid-cols-3 gap-3">
+  {
+    customers.map((customer, index) => (
+      <AppLink
+        href={customer.link}
+        class={`:uno: p-2 rounded-lg text-center transition-all duration-300 text-[11px] sm:text-sm font-medium backdrop-blur-sm text-white shadow-lg hover:shadow-xl transform hover:scale-105 hover:rotate-1 active:scale-95 ${colors[index % colors.length]} customer-button`}
+      >
+        <span class="drop-shadow-[0_1px_1px_rgba(0,0,0,0.3)]">{customer.name}</span>
+      </AppLink>
+    ))
+  }
+</div>
+
+<style>
+  .customer-button {
+    animation: float 6s ease-in-out infinite;
+    animation-delay: calc(var(--delay) * 1s);
+  }
+
+  .customer-button:nth-child(3n + 1) { --delay: 0; }
+  .customer-button:nth-child(3n + 2) { --delay: 2; }
+  .customer-button:nth-child(3n + 3) { --delay: 4; }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-5px); }
+  }
+
+  .customer-button:hover {
+    animation: none;
+  }
+</style>
