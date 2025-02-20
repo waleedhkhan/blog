@@ -4,15 +4,6 @@ import bookmarksData from "@/data/bookmarks.json";
 
 const title = "Bookmarks — Waleed";
 const description = "A collection of useful links and resources";
-
-function shortenUrl(url: string) {
-  try {
-    const urlObj = new URL(url);
-    return `${urlObj.hostname}${urlObj.pathname === '/' ? '' : '...'}`;
-  } catch {
-    return url;
-  }
-}
 ---
 
 <Layout title={title} description={description}>
@@ -28,15 +19,12 @@ function shortenUrl(url: string) {
           <tr class=":uno: border-b border-gray-200 dark:border-gray-800">
             <th class=":uno: px-4 py-3 font-normal text-gray-500 dark:text-gray-400">Name</th>
             <th class=":uno: px-4 py-3 font-normal text-gray-500 dark:text-gray-400">Category</th>
-            <th class=":uno: px-4 py-3 font-normal text-gray-500 dark:text-gray-400">URL</th>
           </tr>
         </thead>
         <tbody>
           {bookmarksData.bookmarks.map((bookmark) => (
             <tr class=":uno: border-b border-gray-100 dark:border-gray-800/50">
-              <td class=":uno: px-4 py-3 text-gray-900 dark:text-gray-100">{bookmark.name}</td>
-              <td class=":uno: px-4 py-3 text-gray-600 dark:text-gray-400">{bookmark.category}</td>
-              <td class=":uno: px-4 py-3">
+              <td class=":uno: px-4 py-3 text-gray-900 dark:text-gray-100">
                 <a
                   href={bookmark.url}
                   target="_blank"
@@ -44,9 +32,10 @@ function shortenUrl(url: string) {
                   class=":uno: text-blue-600 hover:underline dark:text-blue-400"
                   title={bookmark.url}
                 >
-                  {shortenUrl(bookmark.url)}
+                  {bookmark.name}
                 </a>
               </td>
+              <td class=":uno: px-4 py-3 text-gray-600 dark:text-gray-400">{bookmark.category}</td>
             </tr>
           ))}
         </tbody>
