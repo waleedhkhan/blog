@@ -12,14 +12,16 @@ const { title, description } = Astro.props;
     <ClientRouter transition:name="root" transition:animate="slide">
     <!-- Theme initialization script -->
     <script is:inline>
-      const theme = (() => {
-        if (typeof localStorage !== 'undefined' && localStorage.getItem('theme')) {
-          return localStorage.getItem('theme');
-        }
-        return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      (function() {
+        const theme = (() => {
+          if (typeof localStorage !== 'undefined' && localStorage.getItem('theme')) {
+            return localStorage.getItem('theme');
+          }
+          return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        })();
+        
+        document.documentElement.classList.toggle('dark', theme === 'dark');
       })();
-      
-      document.documentElement.classList.toggle('dark', theme === 'dark');
     </script>
   </head>
   <body transition:animate="slide" class="transition-colors duration-300 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100">
