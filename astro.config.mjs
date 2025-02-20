@@ -55,4 +55,23 @@ export default defineConfig({
     selector:
       ':not(a[href*="/bookmarks"]):not(a[href*="/rss"]):not(a[href^="http"]):not(a[href^="https"])',
   },
+  vite: {
+    build: {
+      cssCodeSplit: true,
+      minify: "esbuild",
+      rollupOptions: {
+        output: {
+          manualChunks: {
+            vendor: ["vue", "@vue/runtime-dom"],
+          },
+        },
+      },
+    },
+    optimizeDeps: {
+      include: ["vue", "@vue/runtime-dom"],
+    },
+    ssr: {
+      noExternal: ["@astrojs/preact"],
+    },
+  },
 });
