@@ -1,14 +1,15 @@
 ---
+import { ClientRouter } from 'astro:transitions';
 import { Umami } from "astro-umami-analytics";
 const { title, description } = Astro.props;
 ---
-<html lang="en" class="transition-colors duration-300">
+<html lang="en" transition:name="root" transition:animate="fade">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width" />
     <title>{title}</title>
     <meta name="description" content={description} />
-    
+    <ClientRouter transition:name="root" transition:animate="slide">
     <!-- Theme initialization script -->
     <script is:inline>
       const theme = (() => {
@@ -21,7 +22,63 @@ const { title, description } = Astro.props;
       document.documentElement.classList.toggle('dark', theme === 'dark');
     </script>
   </head>
-  <body class="transition-colors duration-300 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100">
-    <slot />
+  <body transition:animate="slide" class="transition-colors duration-300 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100">
+    <div class="page-content">
+      <slot />
+    </div>
+    <style is:global>
+      /* Ensure smooth transitions */
+      .page-content {
+        width: 100%;
+        margin: 0 auto;
+      }
+
+      ::view-transition-old(root),
+      ::view-transition-new(root) {
+        animation: none;
+        mix-blend-mode: normal;
+      }
+
+      /* Fancy fade out animation */
+      ::view-transition-old(root) {
+        z-index: 9;
+        animation: 
+          500ms cubic-bezier(0.4, 0, 0.2, 1) both fade-out,
+          300ms cubic-bezier(0.4, 0, 0.2, 1) both slide-out;
+      }
+
+      /* Fancy fade in animation */
+      ::view-transition-new(root) {
+        z-index: 10;
+        animation: 
+          500ms cubic-bezier(0.4, 0, 0.2, 1) both fade-in,
+          300ms cubic-bezier(0.4, 0, 0.2, 1) both slide-in;
+      }
+
+      @keyframes fade-in {
+        from { opacity: 0; }
+        to { opacity: 1; }
+      }
+
+      @keyframes fade-out {
+        from { opacity: 1; }
+        to { opacity: 0; }
+      }
+
+      @keyframes slide-in {
+        from { transform: translateY(1rem); }
+        to { transform: translateY(0); }
+      }
+
+      @keyframes slide-out {
+        from { transform: translateY(0); }
+        to { transform: translateY(-1rem); }
+      }
+
+      /* Ensure dark mode transitions smoothly */
+      :root {
+        transition: background-color 0.6s ease;
+      }
+    </style>
   </body>
 </html>
