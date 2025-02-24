@@ -8,6 +8,7 @@ import Experiences from "@/components/astro/modules/home/Experiences.astro";
 import AppLink from "@/components/astro/ui/AppLink.astro";
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Customers from "@/components/astro/modules/home/Customers.astro";
+import RecentlyPlayed from "@/components/astro/modules/home/RecentlyPlayed.astro";
 
 const title = "Waleed | Building Impactful Digital Products";
 const description =
@@ -77,6 +78,18 @@ const description =
 
     <div class="col-start-1 col-end-13 md:col-start-5 text-heading space-y-4 leading-[1.75]">
       <Customers />
+    </div>
+  </section>
+
+  <section class=":uno: grid grid-cols-12 gap-4">
+    <h2
+      class=":uno: col-start-1 col-end-13 md:col-end-4 font-semibold tracking-tight text-heading transition-colors"
+    >
+      Recently Played
+    </h2>
+
+    <div class="col-start-1 col-end-13 md:col-start-5 space-y-4 leading-[1.75]">
+      <RecentlyPlayed />
     </div>
   </section>
 </Layout>

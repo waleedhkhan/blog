@@ -1,0 +1,107 @@
+---
+interface Track {
+  name: string;
+  artist: string;
+  url: string;
+  image: string;
+  playedAt: string;
+}
+
+const LASTFM_API_KEY = import.meta.env.LASTFM_API_KEY;
+const LASTFM_USERNAME = import.meta.env.PUBLIC_LASTFM_USERNAME;
+
+if (!LASTFM_API_KEY) {
+  console.error('LastFM API key is not set in environment variables');
+}
+
+async function getRecentTracks(): Promise<Track[]> {
+  try {
+    // Verify API key is present
+    if (!LASTFM_API_KEY) {
+      throw new Error('LastFM API key is not configured');
+    }
+
+    const apiUrl = new URL('https://ws.audioscrobbler.com/2.0/');
+    apiUrl.searchParams.append('method', 'user.getrecenttracks');
+    apiUrl.searchParams.append('user', LASTFM_USERNAME);
+    apiUrl.searchParams.append('api_key', LASTFM_API_KEY);
+    apiUrl.searchParams.append('format', 'json');
+    apiUrl.searchParams.append('limit', '5');
+
+    const response = await fetch(apiUrl);
+    
+    if (!response.ok) {
+      const errorText = await response.text();
+      console.error('LastFM API Error:', errorText);
+      throw new Error(`API request failed: ${errorText}`);
+    }
+
+    const data = await response.json();
+    
+    // Debug logging
+    console.log('LastFM API Response:', JSON.stringify(data, null, 2));
+
+    if (!data?.recenttracks?.track) {
+      console.error('Unexpected API response structure:', data);
+      return [];
+    }
+
+    return data.recenttracks.track.map((track: any) => ({
+      name: track.name || 'Unknown Track',
+      artist: track.artist?.['#text'] || 'Unknown Artist',
+      url: track.url || '#',
+      image: track.image?.[2]?.['#text'] || 'https://via.placeholder.com/64',
+      playedAt: track['@attr']?.nowplaying ? 'Now Playing' : track.date?.['#text'] || 'Recently'
+    }));
+  } catch (error) {
+    console.error('Error fetching LastFM data:', error);
+    return [];
+  }
+}
+
+const recentTracks = await getRecentTracks();
+---
+
+<div class="space-y-4">
+  {recentTracks.length > 0 ? (
+    <ul class=":uno: space-y-3">
+      {recentTracks.map((track) => (
+        <li>
+          <a
+            href={track.url}
+            class=":uno: group flex items-center gap-3 rounded-lg p-2 transition-colors hover:bg-zinc-100 dark:hover:bg-zinc-800"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <img
+              src={track.image}
+              alt={`${track.name} album art`}
+              class=":uno: h-12 w-12 rounded-md"
+            />
+            <div class=":uno: flex-1 overflow-hidden">
+              <p class=":uno: truncate text-sm font-medium text-zinc-900 dark:text-zinc-100">
+                {track.name}
+              </p>
+              <p class=":uno: truncate text-xs text-zinc-500 dark:text-zinc-400">
+                {track.artist}
+              </p>
+            </div>
+            {track.playedAt === 'Now Playing' ? (
+              <span class=":uno: flex items-center rounded-full bg-green-100 px-2 py-0.5 text-xs font-medium text-green-800 dark:bg-green-900/30 dark:text-green-400">
+                Now Playing
+              </span>
+            ) : (
+              <span class=":uno: text-xs text-zinc-500 dark:text-zinc-400">
+                {track.playedAt}
+              </span>
+            )}
+          </a>
+        </li>
+      ))}
+    </ul>
+  ) : (
+    <p class=":uno: text-sm text-zinc-500 dark:text-zinc-400">
+      No recently played tracks available
+    </p>
+  )}
+</div>
