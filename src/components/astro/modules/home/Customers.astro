@@ -2,12 +2,9 @@
 import AppLink from '@/components/astro/ui/AppLink.astro';
 
 const colors = [
-  'bg-gradient-to-br from-pink-300/90 to-purple-400/90 hover:from-pink-400/90 hover:to-purple-500/90 text-white',
-  'bg-gradient-to-br from-emerald-300/90 to-teal-400/90 hover:from-emerald-400/90 hover:to-teal-500/90 text-white',
-  'bg-gradient-to-br from-amber-300/90 to-orange-400/90 hover:from-amber-400/90 hover:to-orange-500/90 text-white',
-  'bg-gradient-to-br from-sky-300/90 to-blue-400/90 hover:from-sky-400/90 hover:to-blue-500/90 text-white',
-  'bg-gradient-to-br from-rose-300/90 to-red-400/90 hover:from-rose-400/90 hover:to-red-500/90 text-white',
-  'bg-gradient-to-br from-indigo-300/90 to-violet-400/90 hover:from-indigo-400/90 hover:to-violet-500/90 text-white',
+  'hover:bg-zinc-500/5 dark:hover:bg-zinc-400/10',
+  'hover:bg-zinc-500/5 dark:hover:bg-zinc-400/10',
+  'hover:bg-zinc-500/5 dark:hover:bg-zinc-400/10',
 ];
 
 const customers = [
@@ -25,11 +22,7 @@ const customers = [
   },
   {
     name: 'Fineartmultiple',
-    link: 'https://microsoft.com',
-  },
-  {
-    name: 'Amazon',
-    link: 'https://amazon.com',
+    link: 'https://www.juve.de/deals/kunst-online-prosiebensat-1-media-steigt-mit-vertrauten-beratern-bei-fineartmultiple-ein/',
   },
   {
     name: 'Stadt Wien',
@@ -51,39 +44,94 @@ const customers = [
     link: 'https://www.elephant-hr.de/'
   },
 
+  {
+    name: 'Swarovski',
+    link: 'https://www.swarovski.com/en-DE/'
+  },
 
-];
+  {
+    name: 'Caritas',
+    link: 'https://www.caritas.at'
+  },
+
+  {
+    name: 'Axel Springer SE',
+    link: 'https://www.axelspringer.com/en/'
+  },
+
+  {
+    name: 'Koro',
+    link: 'https://www.korodrogerie.de'
+  },
+
+  {
+    name: 'Goodme',
+    link: 'https://www.about-drinks.com/chlorella-matcha-gruener-kaffee-co-superfoods-von-goodme/'
+  },
+
+
+
+
+
+].sort((a, b) => a.name.localeCompare(b.name));
 ---
 
-<div class=":uno: grid grid-cols-3 gap-3">
+<ul class=":uno: grid grid-cols-2 sm:grid-cols-3 gap-y-1 gap-x-6">
   {
     customers.map((customer, index) => (
-      <AppLink
-        href={customer.link}
-        class={`:uno: p-2 rounded-lg text-center transition-all duration-300 text-[11px] sm:text-sm font-medium backdrop-blur-sm text-white shadow-lg hover:shadow-xl transform hover:scale-105 hover:rotate-1 active:scale-95 ${colors[index % colors.length]} customer-button`}
-      >
-        <span class="drop-shadow-[0_1px_1px_rgba(0,0,0,0.3)]">{customer.name}</span>
-      </AppLink>
+      <li class="fancy-list-item">
+        <AppLink
+          href={customer.link}
+          class={`:uno: py-1.5 px-2 -ml-2 rounded-md text-sm tracking-normal inline-flex items-center text-text/90 hover:text-heading transition-all duration-300 ${colors[index % colors.length]} customer-button`}
+        >
+          <span class="relative">{customer.name}</span>
+        </AppLink>
+      </li>
     ))
   }
-</div>
+</ul>
 
 <style>
+  .fancy-list-item {
+    position: relative;
+    padding-left: 1.25rem;
+  }
+
+  .fancy-list-item::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 50%;
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: currentColor;
+    opacity: 0.3;
+    transform: translateY(-50%);
+    transition: all 0.3s ease;
+  }
+
+  .fancy-list-item:hover::before {
+    opacity: 0.6;
+    transform: translateY(-50%) scale(1.2);
+  }
+
   .customer-button {
-    animation: float 6s ease-in-out infinite;
-    animation-delay: calc(var(--delay) * 1s);
+    animation: subtle-float 14s ease-in-out infinite;
+    animation-delay: calc(var(--delay) * 3s);
   }
 
   .customer-button:nth-child(3n + 1) { --delay: 0; }
   .customer-button:nth-child(3n + 2) { --delay: 2; }
   .customer-button:nth-child(3n + 3) { --delay: 4; }
 
-  @keyframes float {
+  @keyframes subtle-float {
     0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-5px); }
+    50% { transform: translateY(-1px); }
   }
 
   .customer-button:hover {
     animation: none;
+    transform: translateY(-1px);
   }
 </style>
