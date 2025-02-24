@@ -1,6 +1,24 @@
 {
   "bookmarks": [
     {
+      "name": "Chat with your SQL database",
+      "url": "https://github.com/vanna-ai/vanna",
+      "category": "ai, data, sql"
+    },
+
+    {
+      "name": "rork.app - AI-powered app development",
+      "url": "https://rork.app",
+      "category": "ai, mobile-dev"
+    },
+
+    {
+      "name": "Design, Build & Convert: Your Practical Guide to Web Design Mastery",
+      "url": "https://marinabudarina.design/webdesignmastery",
+      "category": "design, webdesign"
+    },
+
+    {
       "name": "Minimal MacBook Pro Setup",
       "url": "https://eugeneyan.com/writing/mac-setup/",
       "category": "engineering, misc"
