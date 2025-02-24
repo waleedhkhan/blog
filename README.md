@@ -5,32 +5,27 @@ A high-performance, technically sophisticated personal website built with modern
 ## Tech Stack
 
 - **Framework**: [Astro](https://astro.build/) - Static site generator with excellent performance characteristics
-- **UI Components**: [Vue 3](https://vuejs.org/) - For interactive components
-- **Styling**: [UnoCSS](https://unocss.dev/) - Atomic CSS engine
+- **UI Components**: [React](https://react.dev/) - For interactive components
+- **Styling**: [Tailwind CSS](https://tailwindcss.com/) - Utility-first CSS framework
 - **Content**: MDX with custom plugins for enhanced markdown features
 - **Performance Optimizations**:
-  - Font optimization with astro-font
-  - Image optimization with @unpic/astro
-  - Subfont generation for minimal font loading
-  - Aggressive asset optimization
+  - Font optimization with Fontaine
+  - Image optimization with Sharp
+  - View Transitions API support
+  - Efficient asset bundling
 
 ## Project Structure
 
 ```
 blog/
 ├── src/
-│   ├── components/     # Vue and Astro components
-│   │   ├── vue/       # Interactive Vue components
-│   │   └── astro/     # Static Astro components
-│   ├── content/       # MDX blog posts and pages
-│   │   ├── blog/      # Blog posts
-│   │   └── pages/     # Static pages
-│   ├── layouts/       # Page layouts and templates
-│   ├── styles/        # Global styles and UnoCSS config
-│   └── utils/         # Utility functions and helpers
+│   ├── components/     # React components
+│   ├── content/       # MDX blog posts
+│   ├── layouts/       # Page layouts
+│   ├── styles/        # Global styles and Tailwind config
+│   └── lib/          # Utility functions and constants
 ├── public/           # Static assets
-├── scripts/          # Build and utility scripts
-└── tests/           # Test suites
+└── tests/           # Vitest test suites
 ```
 
 ## Key Features
@@ -49,6 +44,14 @@ blog/
   - Automatic table of contents generation
   - Reading time estimation
 
+- **Music Integration**
+
+  - Last.fm API integration
+  - Real-time "Now Playing" status
+  - Music listening statistics
+  - Weekly and monthly listening reports
+  - Favorite artists and tracks display
+
 - **Developer Experience**
   - TypeScript for type safety
   - ESLint with @antfu/eslint-config
@@ -62,19 +65,16 @@ blog/
 pnpm install
 
 # Development
-pnpm dev
+pnpm run dev
 
 # Build
-pnpm build
+pnpm run build
 
 # Preview production build
-pnpm preview
+pnpm run preview
 
 # Run tests
-pnpm test
-
-# Lint
-pnpm lint
+pnpm run test
 ```
 
 ## Content Authoring
@@ -114,17 +114,16 @@ graph TD
 ```
 ````
 
-```
-
 ## Performance Optimizations
 
-- Automatic font subsetting
-- Responsive image processing
+- View Transitions API for smooth page navigation
+- Automatic font optimization with Fontaine
+- Image processing with Sharp
 - Critical CSS extraction
-- Aggressive asset minification
-- Sitemap generation
-- RSS feed generation
+- Asset optimization and minification
+- SEO optimizations and meta tags
+- Open Graph images generation
 
 ## License
+
 This project is licensed under the [MIT license](./LICENSE)
-```
