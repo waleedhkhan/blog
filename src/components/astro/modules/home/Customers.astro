@@ -76,7 +76,7 @@ const customers = [
 ].sort((a, b) => a.name.localeCompare(b.name));
 ---
 
-<ul class=":uno: grid grid-cols-2 sm:grid-cols-3 gap-y-1 gap-x-6">
+<ul class=":uno: grid grid-cols-2 sm:grid-cols-3 gap-x-4 gap-y-2">
   {
     customers.map((customer, index) => (
       <li class="fancy-list-item">
@@ -84,7 +84,7 @@ const customers = [
           href={customer.link}
           class={`:uno: py-1.5 px-2 -ml-2 rounded-md text-sm tracking-normal inline-flex items-center text-text/90 hover:text-heading transition-all duration-300 ${colors[index % colors.length]} customer-button`}
         >
-          <span class="relative">{customer.name}</span>
+          <span class="relative truncate">{customer.name}</span>
         </AppLink>
       </li>
     ))
