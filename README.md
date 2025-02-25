@@ -8,6 +8,7 @@ A high-performance, technically sophisticated personal website built with modern
 - **UI Components**: [React](https://react.dev/) - For interactive components
 - **Styling**: [Tailwind CSS](https://tailwindcss.com/) - Utility-first CSS framework
 - **Content**: MDX with custom plugins for enhanced markdown features
+- **Interactive Elements**: Animations with canvas-confetti
 - **Performance Optimizations**:
   - Font optimization with Fontaine
   - Image optimization with Sharp
@@ -51,6 +52,12 @@ blog/
   - Music listening statistics
   - Weekly and monthly listening reports
   - Favorite artists and tracks display
+
+- **Interactive Elements**
+  - Canvas confetti animation with basic cannon effect
+  - Client list display in single column layout
+  - Command palette for quick navigation
+  - Theme switching functionality
 
 - **Developer Experience**
   - TypeScript for type safety
