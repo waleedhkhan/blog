@@ -111,80 +111,120 @@ const initialRecentTracks = await getRecentTracks();
   </div>
 </div>
 
-<script>
-  // Function to fetch recently played tracks from API
-  async function fetchRecentTracks() {
-    try {
-      const response = await fetch('/api/recently-played');
-      if (!response.ok) {
-        throw new Error('Failed to fetch tracks');
+<script is:inline define:vars={{ initialTracks: initialRecentTracks }}>
+  // Make sure this script runs as soon as it's loaded, with direct access to initialTracks
+  (function() {
+    // Function to fetch recently played tracks from API
+    async function fetchRecentTracks() {
+      try {
+        const response = await fetch('/api/recently-played');
+        if (!response.ok) {
+          throw new Error('Failed to fetch tracks');
+        }
+        return await response.json();
+      } catch (error) {
+        console.error('Error fetching tracks:', error);
+        return [];
       }
-      return await response.json();
-    } catch (error) {
-      console.error('Error fetching tracks:', error);
-      return [];
-    }
-  }
-
-  // Function to render tracks to the container
-  function renderTracks(tracks) {
-    const container = document.getElementById('tracks-container');
-    if (!tracks || !tracks.length) {
-      container.innerHTML = `<p class="text-sm text-zinc-500 dark:text-zinc-400">No recently played tracks available</p>`;
-      return;
     }
 
-    const tracksList = `
-      <ul class="grid grid-cols-2 gap-4">
-        ${tracks.map(track => `
-          <li>
-            <a
-              class="group flex items-center gap-3 rounded-lg p-2 transition-colors hover:bg-zinc-100 dark:hover:bg-zinc-800"
-              href="${track.url}"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <img
-                src="${track.image}"
-                alt="${track.name} album art"
-                class="h-12 w-12 rounded-md"
-              />
-              <div class="flex-1 overflow-hidden">
-                <p class="truncate text-sm font-medium text-zinc-900 dark:text-zinc-100">
-                  ${track.name}
-                </p>
-                <p class="truncate text-xs text-zinc-500 dark:text-zinc-400">
-                  ${track.artist}
-                </p>
-              </div>
-            </a>
-          </li>
-        `).join('')}
-      </ul>
-    `;
+    // Function to render tracks to the container
+    function renderTracks(tracks) {
+      const container = document.getElementById('tracks-container');
+      if (!container) return; // Exit if container not found
+      
+      if (!tracks || !tracks.length) {
+        container.innerHTML = `<p class="text-sm text-zinc-500 dark:text-zinc-400">No recently played tracks available</p>`;
+        return;
+      }
+
+      const tracksList = `
+        <ul class="grid grid-cols-2 gap-4">
+          ${tracks.map(track => `
+            <li>
+              <a
+                class="group flex items-center gap-3 rounded-lg p-2 transition-colors hover:bg-zinc-100 dark:hover:bg-zinc-800"
+                href="${track.url}"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <img
+                  src="${track.image}"
+                  alt="${track.name} album art"
+                  class="h-12 w-12 rounded-md"
+                />
+                <div class="flex-1 overflow-hidden">
+                  <p class="truncate text-sm font-medium text-zinc-900 dark:text-zinc-100">
+                    ${track.name}
+                  </p>
+                  <p class="truncate text-xs text-zinc-500 dark:text-zinc-400">
+                    ${track.artist}
+                  </p>
+                </div>
+              </a>
+            </li>
+          `).join('')}
+        </ul>
+      `;
+      
+      container.innerHTML = tracksList;
+    }
+
+    // Set up the auto-refresh immediately
+    let autoRefreshTimer = null;
     
-    container.innerHTML = tracksList;
-  }
-
-  // Set up auto refresh (every minute)
-  let autoRefreshInterval;
-
-  function setupAutoRefresh() {
-    // Clear any existing intervals
-    if (autoRefreshInterval) {
-      clearInterval(autoRefreshInterval);
+    function startAutoRefresh() {
+      // Clear any existing timer first
+      if (autoRefreshTimer) {
+        clearInterval(autoRefreshTimer);
+      }
+      
+      // Define the refresh function
+      const refreshData = async () => {
+        console.log('Refreshing recently played tracks...');
+        try {
+          const tracks = await fetchRecentTracks();
+          if (tracks && tracks.length > 0) {
+            renderTracks(tracks);
+            console.log('Tracks refreshed successfully');
+          }
+        } catch (err) {
+          console.error('Error during refresh:', err);
+        }
+      };
+      
+      // Start the periodic refresh (every minute)
+      autoRefreshTimer = setInterval(refreshData, 60000);
+      
+      // Also trigger an immediate refresh
+      refreshData();
     }
-
-    // Set up new interval
-    autoRefreshInterval = setInterval(async () => {
-      const tracks = await fetchRecentTracks();
-      renderTracks(tracks);
-    }, 60000); // 1 minute
-  }
-
-  // Initialize with data from the server
-  document.addEventListener('DOMContentLoaded', () => {
-    // Set up auto-refresh
-    setupAutoRefresh();
-  });
+    
+    // Start the auto-refresh when the page is visible
+    function handleVisibilityChange() {
+      if (document.visibilityState === 'visible') {
+        startAutoRefresh();
+      } else {
+        if (autoRefreshTimer) {
+          clearInterval(autoRefreshTimer);
+          autoRefreshTimer = null;
+        }
+      }
+    }
+    
+    // Set up the visibility change handler
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+    
+    // Start auto-refresh immediately if page is visible
+    if (document.visibilityState === 'visible') {
+      startAutoRefresh();
+    }
+    
+    // Clean up when the page is unloaded
+    window.addEventListener('beforeunload', () => {
+      if (autoRefreshTimer) {
+        clearInterval(autoRefreshTimer);
+      }
+    });
+  })();
 </script>
