@@ -122,21 +122,84 @@ const initialRecentTracks = await getRecentTracks();
 </div>
 
 <style>
+  /* Animation keyframes with vendor prefixes */
+  @-webkit-keyframes spin {
+    from { -webkit-transform: rotate(0deg) scale(1.1); transform: rotate(0deg) scale(1.1); }
+    to { -webkit-transform: rotate(360deg) scale(1.1); transform: rotate(360deg) scale(1.1); }
+  }
+  
+  @keyframes spin {
+    from { -webkit-transform: rotate(0deg) scale(1.1); transform: rotate(0deg) scale(1.1); }
+    to { -webkit-transform: rotate(360deg) scale(1.1); transform: rotate(360deg) scale(1.1); }
+  }
+  
+  @-webkit-keyframes pulse {
+    0% { -webkit-transform: scale(1); transform: scale(1); }
+    50% { -webkit-transform: scale(1.05); transform: scale(1.05); -webkit-box-shadow: 0 0 15px 2px rgba(255, 255, 255, 0.5); box-shadow: 0 0 15px 2px rgba(255, 255, 255, 0.5); }
+    100% { -webkit-transform: scale(1); transform: scale(1); }
+  }
+  
+  @keyframes pulse {
+    0% { -webkit-transform: scale(1); transform: scale(1); }
+    50% { -webkit-transform: scale(1.05); transform: scale(1.05); -webkit-box-shadow: 0 0 15px 2px rgba(255, 255, 255, 0.5); box-shadow: 0 0 15px 2px rgba(255, 255, 255, 0.5); }
+    100% { -webkit-transform: scale(1); transform: scale(1); }
+  }
+  
+  @-webkit-keyframes float {
+    0% { -webkit-transform: translateY(0px); transform: translateY(0px); }
+    50% { -webkit-transform: translateY(-5px); transform: translateY(-5px); }
+    100% { -webkit-transform: translateY(0px); transform: translateY(0px); }
+  }
+  
+  @keyframes float {
+    0% { -webkit-transform: translateY(0px); transform: translateY(0px); }
+    50% { -webkit-transform: translateY(-5px); transform: translateY(-5px); }
+    100% { -webkit-transform: translateY(0px); transform: translateY(0px); }
+  }
+  
+  @-webkit-keyframes visualize {
+    0% { height: 5px; }
+    50% { height: 12px; }
+    100% { height: 5px; }
+  }
+  
+  @keyframes visualize {
+    0% { height: 5px; }
+    50% { height: 12px; }
+    100% { height: 5px; }
+  }
+  
+  @-webkit-keyframes shimmer {
+    0% { background-position: -100% 0; }
+    100% { background-position: 200% 0; }
+  }
+  
+  @keyframes shimmer {
+    0% { background-position: -100% 0; }
+    100% { background-position: 200% 0; }
+  }
+
   .album-art-container {
     position: relative;
     width: 3rem;
     height: 3rem;
+    -webkit-perspective: 1000px;
     perspective: 1000px;
     overflow: visible;
+    -webkit-transition: transform 0.3s ease;
     transition: transform 0.3s ease;
   }
 
   .album-art {
     width: 100%;
     height: 100%;
+    -o-object-fit: cover;
     object-fit: cover;
+    -webkit-transform-style: preserve-3d;
     transform-style: preserve-3d;
+    -webkit-transition: transform 0.5s ease, box-shadow 0.3s ease, border-radius 0.5s ease;
     transition: transform 0.5s ease, box-shadow 0.3s ease, border-radius 0.5s ease;
+    -webkit-box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
     z-index: 2;
     position: relative;
@@ -148,12 +211,17 @@ const initialRecentTracks = await getRecentTracks();
     left: 5%;
     width: 90%;
     height: 6px;
+    background: -webkit-radial-gradient(center, ellipse, rgba(255,255,255,0.4) 0%, rgba(255,255,255,0) 70%);
     background: radial-gradient(ellipse at center, rgba(255,255,255,0.4) 0%, rgba(255,255,255,0) 70%);
     border-radius: 50%;
+    -webkit-transform: scaleY(0);
     transform: scaleY(0);
     opacity: 0;
+    -webkit-transform-origin: center top;
     transform-origin: center top;
+    -webkit-transition: transform 0.3s ease, opacity 0.3s ease;
     transition: transform 0.3s ease, opacity 0.3s ease;
+    -webkit-filter: blur(1px);
     filter: blur(1px);
     z-index: 1;
   }
@@ -165,51 +233,49 @@ const initialRecentTracks = await getRecentTracks();
     width: 100%;
     height: 100%;
     border-radius: 8px;
+    -webkit-box-shadow: 0 0 0 0 rgba(255, 255, 255, 0);
     box-shadow: 0 0 0 0 rgba(255, 255, 255, 0);
     opacity: 0;
     z-index: 0;
+    -webkit-transition: box-shadow 0.5s ease, opacity 0.5s ease;
     transition: box-shadow 0.5s ease, opacity 0.5s ease;
   }
 
   .album-art-container:hover .album-art {
+    -webkit-transform: translateY(-15%) scale(1.15) rotate(5deg);
     transform: translateY(-15%) scale(1.15) rotate(5deg);
+    -webkit-box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2), 0 10px 10px -5px rgba(0, 0, 0, 0.1);
     box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2), 0 10px 10px -5px rgba(0, 0, 0, 0.1);
   }
 
   .album-art-container:hover .album-reflection {
+    -webkit-transform: scaleY(1);
     transform: scaleY(1);
     opacity: 1;
   }
   
   .album-art-container:hover .album-glow {
+    -webkit-box-shadow: 0 0 20px 5px rgba(255, 255, 255, 0.3);
     box-shadow: 0 0 20px 5px rgba(255, 255, 255, 0.3);
     opacity: 1;
   }
   
   .album-art-container:hover .track-name {
     color: #3b82f6; /* blue-500 */
+    -webkit-transition: color 0.3s ease;
     transition: color 0.3s ease;
   }
 
-  @keyframes spin {
-    from { transform: rotate(0deg) scale(1.1); }
-    to { transform: rotate(360deg) scale(1.1); }
-  }
-
   .album-art.playing {
+    -webkit-animation: spin 7s linear infinite;
     animation: spin 7s linear infinite;
     border-radius: 50%;
+    -webkit-box-shadow: 0 0 20px 5px rgba(59, 130, 246, 0.5);
     box-shadow: 0 0 20px 5px rgba(59, 130, 246, 0.5); /* blue glow */
   }
   
-  /* Pulse animation for currently playing track */
-  @keyframes pulse {
-    0% { transform: scale(1); }
-    50% { transform: scale(1.05); box-shadow: 0 0 15px 2px rgba(255, 255, 255, 0.5); }
-    100% { transform: scale(1); }
-  }
-  
   .album-art.pulse {
+    -webkit-animation: pulse 2s infinite ease-in-out;
     animation: pulse 2s infinite ease-in-out;
   }
   
@@ -218,20 +284,28 @@ const initialRecentTracks = await getRecentTracks();
     position: absolute;
     bottom: -5px;
     left: 50%;
+    -webkit-transform: translateX(-50%);
     transform: translateX(-50%);
     width: 100%;
     height: 10px;
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
     justify-content: center;
+    -webkit-box-align: end;
+    -ms-flex-align: end;
     align-items: flex-end;
     gap: 2px;
     opacity: 0;
+    -webkit-transition: opacity 0.3s ease;
     transition: opacity 0.3s ease;
     z-index: 3;
   }
   
   .album-art-container:hover .album-visualizer,
-  .album-art.playing + .album-visualizer {
+  .album-art.playing ~ .album-visualizer {
     opacity: 1;
   }
   
@@ -241,53 +315,48 @@ const initialRecentTracks = await getRecentTracks();
     height: 5px;
     background: #3b82f6; /* blue-500 */
     border-radius: 1px;
+    -webkit-transition: height 0.2s ease;
     transition: height 0.2s ease;
   }
   
   .album-art.playing ~ .album-visualizer span {
+    -webkit-animation: visualize 0.8s infinite ease;
     animation: visualize 0.8s infinite ease;
   }
   
-  .album-visualizer span:nth-child(1) { animation-delay: 0s; }
-  .album-visualizer span:nth-child(2) { animation-delay: 0.2s; }
-  .album-visualizer span:nth-child(3) { animation-delay: 0.4s; }
-  .album-visualizer span:nth-child(4) { animation-delay: 0.6s; }
-  
-  @keyframes visualize {
-    0% { height: 5px; }
-    50% { height: 12px; }
-    100% { height: 5px; }
-  }
-  
-  /* Text shimmer effect */
-  @keyframes shimmer {
-    0% { background-position: -100% 0; }
-    100% { background-position: 200% 0; }
-  }
+  .album-visualizer span:nth-child(1) { -webkit-animation-delay: 0s; animation-delay: 0s; }
+  .album-visualizer span:nth-child(2) { -webkit-animation-delay: 0.2s; animation-delay: 0.2s; }
+  .album-visualizer span:nth-child(3) { -webkit-animation-delay: 0.4s; animation-delay: 0.4s; }
+  .album-visualizer span:nth-child(4) { -webkit-animation-delay: 0.6s; animation-delay: 0.6s; }
   
   .track-name.shimmer {
+    background: -webkit-linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.5) 50%, rgba(255,255,255,0) 100%);
     background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.5) 50%, rgba(255,255,255,0) 100%);
     background-size: 200% 100%;
+    -webkit-animation: shimmer 2s infinite;
     animation: shimmer 2s infinite;
-    background-clip: text;
     -webkit-background-clip: text;
-  }
-  
-  /* Floating effect */
-  @keyframes float {
-    0% { transform: translateY(0px); }
-    50% { transform: translateY(-5px); }
-    100% { transform: translateY(0px); }
+    background-clip: text;
   }
   
   .album-art-container.float {
+    -webkit-animation: float 3s ease-in-out infinite;
     animation: float 3s ease-in-out infinite;
   }
 </style>
 
 <script is:inline define:vars={{ initialTracks: initialRecentTracks }}>
-  // Make sure this script runs as soon as it's loaded, with direct access to initialTracks
+  // Immediately execute the script once it's loaded
   (function() {
+    // Function to safely apply animations across browsers
+    function applyAnimation(element, animationClass) {
+      if (element) {
+        // Force browser reflow to ensure animation applies
+        void element.offsetWidth;
+        element.classList.add(animationClass);
+      }
+    }
+
     // Function to fetch recently played tracks from API
     async function fetchRecentTracks() {
       try {
@@ -305,7 +374,10 @@ const initialRecentTracks = await getRecentTracks();
     // Function to render tracks to the container
     function renderTracks(tracks) {
       const container = document.getElementById('tracks-container');
-      if (!container) return; // Exit if container not found
+      if (!container) {
+        console.error('Tracks container not found');
+        return;
+      }
       
       if (!tracks || !tracks.length) {
         container.innerHTML = `<p class="text-sm text-zinc-500 dark:text-zinc-400">No recently played tracks available</p>`;
@@ -323,7 +395,7 @@ const initialRecentTracks = await getRecentTracks();
                 rel="noopener noreferrer"
                 data-track-index="${index}"
               >
-                <div class="album-art-container ${index === 0 ? 'float' : ''}">
+                <div class="album-art-container${index === 0 ? ' float' : ''}">
                   <div class="album-visualizer">
                     <span></span>
                     <span></span>
@@ -333,7 +405,7 @@ const initialRecentTracks = await getRecentTracks();
                   <img
                     src="${track.image}"
                     alt="${track.name} album art"
-                    class="album-art h-12 w-12 rounded-md transition-all ${index === 0 ? 'pulse' : ''}"
+                    class="album-art h-12 w-12 rounded-md transition-all${index === 0 ? ' pulse' : ''}"
                     loading="lazy"
                     data-artist="${track.artist}"
                     data-track="${track.name}"
@@ -342,7 +414,7 @@ const initialRecentTracks = await getRecentTracks();
                   <div class="album-glow"></div>
                 </div>
                 <div class="flex-1 overflow-hidden">
-                  <p class="truncate text-sm font-medium text-zinc-900 dark:text-zinc-100 track-name ${index === 0 ? 'shimmer' : ''}">
+                  <p class="truncate text-sm font-medium text-zinc-900 dark:text-zinc-100 track-name${index === 0 ? ' shimmer' : ''}">
                     ${track.name}
                   </p>
                   <p class="truncate text-xs text-zinc-500 dark:text-zinc-400 track-artist">
@@ -355,99 +427,119 @@ const initialRecentTracks = await getRecentTracks();
         </ul>
       `;
       
+      // Use innerHTML for bulk update
       container.innerHTML = tracksList;
       
-      // Apply interactive effects after rendering
-      applyAlbumArtEffects();
+      // Apply effects after the DOM is updated
+      setTimeout(() => applyAlbumArtEffects(), 100);
+    }
+    
+    // Cross-browser compatible way to create a keyframe animation
+    function createKeyframeStyle(name, css) {
+      // Check if the style already exists
+      const existingStyle = document.getElementById(`keyframe-${name}`);
+      if (existingStyle) {
+        return;
+      }
+      
+      const style = document.createElement('style');
+      style.id = `keyframe-${name}`;
+      style.textContent = css;
+      document.head.appendChild(style);
     }
     
     // Function to apply interactive effects to album art
     function applyAlbumArtEffects() {
       const albumArts = document.querySelectorAll('.album-art');
+      console.log('Found album arts:', albumArts.length);
+      
+      // Create ripple keyframe if needed
+      createKeyframeStyle('ripple', `
+        @keyframes ripple {
+          to {
+            width: 150%;
+            height: 150%;
+            opacity: 0;
+          }
+        }
+        @-webkit-keyframes ripple {
+          to {
+            width: 150%;
+            height: 150%;
+            opacity: 0;
+          }
+        }
+      `);
       
       // Apply effects to each album art
       albumArts.forEach((art, index) => {
-        // First track (index 0) is likely the currently playing track
+        console.log('Applying effects to art:', index);
+        
+        // For reliable effects, use setTimeout to stagger animations
         if (index === 0) {
-          // Apply special effects to the first track
-          art.classList.add('pulse');
-          art.parentElement.classList.add('float');
-          art.parentElement.querySelector('.track-name')?.classList.add('shimmer');
+          setTimeout(() => {
+            applyAnimation(art, 'pulse');
+            applyAnimation(art.parentElement, 'float');
+            const trackName = art.parentElement.parentElement.querySelector('.track-name');
+            if (trackName) applyAnimation(trackName, 'shimmer');
+          }, 50);
         }
         
         // Add click handlers
         art.addEventListener('click', function(e) {
-          // Prevent navigation if clicking specifically on the album art
           e.stopPropagation();
           e.preventDefault();
           
-          // Toggle the "playing" class on click to show spinning animation
+          console.log('Album art clicked');
           this.classList.toggle('playing');
           
-          // Create an expanding ripple effect
+          // Create an expanding ripple effect with inline styles for better compatibility
           const ripple = document.createElement('div');
-          ripple.style.position = 'absolute';
-          ripple.style.width = '10px';
-          ripple.style.height = '10px';
-          ripple.style.borderRadius = '50%';
-          ripple.style.backgroundColor = 'rgba(59, 130, 246, 0.6)'; // Blue with opacity
-          ripple.style.top = '50%';
-          ripple.style.left = '50%';
-          ripple.style.transform = 'translate(-50%, -50%)';
-          ripple.style.animation = 'ripple 0.6s linear';
-          ripple.style.zIndex = '5';
+          Object.assign(ripple.style, {
+            position: 'absolute',
+            width: '10px',
+            height: '10px',
+            borderRadius: '50%',
+            backgroundColor: 'rgba(59, 130, 246, 0.6)',
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+            animation: 'ripple 0.6s linear',
+            webkitAnimation: 'ripple 0.6s linear',
+            zIndex: '5'
+          });
           
-          // Add keyframes dynamically
-          const style = document.createElement('style');
-          style.innerHTML = `
-            @keyframes ripple {
-              to {
-                width: 150%;
-                height: 150%;
-                opacity: 0;
-              }
-            }
-          `;
-          document.head.appendChild(style);
+          this.parentElement.appendChild(ripple);
           
-          // Add the ripple to the container
-          art.parentElement.appendChild(ripple);
-          
-          // Remove the ripple after animation completes
+          // Clean up after animation
           setTimeout(() => {
-            ripple.remove();
-            style.remove();
+            if (ripple.parentNode) {
+              ripple.parentNode.removeChild(ripple);
+            }
           }, 600);
           
-          // Create particle burst effect
-          createParticles(art.parentElement);
-          
+          createParticles(this.parentElement);
           return false;
         });
-        
-        // Random start delay for staggered animations
-        const delay = Math.random() * 2;
-        art.style.animationDelay = `${delay}s`;
         
         // Mouse move effect for depth
         art.parentElement.addEventListener('mousemove', function(e) {
           const rect = this.getBoundingClientRect();
-          const x = e.clientX - rect.left; // x position within the element
-          const y = e.clientY - rect.top;  // y position within the element
+          const x = e.clientX - rect.left;
+          const y = e.clientY - rect.top;
           
-          // Calculate the tilt angle based on mouse position
-          // Limit the tilt to a more pronounced 15 degrees
           const tiltX = ((y / rect.height) * 30 - 15).toFixed(2);
           const tiltY = (-(x / rect.width) * 30 + 15).toFixed(2);
           
-          // Apply the tilt effect with more pronounced transform
           art.style.transform = `perspective(500px) rotateX(${tiltX}deg) rotateY(${tiltY}deg) scale(1.1)`;
+          art.style.webkitTransform = `perspective(500px) rotateX(${tiltX}deg) rotateY(${tiltY}deg) scale(1.1)`;
           
-          // Move the reflection based on mouse position
           const reflection = this.querySelector('.album-reflection');
-          reflection.style.transform = `scaleY(1) translateX(${(x / rect.width - 0.5) * 10}px)`;
+          if (reflection) {
+            reflection.style.transform = `scaleY(1) translateX(${(x / rect.width - 0.5) * 10}px)`;
+            reflection.style.webkitTransform = `scaleY(1) translateX(${(x / rect.width - 0.5) * 10}px)`;
+          }
           
-          // Adjust visualizer bars height based on mouse position
           const visualizerBars = this.querySelectorAll('.album-visualizer span');
           visualizerBars.forEach((bar, i) => {
             const height = 5 + Math.sin((x / rect.width) * Math.PI + i) * 8;
@@ -455,12 +547,14 @@ const initialRecentTracks = await getRecentTracks();
           });
         });
         
-        // Reset transform on mouse leave
         art.parentElement.addEventListener('mouseleave', function() {
-          art.style.transform = 'perspective(1000px) rotateX(0) rotateY(0)';
+          art.style.transform = '';
+          art.style.webkitTransform = '';
+          
           const reflection = this.querySelector('.album-reflection');
           if (reflection) {
-            reflection.style.transform = 'scaleY(0)';
+            reflection.style.transform = '';
+            reflection.style.webkitTransform = '';
           }
           
           const visualizerBars = this.querySelectorAll('.album-visualizer span');
@@ -471,119 +565,131 @@ const initialRecentTracks = await getRecentTracks();
       });
     }
     
-    // Function to create particle burst effect
+    // Function to create particle burst effect with browser compatibility
     function createParticles(container) {
-      const particleCount = 15;
+      // Skip if not supported
+      if (!container) return;
+      
+      const particleCount = 12; // Reduced for better performance
       const colors = ['#3b82f6', '#60a5fa', '#93c5fd', '#bfdbfe', '#ffffff'];
       
       for (let i = 0; i < particleCount; i++) {
         const particle = document.createElement('div');
+        const size = Math.random() * 6 + 2;
         
-        // Set particle style
-        particle.style.position = 'absolute';
-        particle.style.width = `${Math.random() * 6 + 2}px`;
-        particle.style.height = particle.style.width;
-        particle.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-        particle.style.borderRadius = '50%';
-        particle.style.top = '50%';
-        particle.style.left = '50%';
-        particle.style.transform = 'translate(-50%, -50%)';
-        particle.style.zIndex = '4';
-        particle.style.opacity = Math.random() * 0.5 + 0.5;
+        Object.assign(particle.style, {
+          position: 'absolute',
+          width: `${size}px`,
+          height: `${size}px`,
+          backgroundColor: colors[Math.floor(Math.random() * colors.length)],
+          borderRadius: '50%',
+          top: '50%',
+          left: '50%',
+          transform: 'translate(-50%, -50%)',
+          webkitTransform: 'translate(-50%, -50%)',
+          zIndex: '4',
+          opacity: (Math.random() * 0.5 + 0.5).toString()
+        });
         
-        // Add to container
         container.appendChild(particle);
         
-        // Animate particle
         const angle = Math.random() * Math.PI * 2;
-        const speed = Math.random() * 100 + 50;
+        const speed = Math.random() * 80 + 40; // Reduced speed for better performance
         const startTime = Date.now();
-        const duration = Math.random() * 600 + 400;
+        const duration = Math.random() * 500 + 300; // Reduced duration
         
-        function animateParticle() {
+        // Use a more efficient animation approach
+        const animateParticle = () => {
           const elapsed = Date.now() - startTime;
           const progress = elapsed / duration;
           
           if (progress >= 1) {
-            container.removeChild(particle);
+            if (particle.parentNode) {
+              particle.parentNode.removeChild(particle);
+            }
             return;
           }
           
-          const easing = 1 - Math.pow(1 - progress, 3); // Cubic ease-out
+          const easing = 1 - Math.pow(1 - progress, 3);
           const distance = speed * easing;
           const x = Math.cos(angle) * distance;
-          const y = Math.sin(angle) * distance - (50 * Math.pow(progress, 2)); // Add gravity
+          const y = Math.sin(angle) * distance - (40 * Math.pow(progress, 2));
           
           particle.style.transform = `translate(calc(-50% + ${x}px), calc(-50% + ${y}px))`;
-          particle.style.opacity = 1 - easing;
+          particle.style.webkitTransform = `translate(calc(-50% + ${x}px), calc(-50% + ${y}px))`;
+          particle.style.opacity = (1 - easing).toString();
           
           requestAnimationFrame(animateParticle);
-        }
+        };
         
         requestAnimationFrame(animateParticle);
       }
     }
 
-    // Set up the auto-refresh immediately
+    // Setup auto refresh with better error handling
     let autoRefreshTimer = null;
     
     function startAutoRefresh() {
-      // Clear any existing timer first
       if (autoRefreshTimer) {
         clearInterval(autoRefreshTimer);
       }
       
       // Define the refresh function
       const refreshData = async () => {
-        console.log('Refreshing recently played tracks...');
         try {
+          console.log('Refreshing recently played tracks...');
           const tracks = await fetchRecentTracks();
           if (tracks && tracks.length > 0) {
             renderTracks(tracks);
-            console.log('Tracks refreshed successfully');
+            console.log('Tracks refreshed successfully:', tracks.length);
           }
         } catch (err) {
           console.error('Error during refresh:', err);
         }
       };
       
-      // Start the periodic refresh (every minute)
+      // Start the periodic refresh
       autoRefreshTimer = setInterval(refreshData, 60000);
       
       // Also trigger an immediate refresh
-      refreshData();
+      refreshData().catch(err => console.error('Initial refresh error:', err));
     }
     
-    // Start the auto-refresh when the page is visible
-    function handleVisibilityChange() {
+    // Ensure the script runs once the page is fully loaded
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', () => {
+        console.log('DOM fully loaded');
+        applyAlbumArtEffects();
+        startAutoRefresh();
+      });
+    } else {
+      // DOM already loaded
+      console.log('DOM already loaded');
+      applyAlbumArtEffects();
+      startAutoRefresh();
+    }
+    
+    // Handle page visibility
+    document.addEventListener('visibilitychange', function() {
       if (document.visibilityState === 'visible') {
+        console.log('Page became visible, starting refresh');
         startAutoRefresh();
       } else {
+        console.log('Page hidden, stopping refresh');
         if (autoRefreshTimer) {
           clearInterval(autoRefreshTimer);
           autoRefreshTimer = null;
         }
       }
-    }
-    
-    // Apply effects to initial album art after DOM is ready
-    document.addEventListener('DOMContentLoaded', function() {
-      applyAlbumArtEffects();
     });
     
-    // Set up the visibility change handler
-    document.addEventListener('visibilitychange', handleVisibilityChange);
-    
-    // Start auto-refresh immediately if page is visible
-    if (document.visibilityState === 'visible') {
-      startAutoRefresh();
-    }
-    
-    // Clean up when the page is unloaded
+    // Clean up
     window.addEventListener('beforeunload', () => {
       if (autoRefreshTimer) {
         clearInterval(autoRefreshTimer);
       }
     });
+    
+    console.log('RecentlyPlayed script initialized');
   })();
 </script>
