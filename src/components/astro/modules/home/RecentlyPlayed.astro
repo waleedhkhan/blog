@@ -366,7 +366,6 @@ const initialRecentTracks = await getRecentTracks();
         }
         return await response.json();
       } catch (error) {
-        console.error('Error fetching tracks:', error);
         return [];
       }
     }
@@ -375,7 +374,6 @@ const initialRecentTracks = await getRecentTracks();
     function renderTracks(tracks) {
       const container = document.getElementById('tracks-container');
       if (!container) {
-        console.error('Tracks container not found');
         return;
       }
       
@@ -451,7 +449,6 @@ const initialRecentTracks = await getRecentTracks();
     // Function to apply interactive effects to album art
     function applyAlbumArtEffects() {
       const albumArts = document.querySelectorAll('.album-art');
-      console.log('Found album arts:', albumArts.length);
       
       // Create ripple keyframe if needed
       createKeyframeStyle('ripple', `
@@ -473,8 +470,6 @@ const initialRecentTracks = await getRecentTracks();
       
       // Apply effects to each album art
       albumArts.forEach((art, index) => {
-        console.log('Applying effects to art:', index);
-        
         // For reliable effects, use setTimeout to stagger animations
         if (index === 0) {
           setTimeout(() => {
@@ -490,7 +485,6 @@ const initialRecentTracks = await getRecentTracks();
           e.stopPropagation();
           e.preventDefault();
           
-          console.log('Album art clicked');
           this.classList.toggle('playing');
           
           // Create an expanding ripple effect with inline styles for better compatibility
@@ -637,14 +631,12 @@ const initialRecentTracks = await getRecentTracks();
       // Define the refresh function
       const refreshData = async () => {
         try {
-          console.log('Refreshing recently played tracks...');
           const tracks = await fetchRecentTracks();
           if (tracks && tracks.length > 0) {
             renderTracks(tracks);
-            console.log('Tracks refreshed successfully:', tracks.length);
           }
         } catch (err) {
-          console.error('Error during refresh:', err);
+          // Error handled silently
         }
       };
       
@@ -652,19 +644,17 @@ const initialRecentTracks = await getRecentTracks();
       autoRefreshTimer = setInterval(refreshData, 60000);
       
       // Also trigger an immediate refresh
-      refreshData().catch(err => console.error('Initial refresh error:', err));
+      refreshData();
     }
     
     // Ensure the script runs once the page is fully loaded
     if (document.readyState === 'loading') {
       document.addEventListener('DOMContentLoaded', () => {
-        console.log('DOM fully loaded');
         applyAlbumArtEffects();
         startAutoRefresh();
       });
     } else {
       // DOM already loaded
-      console.log('DOM already loaded');
       applyAlbumArtEffects();
       startAutoRefresh();
     }
@@ -672,10 +662,8 @@ const initialRecentTracks = await getRecentTracks();
     // Handle page visibility
     document.addEventListener('visibilitychange', function() {
       if (document.visibilityState === 'visible') {
-        console.log('Page became visible, starting refresh');
         startAutoRefresh();
       } else {
-        console.log('Page hidden, stopping refresh');
         if (autoRefreshTimer) {
           clearInterval(autoRefreshTimer);
           autoRefreshTimer = null;
@@ -689,7 +677,5 @@ const initialRecentTracks = await getRecentTracks();
         clearInterval(autoRefreshTimer);
       }
     });
-    
-    console.log('RecentlyPlayed script initialized');
   })();
 </script>
