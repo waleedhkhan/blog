@@ -71,31 +71,41 @@ const initialRecentTracks = await getRecentTracks();
 ---
 
 <div id="recently-played" class="space-y-4" data-tracks={JSON.stringify(initialRecentTracks)}>
-  <div>
-    <h4 class=":uno: text-sm font-medium text-zinc-900 dark:text-zinc-100">Played Music</h4>
-  </div>
-
   <div id="tracks-container">
     {initialRecentTracks.length > 0 ? (
       <ul class=":uno: grid grid-cols-2 gap-4">
-        {initialRecentTracks.map((track) => (
+        {initialRecentTracks.map((track, index) => (
           <li>
             <a
               class=":uno: group flex items-center gap-3 rounded-lg p-2 transition-colors hover:bg-zinc-100 dark:hover:bg-zinc-800"
               href={track.url}
               target="_blank"
               rel="noopener noreferrer"
+              data-track-index={index}
             >
-              <img
-                src={track.image}
-                alt={`${track.name} album art`}
-                class=":uno: h-12 w-12 rounded-md"
-              />
+              <div class="album-art-container">
+                <div class="album-visualizer">
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                </div>
+                <img
+                  src={track.image}
+                  alt={`${track.name} album art`}
+                  class=":uno: album-art h-12 w-12 rounded-md transition-all"
+                  loading="lazy"
+                  data-artist={track.artist}
+                  data-track={track.name}
+                />
+                <div class="album-reflection"></div>
+                <div class="album-glow"></div>
+              </div>
               <div class=":uno: flex-1 overflow-hidden">
-                <p class=":uno: truncate text-sm font-medium text-zinc-900 dark:text-zinc-100">
+                <p class=":uno: truncate text-sm font-medium text-zinc-900 dark:text-zinc-100 track-name">
                   {track.name}
                 </p>
-                <p class=":uno: truncate text-xs text-zinc-500 dark:text-zinc-400">
+                <p class=":uno: truncate text-xs text-zinc-500 dark:text-zinc-400 track-artist">
                   {track.artist}
                 </p>
               </div>
@@ -110,6 +120,170 @@ const initialRecentTracks = await getRecentTracks();
     )}
   </div>
 </div>
+
+<style>
+  .album-art-container {
+    position: relative;
+    width: 3rem;
+    height: 3rem;
+    perspective: 1000px;
+    overflow: visible;
+    transition: transform 0.3s ease;
+  }
+
+  .album-art {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transform-style: preserve-3d;
+    transition: transform 0.5s ease, box-shadow 0.3s ease, border-radius 0.5s ease;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    z-index: 2;
+    position: relative;
+  }
+
+  .album-reflection {
+    position: absolute;
+    bottom: -12px;
+    left: 5%;
+    width: 90%;
+    height: 6px;
+    background: radial-gradient(ellipse at center, rgba(255,255,255,0.4) 0%, rgba(255,255,255,0) 70%);
+    border-radius: 50%;
+    transform: scaleY(0);
+    opacity: 0;
+    transform-origin: center top;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+    filter: blur(1px);
+    z-index: 1;
+  }
+  
+  .album-glow {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 8px;
+    box-shadow: 0 0 0 0 rgba(255, 255, 255, 0);
+    opacity: 0;
+    z-index: 0;
+    transition: box-shadow 0.5s ease, opacity 0.5s ease;
+  }
+
+  .album-art-container:hover .album-art {
+    transform: translateY(-15%) scale(1.15) rotate(5deg);
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2), 0 10px 10px -5px rgba(0, 0, 0, 0.1);
+  }
+
+  .album-art-container:hover .album-reflection {
+    transform: scaleY(1);
+    opacity: 1;
+  }
+  
+  .album-art-container:hover .album-glow {
+    box-shadow: 0 0 20px 5px rgba(255, 255, 255, 0.3);
+    opacity: 1;
+  }
+  
+  .album-art-container:hover .track-name {
+    color: #3b82f6; /* blue-500 */
+    transition: color 0.3s ease;
+  }
+
+  @keyframes spin {
+    from { transform: rotate(0deg) scale(1.1); }
+    to { transform: rotate(360deg) scale(1.1); }
+  }
+
+  .album-art.playing {
+    animation: spin 7s linear infinite;
+    border-radius: 50%;
+    box-shadow: 0 0 20px 5px rgba(59, 130, 246, 0.5); /* blue glow */
+  }
+  
+  /* Pulse animation for currently playing track */
+  @keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); box-shadow: 0 0 15px 2px rgba(255, 255, 255, 0.5); }
+    100% { transform: scale(1); }
+  }
+  
+  .album-art.pulse {
+    animation: pulse 2s infinite ease-in-out;
+  }
+  
+  /* Music visualizer effect */
+  .album-visualizer {
+    position: absolute;
+    bottom: -5px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    height: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    gap: 2px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: 3;
+  }
+  
+  .album-art-container:hover .album-visualizer,
+  .album-art.playing + .album-visualizer {
+    opacity: 1;
+  }
+  
+  .album-visualizer span {
+    display: inline-block;
+    width: 3px;
+    height: 5px;
+    background: #3b82f6; /* blue-500 */
+    border-radius: 1px;
+    transition: height 0.2s ease;
+  }
+  
+  .album-art.playing ~ .album-visualizer span {
+    animation: visualize 0.8s infinite ease;
+  }
+  
+  .album-visualizer span:nth-child(1) { animation-delay: 0s; }
+  .album-visualizer span:nth-child(2) { animation-delay: 0.2s; }
+  .album-visualizer span:nth-child(3) { animation-delay: 0.4s; }
+  .album-visualizer span:nth-child(4) { animation-delay: 0.6s; }
+  
+  @keyframes visualize {
+    0% { height: 5px; }
+    50% { height: 12px; }
+    100% { height: 5px; }
+  }
+  
+  /* Text shimmer effect */
+  @keyframes shimmer {
+    0% { background-position: -100% 0; }
+    100% { background-position: 200% 0; }
+  }
+  
+  .track-name.shimmer {
+    background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.5) 50%, rgba(255,255,255,0) 100%);
+    background-size: 200% 100%;
+    animation: shimmer 2s infinite;
+    background-clip: text;
+    -webkit-background-clip: text;
+  }
+  
+  /* Floating effect */
+  @keyframes float {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-5px); }
+    100% { transform: translateY(0px); }
+  }
+  
+  .album-art-container.float {
+    animation: float 3s ease-in-out infinite;
+  }
+</style>
 
 <script is:inline define:vars={{ initialTracks: initialRecentTracks }}>
   // Make sure this script runs as soon as it's loaded, with direct access to initialTracks
@@ -140,24 +314,38 @@ const initialRecentTracks = await getRecentTracks();
 
       const tracksList = `
         <ul class="grid grid-cols-2 gap-4">
-          ${tracks.map(track => `
+          ${tracks.map((track, index) => `
             <li>
               <a
                 class="group flex items-center gap-3 rounded-lg p-2 transition-colors hover:bg-zinc-100 dark:hover:bg-zinc-800"
                 href="${track.url}"
                 target="_blank"
                 rel="noopener noreferrer"
+                data-track-index="${index}"
               >
-                <img
-                  src="${track.image}"
-                  alt="${track.name} album art"
-                  class="h-12 w-12 rounded-md"
-                />
+                <div class="album-art-container ${index === 0 ? 'float' : ''}">
+                  <div class="album-visualizer">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                  </div>
+                  <img
+                    src="${track.image}"
+                    alt="${track.name} album art"
+                    class="album-art h-12 w-12 rounded-md transition-all ${index === 0 ? 'pulse' : ''}"
+                    loading="lazy"
+                    data-artist="${track.artist}"
+                    data-track="${track.name}"
+                  />
+                  <div class="album-reflection"></div>
+                  <div class="album-glow"></div>
+                </div>
                 <div class="flex-1 overflow-hidden">
-                  <p class="truncate text-sm font-medium text-zinc-900 dark:text-zinc-100">
+                  <p class="truncate text-sm font-medium text-zinc-900 dark:text-zinc-100 track-name ${index === 0 ? 'shimmer' : ''}">
                     ${track.name}
                   </p>
-                  <p class="truncate text-xs text-zinc-500 dark:text-zinc-400">
+                  <p class="truncate text-xs text-zinc-500 dark:text-zinc-400 track-artist">
                     ${track.artist}
                   </p>
                 </div>
@@ -168,6 +356,172 @@ const initialRecentTracks = await getRecentTracks();
       `;
       
       container.innerHTML = tracksList;
+      
+      // Apply interactive effects after rendering
+      applyAlbumArtEffects();
+    }
+    
+    // Function to apply interactive effects to album art
+    function applyAlbumArtEffects() {
+      const albumArts = document.querySelectorAll('.album-art');
+      
+      // Apply effects to each album art
+      albumArts.forEach((art, index) => {
+        // First track (index 0) is likely the currently playing track
+        if (index === 0) {
+          // Apply special effects to the first track
+          art.classList.add('pulse');
+          art.parentElement.classList.add('float');
+          art.parentElement.querySelector('.track-name')?.classList.add('shimmer');
+        }
+        
+        // Add click handlers
+        art.addEventListener('click', function(e) {
+          // Prevent navigation if clicking specifically on the album art
+          e.stopPropagation();
+          e.preventDefault();
+          
+          // Toggle the "playing" class on click to show spinning animation
+          this.classList.toggle('playing');
+          
+          // Create an expanding ripple effect
+          const ripple = document.createElement('div');
+          ripple.style.position = 'absolute';
+          ripple.style.width = '10px';
+          ripple.style.height = '10px';
+          ripple.style.borderRadius = '50%';
+          ripple.style.backgroundColor = 'rgba(59, 130, 246, 0.6)'; // Blue with opacity
+          ripple.style.top = '50%';
+          ripple.style.left = '50%';
+          ripple.style.transform = 'translate(-50%, -50%)';
+          ripple.style.animation = 'ripple 0.6s linear';
+          ripple.style.zIndex = '5';
+          
+          // Add keyframes dynamically
+          const style = document.createElement('style');
+          style.innerHTML = `
+            @keyframes ripple {
+              to {
+                width: 150%;
+                height: 150%;
+                opacity: 0;
+              }
+            }
+          `;
+          document.head.appendChild(style);
+          
+          // Add the ripple to the container
+          art.parentElement.appendChild(ripple);
+          
+          // Remove the ripple after animation completes
+          setTimeout(() => {
+            ripple.remove();
+            style.remove();
+          }, 600);
+          
+          // Create particle burst effect
+          createParticles(art.parentElement);
+          
+          return false;
+        });
+        
+        // Random start delay for staggered animations
+        const delay = Math.random() * 2;
+        art.style.animationDelay = `${delay}s`;
+        
+        // Mouse move effect for depth
+        art.parentElement.addEventListener('mousemove', function(e) {
+          const rect = this.getBoundingClientRect();
+          const x = e.clientX - rect.left; // x position within the element
+          const y = e.clientY - rect.top;  // y position within the element
+          
+          // Calculate the tilt angle based on mouse position
+          // Limit the tilt to a more pronounced 15 degrees
+          const tiltX = ((y / rect.height) * 30 - 15).toFixed(2);
+          const tiltY = (-(x / rect.width) * 30 + 15).toFixed(2);
+          
+          // Apply the tilt effect with more pronounced transform
+          art.style.transform = `perspective(500px) rotateX(${tiltX}deg) rotateY(${tiltY}deg) scale(1.1)`;
+          
+          // Move the reflection based on mouse position
+          const reflection = this.querySelector('.album-reflection');
+          reflection.style.transform = `scaleY(1) translateX(${(x / rect.width - 0.5) * 10}px)`;
+          
+          // Adjust visualizer bars height based on mouse position
+          const visualizerBars = this.querySelectorAll('.album-visualizer span');
+          visualizerBars.forEach((bar, i) => {
+            const height = 5 + Math.sin((x / rect.width) * Math.PI + i) * 8;
+            bar.style.height = `${Math.max(3, height)}px`;
+          });
+        });
+        
+        // Reset transform on mouse leave
+        art.parentElement.addEventListener('mouseleave', function() {
+          art.style.transform = 'perspective(1000px) rotateX(0) rotateY(0)';
+          const reflection = this.querySelector('.album-reflection');
+          if (reflection) {
+            reflection.style.transform = 'scaleY(0)';
+          }
+          
+          const visualizerBars = this.querySelectorAll('.album-visualizer span');
+          visualizerBars.forEach(bar => {
+            bar.style.height = '5px';
+          });
+        });
+      });
+    }
+    
+    // Function to create particle burst effect
+    function createParticles(container) {
+      const particleCount = 15;
+      const colors = ['#3b82f6', '#60a5fa', '#93c5fd', '#bfdbfe', '#ffffff'];
+      
+      for (let i = 0; i < particleCount; i++) {
+        const particle = document.createElement('div');
+        
+        // Set particle style
+        particle.style.position = 'absolute';
+        particle.style.width = `${Math.random() * 6 + 2}px`;
+        particle.style.height = particle.style.width;
+        particle.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+        particle.style.borderRadius = '50%';
+        particle.style.top = '50%';
+        particle.style.left = '50%';
+        particle.style.transform = 'translate(-50%, -50%)';
+        particle.style.zIndex = '4';
+        particle.style.opacity = Math.random() * 0.5 + 0.5;
+        
+        // Add to container
+        container.appendChild(particle);
+        
+        // Animate particle
+        const angle = Math.random() * Math.PI * 2;
+        const speed = Math.random() * 100 + 50;
+        const startTime = Date.now();
+        const duration = Math.random() * 600 + 400;
+        
+        function animateParticle() {
+          const elapsed = Date.now() - startTime;
+          const progress = elapsed / duration;
+          
+          if (progress >= 1) {
+            container.removeChild(particle);
+            return;
+          }
+          
+          const easing = 1 - Math.pow(1 - progress, 3); // Cubic ease-out
+          const distance = speed * easing;
+          const x = Math.cos(angle) * distance;
+          const y = Math.sin(angle) * distance - (50 * Math.pow(progress, 2)); // Add gravity
+          
+          particle.style.transform = `translate(calc(-50% + ${x}px), calc(-50% + ${y}px))`;
+          particle.style.opacity = 1 - easing;
+          
+          requestAnimationFrame(animateParticle);
+        }
+        
+        requestAnimationFrame(animateParticle);
+      }
     }
 
     // Set up the auto-refresh immediately
@@ -211,6 +565,11 @@ const initialRecentTracks = await getRecentTracks();
         }
       }
     }
+    
+    // Apply effects to initial album art after DOM is ready
+    document.addEventListener('DOMContentLoaded', function() {
+      applyAlbumArtEffects();
+    });
     
     // Set up the visibility change handler
     document.addEventListener('visibilitychange', handleVisibilityChange);
