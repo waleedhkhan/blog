@@ -4,42 +4,193 @@ import bookmarksData from "@/data/bookmarks.json";
 
 const title = "Bookmarks — Waleed";
 const description = "A collection of useful links and resources";
+
+// Process categories - split comma-separated categories and extract unique values
+const allCategories = new Set();
+bookmarksData.bookmarks.forEach(bookmark => {
+  if (bookmark.category) {
+    const categories = bookmark.category.split(',').map(cat => cat.trim());
+    categories.forEach(cat => allCategories.add(cat));
+  }
+});
+const uniqueCategories = Array.from(allCategories).sort();
 ---
 
 <Layout title={title} description={description}>
-  <section class=":uno: space-y-8">
-    <div class=":uno: space-y-4">
+  <section class=":uno: space-y-6">
+    <div class=":uno: space-y-3">
       <h1 class=":uno: font-semibold text-2xl tracking-tight text-heading">Bookmarks</h1>
-      <p class=":uno: text-lg leading-[1.75]">{description}</p>
+      <p class=":uno: text-base leading-[1.75]">{description}</p>
     </div>
 
-    <div class=":uno: relative">
-      <table class=":uno: w-full text-left text-sm">
-        <thead>
-          <tr class=":uno: border-b border-gray-200 dark:border-gray-800">
-            <th class=":uno: px-4 py-3 font-normal text-gray-500 dark:text-gray-400">Name</th>
-            <th class=":uno: px-4 py-3 font-normal text-gray-500 dark:text-gray-400">Category</th>
-          </tr>
-        </thead>
-        <tbody>
-          {bookmarksData.bookmarks.map((bookmark) => (
-            <tr class=":uno: border-b border-gray-100 dark:border-gray-800/50">
-              <td class=":uno: px-4 py-3 text-gray-900 dark:text-gray-100">
+    <div class=":uno: flex flex-col sm:flex-row gap-3 items-center justify-between">
+      <!-- Search input -->
+      <div class=":uno: relative w-full sm:w-64">
+        <input 
+          type="text" 
+          id="search-input" 
+          placeholder="Search bookmarks..." 
+          class=":uno: w-full px-3 py-1.5 text-sm border rounded-md bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-700 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+        />
+        <svg xmlns="http://www.w3.org/2000/svg" class=":uno: absolute right-2 top-2 h-4 w-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+        </svg>
+      </div>
+
+      <!-- Category filter -->
+      <div class=":uno: w-full sm:w-auto">
+        <select 
+          id="category-filter" 
+          class=":uno: px-3 py-1.5 text-sm border rounded-md bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-700 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+        >
+          <option value="all">All Categories</option>
+          {uniqueCategories.map(category => (
+            <option value={category}>{category}</option>
+          ))}
+        </select>
+      </div>
+    </div>
+
+    <!-- Stats counter -->
+    <p id="results-count" class=":uno: text-xs text-gray-500 dark:text-gray-400">
+      Showing {bookmarksData.bookmarks.length} bookmarks
+    </p>
+
+    <!-- Category chips for mobile filtering -->
+    <div class=":uno: flex flex-wrap gap-2 md:hidden">
+      <button 
+        class=":uno: category-chip text-xs px-2 py-1 rounded-full bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 border border-blue-200 dark:border-blue-800" 
+        data-category="all"
+      >
+        All
+      </button>
+      {uniqueCategories.map(category => (
+        <button 
+          class=":uno: category-chip text-xs px-2 py-1 rounded-full bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-200 border border-gray-200 dark:border-gray-700" 
+          data-category={category}
+        >
+          {category}
+        </button>
+      ))}
+    </div>
+
+    <!-- Compact bookmark grid -->
+    <div id="bookmarks-container" class=":uno: grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3">
+      {bookmarksData.bookmarks.map((bookmark) => {
+        // Process categories into an array
+        const categories = bookmark.category ? bookmark.category.split(',').map(cat => cat.trim()) : [];
+        
+        return (
+          <div 
+            data-categories={categories.join(' ')}
+            class=":uno: bookmark-card p-3 border border-gray-200 dark:border-gray-800 rounded-md transition-all duration-200 hover:shadow-sm hover:border-blue-300 dark:hover:border-blue-700 bg-white dark:bg-gray-900"
+          >
+            <div class=":uno: mb-2">
+              <h3 class=":uno: font-medium text-sm text-gray-900 dark:text-gray-100">
                 <a
                   href={bookmark.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  class=":uno: text-blue-600 hover:underline dark:text-blue-400"
+                  class=":uno: hover:text-blue-600 dark:hover:text-blue-400 flex items-start"
                   title={bookmark.url}
                 >
                   {bookmark.name}
+                  <svg xmlns="http://www.w3.org/2000/svg" class=":uno: h-3 w-3 ml-1 mt-0.5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                  </svg>
                 </a>
-              </td>
-              <td class=":uno: px-4 py-3 text-gray-600 dark:text-gray-400">{bookmark.category}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+              </h3>
+            </div>
+            
+            <p class=":uno: text-xs text-gray-600 dark:text-gray-400 mb-2 line-clamp-2 h-8">
+              {bookmark.description || "No description available"}
+            </p>
+            
+            <div class=":uno: flex flex-wrap gap-1 mt-1">
+              {categories.map(category => (
+                <span class=":uno: text-[10px] px-1.5 py-0.5 bg-gray-100 dark:bg-gray-800 rounded-full text-gray-600 dark:text-gray-400">
+                  {category}
+                </span>
+              ))}
+            </div>
+          </div>
+        );
+      })}
+    </div>
+
+    <!-- No results message -->
+    <div id="no-results" class=":uno: hidden text-center py-6 text-gray-500 dark:text-gray-400 text-sm">
+      No bookmarks found matching your search
     </div>
   </section>
+
+  <script>
+    // Search and filter functionality
+    document.addEventListener('DOMContentLoaded', () => {
+      const searchInput = document.getElementById('search-input');
+      const categoryFilter = document.getElementById('category-filter');
+      const categoryChips = document.querySelectorAll('.category-chip');
+      const bookmarkCards = document.querySelectorAll('.bookmark-card');
+      const resultsCount = document.getElementById('results-count');
+      const noResults = document.getElementById('no-results');
+      const bookmarksContainer = document.getElementById('bookmarks-container');
+
+      function filterBookmarks() {
+        const searchTerm = searchInput.value.toLowerCase();
+        const selectedCategory = categoryFilter.value;
+        
+        let visibleCount = 0;
+
+        bookmarkCards.forEach(card => {
+          const title = card.querySelector('h3').textContent.toLowerCase();
+          const categoriesString = card.dataset.categories;
+          const description = card.querySelector('p').textContent.toLowerCase();
+          
+          const matchesSearch = title.includes(searchTerm) || description.includes(searchTerm);
+          const matchesCategory = selectedCategory === 'all' || 
+                                 (categoriesString && categoriesString.split(' ').includes(selectedCategory));
+          
+          if (matchesSearch && matchesCategory) {
+            card.classList.remove('hidden');
+            visibleCount++;
+          } else {
+            card.classList.add('hidden');
+          }
+        });
+
+        resultsCount.textContent = `Showing ${visibleCount} bookmarks`;
+        
+        if (visibleCount === 0) {
+          noResults.classList.remove('hidden');
+          bookmarksContainer.classList.add('hidden');
+        } else {
+          noResults.classList.add('hidden');
+          bookmarksContainer.classList.remove('hidden');
+        }
+
+        // Update category chip active state
+        categoryChips.forEach(chip => {
+          if (chip.dataset.category === selectedCategory) {
+            chip.classList.add('bg-blue-100', 'dark:bg-blue-900', 'text-blue-800', 'dark:text-blue-200', 'border-blue-200', 'dark:border-blue-800');
+            chip.classList.remove('bg-gray-100', 'dark:bg-gray-800', 'text-gray-800', 'dark:text-gray-200', 'border-gray-200', 'dark:border-gray-700');
+          } else {
+            chip.classList.remove('bg-blue-100', 'dark:bg-blue-900', 'text-blue-800', 'dark:text-blue-200', 'border-blue-200', 'dark:border-blue-800');
+            chip.classList.add('bg-gray-100', 'dark:bg-gray-800', 'text-gray-800', 'dark:text-gray-200', 'border-gray-200', 'dark:border-gray-700');
+          }
+        });
+      }
+
+      searchInput.addEventListener('input', filterBookmarks);
+      categoryFilter.addEventListener('change', filterBookmarks);
+      
+      // Handle category chip clicks on mobile
+      categoryChips.forEach(chip => {
+        chip.addEventListener('click', () => {
+          const category = chip.dataset.category;
+          categoryFilter.value = category;
+          filterBookmarks();
+        });
+      });
+    });
+  </script>
 </Layout>

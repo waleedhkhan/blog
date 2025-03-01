@@ -3,30 +3,32 @@
     {
       "name": "Chat with your SQL database",
       "url": "https://github.com/vanna-ai/vanna",
-      "category": "ai, data, sql"
+      "category": "ai, data, sql",
+      "description": "Tool to chat with your SQL database."
     },
-
     {
       "name": "rork.app - AI-powered app development",
       "url": "https://rork.app",
-      "category": "ai, mobile-dev"
+      "category": "ai, mobile-dev",
+      "description": "AI-powered app development platform."
     },
-
     {
       "name": "Design, Build & Convert: Your Practical Guide to Web Design Mastery",
       "url": "https://marinabudarina.design/webdesignmastery",
-      "category": "design, webdesign"
+      "category": "design, webdesign",
+      "description": "Practical guide to web design mastery."
     },
-
     {
       "name": "Minimal MacBook Pro Setup",
       "url": "https://eugeneyan.com/writing/mac-setup/",
-      "category": "engineering, misc"
+      "category": "engineering, misc",
+      "description": "Guide to minimal MacBook Pro setup."
     },
     {
       "name": "Tana - AI productivity tool",
       "url": "https://tana.inc",
-      "category": "ai, productivity"
+      "category": "ai, productivity",
+      "description": "AI productivity tool."
     }
   ]
 }
