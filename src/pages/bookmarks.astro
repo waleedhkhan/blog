@@ -5,11 +5,18 @@ import bookmarksData from "@/data/bookmarks.json";
 const title = "Bookmarks — Waleed";
 const description = "A collection of useful links and resources";
 
-// Process categories - split comma-separated categories and extract unique values
+// Process categories - handle both string and array formats
 const allCategories = new Set();
 bookmarksData.bookmarks.forEach(bookmark => {
   if (bookmark.category) {
-    const categories = bookmark.category.split(',').map(cat => cat.trim());
+    // Handle both string and array format for categories
+    let categories = [];
+    if (typeof bookmark.category === 'string') {
+      categories = bookmark.category.split(',').map(cat => cat.trim());
+    } else if (Array.isArray(bookmark.category)) {
+      categories = bookmark.category.map(String);
+    }
+    
     categories.forEach(cat => allCategories.add(cat));
   }
 });
@@ -64,8 +71,13 @@ const uniqueCategories = Array.from(allCategories).sort();
     <!-- Compact bookmark grid - Updated gray colors -->
     <div id="bookmarks-container" class=":uno: grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3">
       {bookmarksData.bookmarks.map((bookmark) => {
-        // Process categories into an array
-        const categories = bookmark.category ? bookmark.category.split(',').map(cat => cat.trim()) : [];
+        // Process categories into an array, handling both string and array formats
+        let categories = [];
+        if (typeof bookmark.category === 'string') {
+          categories = bookmark.category.split(',').map(cat => cat.trim());
+        } else if (Array.isArray(bookmark.category)) {
+          categories = bookmark.category.map(String);
+        }
         
         return (
           <div 
