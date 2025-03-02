@@ -24,13 +24,13 @@ const uniqueCategories = Array.from(allCategories).sort();
     </div>
 
     <div class=":uno: flex flex-col sm:flex-row gap-3 items-start sm:items-center justify-between">
-      <!-- Search input -->
+      <!-- Search input - Updated gray colors -->
       <div class=":uno: relative w-full sm:w-64">
         <input 
           type="text" 
           id="search-input" 
           placeholder="Search bookmarks..." 
-          class=":uno: w-full px-3 py-1.5 text-sm border rounded-md bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-700 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+          class=":uno: w-full px-3 py-1.5 text-sm border rounded-md bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-700 focus:ring-2 focus:ring-gray-400 dark:focus:ring-gray-600 focus:border-gray-400 dark:focus:border-gray-600"
         />
         <svg xmlns="http://www.w3.org/2000/svg" class=":uno: absolute right-2 top-2 h-4 w-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
@@ -43,17 +43,17 @@ const uniqueCategories = Array.from(allCategories).sort();
       </p>
     </div>
 
-    <!-- Category filter chips with muted colors and microinteractions -->
+    <!-- Category filter chips - Updated gray colors -->
     <div class=":uno: flex flex-wrap gap-2 mb-2">
       <button 
-        class=":uno: category-chip text-xs px-3 py-1.5 rounded-full bg-blue-50/80 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 border border-transparent hover:border-blue-200 dark:hover:border-blue-800/50 transition-all duration-200 hover:scale-105 active:scale-95 hover:shadow-sm" 
+        class=":uno: category-chip text-xs px-3 py-1.5 rounded-full bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 border border-transparent hover:border-gray-300 dark:hover:border-gray-700 transition-all duration-200 hover:scale-105 active:scale-95 hover:shadow-sm" 
         data-category="all"
       >
         All
       </button>
       {uniqueCategories.map(category => (
         <button 
-          class=":uno: category-chip text-xs px-3 py-1.5 rounded-full bg-gray-50/80 dark:bg-gray-800/50 text-gray-700 dark:text-gray-300 border border-transparent hover:border-gray-200 dark:hover:border-gray-700/70 transition-all duration-200 hover:scale-105 active:scale-95 hover:shadow-sm" 
+          class=":uno: category-chip text-xs px-3 py-1.5 rounded-full bg-gray-50 dark:bg-gray-800 text-gray-700 dark:text-gray-300 border border-transparent hover:border-gray-300 dark:hover:border-gray-700 transition-all duration-200 hover:scale-105 active:scale-95 hover:shadow-sm" 
           data-category={category}
         >
           {category}
@@ -61,7 +61,7 @@ const uniqueCategories = Array.from(allCategories).sort();
       ))}
     </div>
 
-    <!-- Compact bookmark grid -->
+    <!-- Compact bookmark grid - Updated gray colors -->
     <div id="bookmarks-container" class=":uno: grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3">
       {bookmarksData.bookmarks.map((bookmark) => {
         // Process categories into an array
@@ -71,7 +71,7 @@ const uniqueCategories = Array.from(allCategories).sort();
           <div 
             data-categories={categories.join(' ')}
             data-url={bookmark.url}
-            class=":uno: bookmark-card p-3 border border-gray-200 dark:border-gray-800 rounded-md transition-all duration-200 hover:shadow-sm hover:border-blue-300 dark:hover:border-blue-700 bg-white dark:bg-gray-900"
+            class=":uno: bookmark-card p-3 border border-gray-200 dark:border-gray-700 rounded-md transition-all duration-200 hover:shadow-sm hover:border-gray-300 dark:hover:border-gray-600 bg-white dark:bg-gray-800"
           >
             <div class=":uno: mb-2">
               <h3 class=":uno: font-medium text-sm text-gray-900 dark:text-gray-100">
@@ -79,7 +79,7 @@ const uniqueCategories = Array.from(allCategories).sort();
                   href={bookmark.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  class=":uno: bookmark-link hover:text-blue-600 dark:hover:text-blue-400 flex items-start"
+                  class=":uno: bookmark-link hover:text-blue-600 dark:hover:text-gray-300 flex items-start"
                   title={bookmark.url}
                   data-url={bookmark.url}
                 >
@@ -97,7 +97,7 @@ const uniqueCategories = Array.from(allCategories).sort();
             
             <div class=":uno: flex flex-wrap gap-1 mt-1">
               {categories.map(category => (
-                <span class=":uno: text-[10px] px-1.5 py-0.5 bg-gray-100 dark:bg-gray-800 rounded-full text-gray-600 dark:text-gray-400">
+                <span class=":uno: text-[10px] px-1.5 py-0.5 bg-gray-100 dark:bg-gray-700 rounded-full text-gray-600 dark:text-gray-300">
                   {category}
                 </span>
               ))}
@@ -167,20 +167,20 @@ const uniqueCategories = Array.from(allCategories).sort();
           bookmarksContainer.classList.remove('hidden');
         }
 
-        // Enhanced category chip active state with microinteractions
+        // UPDATED: Enhanced category chip active state with grayscale theme
         categoryChips.forEach(chip => {
           if (chip.dataset.category === currentCategory) {
-            chip.classList.add('bg-blue-100', 'dark:bg-blue-800/40', 'text-blue-800', 'dark:text-blue-200', 
-                              'border-blue-200', 'dark:border-blue-700', 'shadow-sm', 'scale-105');
-            chip.classList.remove('bg-gray-50/80', 'dark:bg-gray-800/50', 'text-gray-700', 'dark:text-gray-300', 
+            chip.classList.add('bg-gray-200', 'dark:bg-gray-700', 'text-gray-900', 'dark:text-gray-100', 
+                              'border-gray-300', 'dark:border-gray-600', 'shadow-sm', 'scale-105');
+            chip.classList.remove('bg-gray-50', 'bg-gray-100', 'dark:bg-gray-800', 'text-gray-700', 'dark:text-gray-300', 
                                 'border-transparent');
             
             // Add pulse animation to the active chip
             chip.style.animation = 'pulse 2s infinite';
           } else {
-            chip.classList.remove('bg-blue-100', 'dark:bg-blue-800/40', 'text-blue-800', 'dark:text-blue-200', 
-                                 'border-blue-200', 'dark:border-blue-700', 'shadow-sm', 'scale-105');
-            chip.classList.add('bg-gray-50/80', 'dark:bg-gray-800/50', 'text-gray-700', 'dark:text-gray-300', 
+            chip.classList.remove('bg-gray-200', 'dark:bg-gray-700', 'text-gray-900', 'dark:text-gray-100', 
+                                 'border-gray-300', 'dark:border-gray-600', 'shadow-sm', 'scale-105');
+            chip.classList.add('bg-gray-50', 'dark:bg-gray-800', 'text-gray-700', 'dark:text-gray-300', 
                               'border-transparent');
             
             // Remove animation from inactive chips
@@ -247,37 +247,37 @@ const uniqueCategories = Array.from(allCategories).sort();
   </script>
 
   <style>
-    /* Subtle pulse animation for active filter chip */
+    /* Subtle pulse animation - UPDATED FOR GRAYSCALE THEME */
     @keyframes pulse {
       0% {
-        box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.2);
+        box-shadow: 0 0 0 0 rgba(107, 114, 128, 0.2); /* Gray-500 with low opacity */
       }
       70% {
-        box-shadow: 0 0 0 6px rgba(59, 130, 246, 0);
+        box-shadow: 0 0 0 6px rgba(107, 114, 128, 0);
       }
       100% {
-        box-shadow: 0 0 0 0 rgba(59, 130, 246, 0);
+        box-shadow: 0 0 0 0 rgba(107, 114, 128, 0);
       }
     }
 
-    /* More subtle dark mode animation */
+    /* Dark mode animation - UPDATED FOR GRAYSCALE THEME */
     @media (prefers-color-scheme: dark) {
       @keyframes pulse {
         0% {
-          box-shadow: 0 0 0 0 rgba(96, 165, 250, 0.3);
+          box-shadow: 0 0 0 0 rgba(156, 163, 175, 0.2); /* Gray-400 with low opacity */
         }
         70% {
-          box-shadow: 0 0 0 6px rgba(96, 165, 250, 0);
+          box-shadow: 0 0 0 6px rgba(156, 163, 175, 0);
         }
         100% {
-          box-shadow: 0 0 0 0 rgba(96, 165, 250, 0);
+          box-shadow: 0 0 0 0 rgba(156, 163, 175, 0);
         }
       }
     }
 
-    /* Enhanced focus styles for accessibility */
+    /* UPDATED: Focus styles for accessibility - grayscale theme */
     .category-chip:focus {
-      outline: 2px solid rgba(59, 130, 246, 0.5);
+      outline: 2px solid rgba(107, 114, 128, 0.5); /* Gray-500 */
       outline-offset: 2px;
     }
 
@@ -298,16 +298,16 @@ const uniqueCategories = Array.from(allCategories).sort();
       /* No color changes - keeping original text colors */
     }
     
-    /* Position relative for the checkmark */
+    /* Position relative for the checkmark container */
     .bookmark-card {
       position: relative;
     }
 
-    /* Base checkmark - hidden by default */
+    /* UPDATED: Moved checkmark to bottom of card */
     .bookmark-card::before {
       content: "";
       position: absolute;
-      top: 8px;
+      bottom: 8px;  /* Changed from top to bottom */
       right: 8px;
       width: 18px;
       height: 18px;
@@ -317,6 +317,24 @@ const uniqueCategories = Array.from(allCategories).sort();
       transform: scale(0);
       transition: all 0.3s ease;
       z-index: 1;
+    }
+    
+    /* UPDATED: Added small visited text indicator beneath checkmark */
+    .bookmark-card.visited::after {
+      content: "viewed";
+      position: absolute;
+      bottom: 8px;
+      right: 30px;
+      font-size: 10px;
+      color: #6b7280; /* Gray-500 */
+      opacity: 0.7;
+    }
+    
+    /* Dark mode text indicator */
+    @media (prefers-color-scheme: dark) {
+      .bookmark-card.visited::after {
+        color: #9ca3af; /* Gray-400 */
+      }
     }
     
     /* SIMPLIFIED: Visited card checkmark - Light Theme */
@@ -335,8 +353,8 @@ const uniqueCategories = Array.from(allCategories).sort();
     /* SIMPLIFIED: Visited card checkmark - Dark Theme */
     @media (prefers-color-scheme: dark) {
       .bookmark-card.visited::before {
-        background-color: #374151; /* Gray-700 - subtle dark mode */
-        color: #e5e7eb; /* Gray-200 - light text */
+        background-color: #4b5563; /* Gray-600 - more in line with site theme */
+        color: #f3f4f6; /* Gray-100 - light text */
         box-shadow: none;
       }
     }
