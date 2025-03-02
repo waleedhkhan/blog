@@ -44,6 +44,15 @@
         "productivity",
         "engineering"
       ]
+    },
+    {
+      "name": "smallpond",
+      "url": "https://github.com/deepseek-ai/smallpond",
+      "description": "DeepSeek has just open-sourced a lightweight big data processing framework! 🔥",
+      "category": [
+        "ai",
+        "engineering"
+      ]
     }
   ]
 }
