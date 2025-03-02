@@ -1,6 +1,13 @@
 {
   "bookmarks": [
     {
+      "name": "Telepathic instruments",
+      "url": "https://telepathicinstruments.com",
+      "category": "inspiration, design",
+      "description": "Orchid's advanced intuitive chord generator."
+    },
+
+    {
       "name": "Chat with your SQL database",
       "url": "https://github.com/vanna-ai/vanna",
       "category": "ai, data, sql",
@@ -29,6 +36,12 @@
       "url": "https://tana.inc",
       "category": "ai, productivity",
       "description": "AI productivity tool."
+    },
+    {
+      "name": "Example Bookmark",
+      "url": "https://example.com",
+      "description": "This is an example bookmark",
+      "category": "Example, Test"
     }
   ]
 }
