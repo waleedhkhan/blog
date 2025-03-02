@@ -36,12 +36,6 @@
       "url": "https://tana.inc",
       "category": "ai, productivity",
       "description": "AI productivity tool."
-    },
-    {
-      "name": "Example Bookmark",
-      "url": "https://example.com",
-      "description": "This is an example bookmark",
-      "category": "Example, Test"
     }
   ]
 }
