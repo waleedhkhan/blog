@@ -1,9 +1,7 @@
 ---
 import { Icon } from "astro-icon/components";
-
 import NavigationItem from "@/components/vue/NavigationItem.vue";
 import CommandMenu from "@/components/vue/CommandMenu.vue";
-
 import ThemeSwitcher from "./ThemeSwitcher.astro";
 
 interface Props {
@@ -37,29 +35,27 @@ const currentPath = Astro.url.pathname;
 const { posts } = Astro.props;
 ---
 
-<nav
-  class=":uno: flex fixed transition-colors border shadow-lg rounded-md bottom-8 left-1/2 translate-x-[-50%] bg-navigation-background border-navigation-border z-10"
->
+<nav class="flat-nav fixed bottom-8 left-1/2 -translate-x-1/2 z-50 px-6 py-3 rounded-full flex items-center shadow-md">
   {
     links.map((link, idx) => (
       <NavigationItem
         label={link.label}
-        className={`${idx === 0 ? "ml-1" : ""} ${currentPath.match(`${link.href}/.?`) || currentPath === link.href ? "text-heading bg-navigation-accent" : ""}`.trim()}
+        className={`${currentPath.match(`${link.href}/.?`) || currentPath === link.href ? "active-link" : ""}`.trim()}
         href={link.href}
         client:load
       >
-        <Icon name={link.icon} aria-label={link.label} class="h-auto w-5" />
+        <Icon name={link.icon} aria-label={link.label} class="h-auto w-5 nav-icon" />
       </NavigationItem>
     ))
   }
 
-  <div class="border border-navigation-border transition-colors"></div>
+  <div class="nav-divider mx-2"></div>
 
   <CommandMenu posts={posts} client:load>
     <Icon
       name="lucide:command"
       aria-label="Command Palette"
-      class="w-5 h-auto"
+      class="w-5 h-auto nav-icon"
     />
   </CommandMenu>
 
@@ -67,12 +63,69 @@ const { posts } = Astro.props;
 
   <button
     id="confettiButton"
-    class=":uno: px-3 py-2 hover:text-heading hover:bg-navigation-accent transition-colors rounded-md"
+    class="confetti-btn px-3 py-2 rounded-md"
     aria-label="Celebrate!"
   >
-    <Icon name="lucide:party-popper" class="h-auto w-5" />
+    <Icon name="lucide:party-popper" class="h-auto w-5 nav-icon" />
   </button>
 </nav>
+
+<style>
+  /* Flat navigation styling */
+  .flat-nav {
+    /* Light mode styling */
+    background: #ffffff;
+    border: 1px solid #e5e5e5;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s ease;
+  }
+  
+  /* Dark mode styling */
+  :global(.dark) .flat-nav {
+    background: #1a1a1a;
+    border: 1px solid #333333;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+  
+  /* Simple divider */
+  .nav-divider {
+    height: 24px;
+    width: 1px;
+    background-color: #e5e5e5;
+    margin: 0 8px;
+  }
+  
+  :global(.dark) .nav-divider {
+    background-color: #333333;
+  }
+  
+  /* Consistent button styling */
+  .confetti-btn {
+    transition: background-color 0.2s ease;
+    margin-left: 8px;
+  }
+  
+  .confetti-btn:hover,
+  .confetti-btn:focus {
+    background-color: #f5f5f5;
+  }
+  
+  :global(.dark) .confetti-btn:hover,
+  :global(.dark) .confetti-btn:focus {
+    background-color: #2a2a2a;
+  }
+  
+  /* Mobile adjustments */
+  @media (max-width: 640px) {
+    .flat-nav {
+      padding: 0.5rem 1rem;
+    }
+    
+    .nav-divider {
+      margin: 0 4px;
+    }
+  }
+</style>
 
 <script>
   import confetti from 'canvas-confetti';

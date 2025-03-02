@@ -7,3 +7,28 @@ body.dark-mode {
   background-color: #000000;
   color: #ffffff;
 }
+
+/* Standardized icon coloring for both modes */
+[astro-icon] {
+  color: inherit; /* Use parent text color */
+  fill: currentColor;
+}
+
+/* Remove previous brightness filters for consistent coloring */
+.dark [astro-icon],
+.dark button:hover [astro-icon],
+.dark a:hover [astro-icon],
+.dark .nav-item [astro-icon],
+.dark .nav-item:hover [astro-icon],
+.dark .nav-item:focus [astro-icon],
+.dark button [astro-icon],
+.dark .command-menu [astro-icon],
+.dark svg {
+  filter: none !important;
+}
+
+/* Clean reset for any SVG elements */
+svg {
+  color: inherit;
+  fill: currentColor;
+}
