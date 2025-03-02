@@ -23,7 +23,7 @@ const uniqueCategories = Array.from(allCategories).sort();
       <p class=":uno: text-base leading-[1.75]">{description}</p>
     </div>
 
-    <div class=":uno: flex flex-col sm:flex-row gap-3 items-center justify-between">
+    <div class=":uno: flex flex-col sm:flex-row gap-3 items-start sm:items-center justify-between">
       <!-- Search input -->
       <div class=":uno: relative w-full sm:w-64">
         <input 
@@ -37,36 +37,23 @@ const uniqueCategories = Array.from(allCategories).sort();
         </svg>
       </div>
 
-      <!-- Category filter -->
-      <div class=":uno: w-full sm:w-auto">
-        <select 
-          id="category-filter" 
-          class=":uno: px-3 py-1.5 text-sm border rounded-md bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-700 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-        >
-          <option value="all">All Categories</option>
-          {uniqueCategories.map(category => (
-            <option value={category}>{category}</option>
-          ))}
-        </select>
-      </div>
+      <!-- Stats counter -->
+      <p id="results-count" class=":uno: text-xs text-gray-500 dark:text-gray-400 mt-2 sm:mt-0">
+        Showing {bookmarksData.bookmarks.length} bookmarks
+      </p>
     </div>
 
-    <!-- Stats counter -->
-    <p id="results-count" class=":uno: text-xs text-gray-500 dark:text-gray-400">
-      Showing {bookmarksData.bookmarks.length} bookmarks
-    </p>
-
-    <!-- Category chips for mobile filtering -->
-    <div class=":uno: flex flex-wrap gap-2 md:hidden">
+    <!-- Category filter chips with muted colors and microinteractions -->
+    <div class=":uno: flex flex-wrap gap-2 mb-2">
       <button 
-        class=":uno: category-chip text-xs px-2 py-1 rounded-full bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 border border-blue-200 dark:border-blue-800" 
+        class=":uno: category-chip text-xs px-3 py-1.5 rounded-full bg-blue-50/80 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 border border-transparent hover:border-blue-200 dark:hover:border-blue-800/50 transition-all duration-200 hover:scale-105 active:scale-95 hover:shadow-sm" 
         data-category="all"
       >
         All
       </button>
       {uniqueCategories.map(category => (
         <button 
-          class=":uno: category-chip text-xs px-2 py-1 rounded-full bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-200 border border-gray-200 dark:border-gray-700" 
+          class=":uno: category-chip text-xs px-3 py-1.5 rounded-full bg-gray-50/80 dark:bg-gray-800/50 text-gray-700 dark:text-gray-300 border border-transparent hover:border-gray-200 dark:hover:border-gray-700/70 transition-all duration-200 hover:scale-105 active:scale-95 hover:shadow-sm" 
           data-category={category}
         >
           {category}
@@ -128,16 +115,17 @@ const uniqueCategories = Array.from(allCategories).sort();
     // Search and filter functionality
     document.addEventListener('DOMContentLoaded', () => {
       const searchInput = document.getElementById('search-input');
-      const categoryFilter = document.getElementById('category-filter');
       const categoryChips = document.querySelectorAll('.category-chip');
       const bookmarkCards = document.querySelectorAll('.bookmark-card');
       const resultsCount = document.getElementById('results-count');
       const noResults = document.getElementById('no-results');
       const bookmarksContainer = document.getElementById('bookmarks-container');
 
+      // Track the current selected category
+      let currentCategory = 'all';
+
       function filterBookmarks() {
         const searchTerm = searchInput.value.toLowerCase();
-        const selectedCategory = categoryFilter.value;
         
         let visibleCount = 0;
 
@@ -147,8 +135,8 @@ const uniqueCategories = Array.from(allCategories).sort();
           const description = card.querySelector('p').textContent.toLowerCase();
           
           const matchesSearch = title.includes(searchTerm) || description.includes(searchTerm);
-          const matchesCategory = selectedCategory === 'all' || 
-                                 (categoriesString && categoriesString.split(' ').includes(selectedCategory));
+          const matchesCategory = currentCategory === 'all' || 
+                                 (categoriesString && categoriesString.split(' ').includes(currentCategory));
           
           if (matchesSearch && matchesCategory) {
             card.classList.remove('hidden');
@@ -168,29 +156,81 @@ const uniqueCategories = Array.from(allCategories).sort();
           bookmarksContainer.classList.remove('hidden');
         }
 
-        // Update category chip active state
+        // Enhanced category chip active state with microinteractions
         categoryChips.forEach(chip => {
-          if (chip.dataset.category === selectedCategory) {
-            chip.classList.add('bg-blue-100', 'dark:bg-blue-900', 'text-blue-800', 'dark:text-blue-200', 'border-blue-200', 'dark:border-blue-800');
-            chip.classList.remove('bg-gray-100', 'dark:bg-gray-800', 'text-gray-800', 'dark:text-gray-200', 'border-gray-200', 'dark:border-gray-700');
+          if (chip.dataset.category === currentCategory) {
+            chip.classList.add('bg-blue-100', 'dark:bg-blue-800/40', 'text-blue-800', 'dark:text-blue-200', 
+                              'border-blue-200', 'dark:border-blue-700', 'shadow-sm', 'scale-105');
+            chip.classList.remove('bg-gray-50/80', 'dark:bg-gray-800/50', 'text-gray-700', 'dark:text-gray-300', 
+                                'border-transparent');
+            
+            // Add pulse animation to the active chip
+            chip.style.animation = 'pulse 2s infinite';
           } else {
-            chip.classList.remove('bg-blue-100', 'dark:bg-blue-900', 'text-blue-800', 'dark:text-blue-200', 'border-blue-200', 'dark:border-blue-800');
-            chip.classList.add('bg-gray-100', 'dark:bg-gray-800', 'text-gray-800', 'dark:text-gray-200', 'border-gray-200', 'dark:border-gray-700');
+            chip.classList.remove('bg-blue-100', 'dark:bg-blue-800/40', 'text-blue-800', 'dark:text-blue-200', 
+                                 'border-blue-200', 'dark:border-blue-700', 'shadow-sm', 'scale-105');
+            chip.classList.add('bg-gray-50/80', 'dark:bg-gray-800/50', 'text-gray-700', 'dark:text-gray-300', 
+                              'border-transparent');
+            
+            // Remove animation from inactive chips
+            chip.style.animation = '';
           }
         });
       }
 
       searchInput.addEventListener('input', filterBookmarks);
-      categoryFilter.addEventListener('change', filterBookmarks);
       
-      // Handle category chip clicks on mobile
+      // Handle category chip clicks
       categoryChips.forEach(chip => {
         chip.addEventListener('click', () => {
-          const category = chip.dataset.category;
-          categoryFilter.value = category;
+          currentCategory = chip.dataset.category;
           filterBookmarks();
         });
       });
+
+      // Initial filter
+      filterBookmarks();
     });
   </script>
+
+  <style>
+    /* Subtle pulse animation for active filter chip */
+    @keyframes pulse {
+      0% {
+        box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.2);
+      }
+      70% {
+        box-shadow: 0 0 0 6px rgba(59, 130, 246, 0);
+      }
+      100% {
+        box-shadow: 0 0 0 0 rgba(59, 130, 246, 0);
+      }
+    }
+
+    /* More subtle dark mode animation */
+    @media (prefers-color-scheme: dark) {
+      @keyframes pulse {
+        0% {
+          box-shadow: 0 0 0 0 rgba(96, 165, 250, 0.3);
+        }
+        70% {
+          box-shadow: 0 0 0 6px rgba(96, 165, 250, 0);
+        }
+        100% {
+          box-shadow: 0 0 0 0 rgba(96, 165, 250, 0);
+        }
+      }
+    }
+
+    /* Enhanced focus styles for accessibility */
+    .category-chip:focus {
+      outline: 2px solid rgba(59, 130, 246, 0.5);
+      outline-offset: 2px;
+    }
+
+    /* Ensure we don't show outline when using mouse, only for keyboard navigation */
+    .category-chip:focus:not(:focus-visible) {
+      outline: none;
+    }
+  </style>
 </Layout>
