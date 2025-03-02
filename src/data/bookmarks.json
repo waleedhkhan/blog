@@ -6,7 +6,6 @@
       "category": "inspiration, design",
       "description": "Orchid's advanced intuitive chord generator."
     },
-
     {
       "name": "Chat with your SQL database",
       "url": "https://github.com/vanna-ai/vanna",
@@ -36,6 +35,15 @@
       "url": "https://tana.inc",
       "category": "ai, productivity",
       "description": "AI productivity tool."
+    },
+    {
+      "name": "Raycast",
+      "url": "https://www.raycast.com",
+      "description": "A collection of powerful productivity tools all within an extendable launcher. Fast, ergonomic and reliable.",
+      "category": [
+        "productivity",
+        "engineering"
+      ]
     }
   ]
 }

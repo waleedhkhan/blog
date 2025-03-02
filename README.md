@@ -54,6 +54,7 @@ blog/
   - Favorite artists and tracks display
 
 - **Interactive Elements**
+
   - Canvas confetti animation with basic cannon effect
   - Client list display in single column layout
   - Command palette for quick navigation
@@ -130,6 +131,33 @@ graph TD
 - Asset optimization and minification
 - SEO optimizations and meta tags
 - Open Graph images generation
+
+## Bookmarks Management with Raycast
+
+This repository includes a Raycast extension for managing the blog's bookmarks directly from Raycast.
+
+### Installation
+
+1. Install the extension locally:
+
+   ```bash
+   cd extensions/raycast-bookmarks
+   npm install
+   ```
+
+2. Link the extension to Raycast:
+   ```bash
+   npm run dev
+   ```
+
+### Usage
+
+The extension provides the following commands:
+
+- **List Bookmarks**: View and manage all your bookmarks
+- **Add Bookmark**: Add a new bookmark
+
+The extension edits your local `src/data/bookmarks.json` file, which you can then commit and push to your repository manually when ready to update your live site.
 
 ## License
 
