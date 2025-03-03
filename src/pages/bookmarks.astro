@@ -158,10 +158,7 @@ const uniqueCategories = Array.from(allCategories).sort();
         </div>
       </div>
 
-      <!-- Stats counter -->
-      <p id="results-count" class=":uno: text-xs text-gray-500 dark:text-gray-400 mt-2 sm:mt-0 whitespace-nowrap">
-        Showing {bookmarksData.bookmarks.length} bookmarks
-      </p>
+      <!-- Stats counter removed -->
     </div>
 
     <!-- Category filter chips - Updated gray colors -->
@@ -247,7 +244,7 @@ const uniqueCategories = Array.from(allCategories).sort();
       const categoryChips = document.querySelectorAll<HTMLButtonElement>('.category-chip');
       const bookmarkCards = document.querySelectorAll<HTMLDivElement>('.bookmark-card');
       const bookmarkLinks = document.querySelectorAll<HTMLAnchorElement>('.bookmark-link');
-      const resultsCount = document.getElementById('results-count');
+      // Remove results count reference
       const noResults = document.getElementById('no-results');
       const bookmarksContainer = document.getElementById('bookmarks-container');
       
@@ -256,7 +253,7 @@ const uniqueCategories = Array.from(allCategories).sort();
       const sortAscBtn = document.getElementById('sort-asc-btn');
       
       // Safety check - if essential elements are missing, exit early
-      if (!searchInput || !bookmarksContainer || !resultsCount || !noResults) {
+      if (!searchInput || !bookmarksContainer || !noResults) {
         console.error('Essential DOM elements not found');
         return;
       }
@@ -299,7 +296,7 @@ const uniqueCategories = Array.from(allCategories).sort();
 
       // Sort bookmarks function - with null check for container
       function sortBookmarks() {
-        if (!bookmarksContainer || !resultsCount) return;
+        if (!bookmarksContainer) return;
         
         const cards = Array.from(bookmarksContainer.querySelectorAll<HTMLDivElement>('.bookmark-card'));
         
@@ -329,14 +326,12 @@ const uniqueCategories = Array.from(allCategories).sort();
         }
         bookmarksContainer.appendChild(fragment);
         
-        // Update the results text to show the sort order
-        const visibleCount = cards.filter(card => !card.classList.contains('hidden')).length;
-        resultsCount.textContent = `Showing ${visibleCount} bookmarks (${getSortOrderLabel()})`;
+        // Remove update to results text
       }
 
       // Filter bookmarks function - with null checks
       function filterBookmarks() {
-        if (!searchInput || !resultsCount || !noResults || !bookmarksContainer) return;
+        if (!searchInput || !noResults || !bookmarksContainer) return;
         
         const searchTerm = searchInput.value.toLowerCase();
         
@@ -359,7 +354,7 @@ const uniqueCategories = Array.from(allCategories).sort();
           }
         });
 
-        resultsCount.textContent = `Showing ${visibleCount} bookmarks`;
+        // Remove setting text content for results count
         
         if (visibleCount === 0) {
           noResults.classList.remove('hidden');
