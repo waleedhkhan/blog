@@ -51,23 +51,9 @@ const { posts } = Astro.props;
 
   <div class="nav-divider mx-2"></div>
 
-  <CommandMenu posts={posts} client:load>
-    <Icon
-      name="lucide:command"
-      aria-label="Command Palette"
-      class="w-5 h-auto nav-icon"
-    />
-  </CommandMenu>
 
   <ThemeSwitcher />
 
-  <button
-    id="confettiButton"
-    class="confetti-btn px-3 py-2 rounded-md"
-    aria-label="Celebrate!"
-  >
-    <Icon name="lucide:party-popper" class="h-auto w-5 nav-icon" />
-  </button>
 </nav>
 
 <style>
