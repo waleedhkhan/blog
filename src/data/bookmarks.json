@@ -3,21 +3,21 @@
     {
       "name": "Telepathic instruments",
       "url": "https://telepathicinstruments.com",
-      "category": "inspiration, design",
+      "category": "inspiration",
       "description": "Orchid's advanced intuitive chord generator.",
       "date": "2025-03-02"
     },
     {
       "name": "Chat with your SQL database",
       "url": "https://github.com/vanna-ai/vanna",
-      "category": "ai, data, sql",
+      "category": "ai",
       "description": "Tool to chat with your SQL database.",
       "date": "2025-03-02"
     },
     {
       "name": "rork.app - AI-powered app development",
       "url": "https://rork.app",
-      "category": "ai, mobile-dev",
+      "category": "ai",
       "description": "AI-powered app development platform.",
       "date": "2025-03-02"
     },
@@ -25,15 +25,12 @@
       "name": "Design, Build & Convert",
       "url": "https://marinabudarina.design/webdesignmastery",
       "description": "Practical guide to web design mastery.",
-      "category": [
-        "design",
-        "webdesign"
-      ]
+      "category": ["design"]
     },
     {
       "name": "Minimal MacBook Pro Setup",
       "url": "https://eugeneyan.com/writing/mac-setup/",
-      "category": "engineering, misc",
+      "category": "engineering",
       "description": "Guide to minimal MacBook Pro setup.",
       "date": "2025-03-02"
     },
@@ -48,21 +45,22 @@
       "name": "Raycast",
       "url": "https://www.raycast.com",
       "description": "A collection of powerful productivity tools all within an extendable launcher. Fast, ergonomic and reliable.",
-      "category": [
-        "productivity",
-        "engineering"
-      ],
+      "category": ["productivity"],
       "date": "2025-03-02"
     },
     {
       "name": "smallpond",
       "url": "https://github.com/deepseek-ai/smallpond",
       "description": "DeepSeek has just open-sourced a lightweight big data processing framework! 🔥",
-      "category": [
-        "ai",
-        "engineering"
-      ],
+      "category": ["ai"],
       "date": "2025-03-03"
+    },
+    {
+      "name": "whirrls",
+      "url": "https://github.com/deepseek-ai/smallpond",
+      "description": "Whirls  is a curated collection of hand-drawn illustrations.",
+      "category": ["design"],
+      "date": "2025-03-04"
     }
   ]
 }
