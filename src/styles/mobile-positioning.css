@@ -1,0 +1,19 @@
+/* Mobile positioning adjustments */
+@media (max-width: 768px) {
+  /* Adjust the TableOfContentsWrapper position on mobile */
+  .toc-wrapper {
+    /* Position it higher on the page to avoid overlap */
+    bottom: 100px !important; /* Ensure it's above the navigation */
+    max-height: calc(100vh - 180px); /* Limit height to avoid overlap */
+    z-index: 40; /* Lower than nav's z-index of 50 */
+  }
+
+  /* Adjust the BackToTop button position */
+  .back-to-top {
+    /* Move to the right side to avoid TOC */
+    right: 20px;
+    bottom: 100px; /* Position above the navigation */
+    left: auto;
+    transform: none; /* Remove any centering transforms */
+  }
+}

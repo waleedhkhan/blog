@@ -22,11 +22,13 @@
       "date": "2025-03-02"
     },
     {
-      "name": "Design, Build & Convert: Your Practical Guide to Web Design Mastery",
+      "name": "Design, Build & Convert",
       "url": "https://marinabudarina.design/webdesignmastery",
-      "category": "design, webdesign",
       "description": "Practical guide to web design mastery.",
-      "date": "2025-03-02"
+      "category": [
+        "design",
+        "webdesign"
+      ]
     },
     {
       "name": "Minimal MacBook Pro Setup",
@@ -46,14 +48,20 @@
       "name": "Raycast",
       "url": "https://www.raycast.com",
       "description": "A collection of powerful productivity tools all within an extendable launcher. Fast, ergonomic and reliable.",
-      "category": ["productivity", "engineering"],
+      "category": [
+        "productivity",
+        "engineering"
+      ],
       "date": "2025-03-02"
     },
     {
       "name": "smallpond",
       "url": "https://github.com/deepseek-ai/smallpond",
       "description": "DeepSeek has just open-sourced a lightweight big data processing framework! 🔥",
-      "category": ["ai", "engineering"],
+      "category": [
+        "ai",
+        "engineering"
+      ],
       "date": "2025-03-03"
     }
   ]

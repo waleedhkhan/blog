@@ -1,5 +1,12 @@
 <script setup lang="ts">
-import { TooltipProvider, TooltipRoot, TooltipArrow, TooltipTrigger, TooltipPortal, TooltipContent } from 'radix-vue';
+import {
+  TooltipProvider,
+  TooltipRoot,
+  TooltipArrow,
+  TooltipTrigger,
+  TooltipPortal,
+  TooltipContent,
+} from "radix-vue";
 
 function backToTop() {
   if (window) {
@@ -16,6 +23,7 @@ function backToTop() {
       <TooltipRoot>
         <TooltipTrigger as-child>
           <button
+            aria-label="Back to top"
             @click="backToTop"
             class=":uno: w-[36px] h-[36px] lg:w-auto lg:h-auto grid place-items-center transition-colors hover:bg-navigation-accent focus:bg-navigation-accent lg:hover:bg-transparent rounded-md lg:focus:bg-transparent"
           >
@@ -31,17 +39,24 @@ function backToTop() {
             :align-offset="-4"
             class="rounded-md text-sm py-2 tooltip__content bg-content text-background lg:bg-transparent lg:text-unset lg:border-none select-none px-3 will-change-[transform,opacity]"
           >
-            <p>
-              Back to top
-            </p>
+            <p>Back to top</p>
 
-            <TooltipArrow
-              :width="8"
-              class="fill-content"
-            />
+            <TooltipArrow :width="8" class="fill-content" />
           </TooltipContent>
         </TooltipPortal>
       </TooltipRoot>
     </TooltipProvider>
   </div>
 </template>
+
+<style scoped>
+.back-to-top {
+  position: fixed;
+  bottom: 80px;
+  right: 30px; /* Positioned on the right by default */
+  z-index: 40;
+  /* Your existing styles */
+}
+
+/* Other existing styles */
+</style>
