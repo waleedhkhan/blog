@@ -9,7 +9,8 @@
     "preview": "astro preview",
     "sync": "astro sync",
     "lint": "eslint src",
-    "lint:fix": "eslint src --fix"
+    "lint:fix": "eslint src --fix",
+    "cloudflare:build": "pnpm install --no-frozen-lockfile && astro build"
   },
   "devDependencies": {
     "@antfu/eslint-config": "^2.8.0",

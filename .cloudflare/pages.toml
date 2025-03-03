@@ -1,0 +1,7 @@
+# Configuration file for Cloudflare Pages
+[build]
+command = "pnpm cloudflare:build"
+
+[build.environment]
+NODE_VERSION = "18"
+PNPM_VERSION = "9.0.2"
