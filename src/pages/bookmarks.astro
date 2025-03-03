@@ -115,71 +115,66 @@ const uniqueCategories = Array.from(allCategories).sort();
 
 <Layout title={title} description={description}>
   <section class=":uno: space-y-6">
-    <div class=":uno: space-y-3">
+    <div class=":uno: space-y-3 text-center">
       <h1 class=":uno: font-semibold text-2xl tracking-tight text-heading">Bookmarks</h1>
       <p class=":uno: text-base leading-[1.75]">{description}</p>
     </div>
 
-    <div class=":uno: flex flex-col sm:flex-row gap-3 items-start sm:items-center justify-between">
-      <!-- Search input with sort controls -->
-      <div class=":uno: flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
-        <div class=":uno: relative w-full sm:w-64">
-          <input 
-            type="text" 
-            id="search-input" 
-            placeholder="Search bookmarks..." 
-            class=":uno: w-full px-3 py-1.5 text-sm border rounded-md bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-700 focus:ring-2 focus:ring-gray-400 dark:focus:ring-gray-600 focus:border-gray-400 dark:focus:border-gray-600"
-          />
-          <svg xmlns="http://www.w3.org/2000/svg" class=":uno: absolute right-2 top-2 h-4 w-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-          </svg>
-        </div>
-        
-        <!-- Sort Order Buttons -->
-        <div class=":uno: flex items-center rounded-md border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800">
-          <button 
-            id="sort-desc-btn"
-            class=":uno: px-2 py-1 text-xs rounded-l-md bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200 border-r border-gray-200 dark:border-gray-600 active"
-            title="Newest first"
-          >
-            <svg xmlns="http://www.w3.org/2000/svg" class=":uno: h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4h13M3 8h9m-9 4h9m5-4v12m0 0l-4-4m4 4l4-4" />
-            </svg>
-          </button>
-          <button 
-            id="sort-asc-btn"
-            class=":uno: px-2 py-1 text-xs rounded-r-md text-gray-500 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-700"
-            title="Oldest first"
-          >
-            <svg xmlns="http://www.w3.org/2000/svg" class=":uno: h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4h13M3 8h9m-9 4h6m4 0l-4-4m0 8l4-4" />
-            </svg>
-          </button>
-        </div>
+    <!-- Redesigned search section with prominent search bar - Updated with white background -->
+    <div class=":uno: max-w-2xl mx-auto mb-8">
+      <div class=":uno: relative">
+        <input 
+          type="text" 
+          id="search-input" 
+          placeholder="Search bookmarks..."
+          aria-label="Search bookmarks" 
+          class=":uno: w-full px-4 py-3 pr-10 text-base rounded-md border bg-white dark:bg-[#1a1a1a] border-gray-300 dark:border-[#333333] shadow-sm hover:shadow-md transition-shadow focus:ring-2 focus:ring-offset-2 focus:ring-offset-white dark:focus:ring-offset-black focus:ring-gray-400 dark:focus:ring-gray-600 focus:border-gray-400 dark:focus:border-gray-600"
+        />
+        <svg xmlns="http://www.w3.org/2000/svg" class=":uno: absolute right-3 top-3.5 h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+        </svg>
       </div>
-
-      <!-- Stats counter removed -->
     </div>
 
-    <!-- Category filter chips - Updated with darker black background for dark mode -->
-    <div class=":uno: flex flex-wrap gap-2 mb-2"></span>
+    <!-- Category filter chips - Centered and improved -->
+    <div class=":uno: flex flex-wrap gap-2 mb-4 justify-center">
       <button 
-        class=":uno: category-chip text-xs px-3 py-1.5 rounded-full bg-gray-100 dark:bg-black text-gray-700 dark:text-gray-300 border border-transparent hover:border-gray-300 dark:hover:border-gray-700 transition-all duration-200 hover:scale-105 active:scale-95 hover:shadow-sm" 
+        class=":uno: category-chip text-xs px-3.5 py-1.5 rounded-full bg-gray-100 dark:bg-[#1a1a1a] text-gray-800 dark:text-gray-300 border border-transparent hover:border-gray-300 dark:hover:border-gray-600 transition-all duration-200 hover:scale-105 active:scale-95 hover:shadow-sm" 
         data-category="all"
       >
         All
       </button>
       {uniqueCategories.map(category => (
         <button 
-          class=":uno: category-chip text-xs px-3 py-1.5 rounded-full bg-gray-50 dark:bg-black text-gray-700 dark:text-gray-300 border border-transparent hover:border-gray-300 dark:hover:border-gray-700 transition-all duration-200 hover:scale-105 active:scale-95 hover:shadow-sm" 
+          class=":uno: category-chip text-xs px-3.5 py-1.5 rounded-full bg-gray-50 dark:bg-[#1a1a1a] text-gray-700 dark:text-gray-300 border border-transparent hover:border-gray-300 dark:hover:border-gray-600 transition-all duration-200 hover:scale-105 active:scale-95 hover:shadow-sm" 
           data-category={category}
         >
           {category}
         </button>
       ))}
     </div>
+    
+    <!-- Sort controls - Simplified and moved to the right -->
+    <div class=":uno: flex justify-end mb-4">
+      <div class=":uno: flex items-center gap-1 text-xs text-gray-500 dark:text-gray-400">
+        <span>Sort:</span>
+        <button 
+          id="sort-newest" 
+          class=":uno: px-2 py-1 rounded hover:bg-gray-100 dark:hover:bg-[#2a2a2a] active-sort-button"
+        >
+          Newest
+        </button>
+        <span>|</span>
+        <button 
+          id="sort-oldest" 
+          class=":uno: px-2 py-1 rounded hover:bg-gray-100 dark:hover:bg-[#2a2a2a]"
+        >
+          Oldest
+        </button>
+      </div>
+    </div>
 
-    <!-- Compact bookmark grid - Updated with ID and date -->
+    <!-- Compact bookmark grid - Updated with matching dark colors -->
     <div id="bookmarks-container" class=":uno: grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3">
       {processedBookmarks.map((bookmark) => {
         return (
@@ -187,7 +182,7 @@ const uniqueCategories = Array.from(allCategories).sort();
             data-categories={bookmark.processedCategories.join(' ')}
             data-url={bookmark.url}
             data-date={bookmark.date || ""}
-            class=":uno: bookmark-card p-4 border border-gray-200 dark:border-gray-700 rounded-md transition-all duration-200 hover:shadow-sm hover:border-gray-300 dark:hover:border-gray-600 bg-white dark:bg-black h-[230px] flex flex-col"
+            class=":uno: bookmark-card p-4 border border-gray-200 dark:border-[#333333] rounded-md transition-all duration-200 hover:shadow-sm hover:border-gray-300 dark:hover:border-gray-600 bg-white dark:bg-[#1a1a1a] h-[230px] flex flex-col"
           >
             <div class=":uno: flex items-center justify-between mb-2">
               <span class=":uno: text-[10px] text-gray-400 dark:text-gray-500 font-mono">{`#${(bookmark.id || 0).toString().padStart(3, '0')}`}</span>
@@ -220,7 +215,7 @@ const uniqueCategories = Array.from(allCategories).sort();
             
             <div class=":uno: flex flex-wrap gap-1 mt-auto">
               {bookmark.processedCategories.map(category => (
-                <span class=":uno: text-[10px] px-1.5 py-0.5 bg-gray-100 dark:bg-gray-700 rounded-full text-gray-600 dark:text-gray-300">
+                <span class=":uno: text-[10px] px-1.5 py-0.5 bg-gray-100 dark:bg-[#2a2a2a] rounded-full text-gray-600 dark:text-gray-300">
                   {category}
                 </span>
               ))}
@@ -231,7 +226,7 @@ const uniqueCategories = Array.from(allCategories).sort();
     </div>
 
     <!-- No results message -->
-    <div id="no-results" class=":uno: hidden text-center py-6 text-gray-500 dark:text-gray-400 text-sm">
+    <div id="no-results" class=":uno: hidden text-center py-10 text-gray-500 dark:text-gray-400 text-sm">
       No bookmarks found matching your search
     </div>
   </section>
@@ -244,13 +239,12 @@ const uniqueCategories = Array.from(allCategories).sort();
       const categoryChips = document.querySelectorAll<HTMLButtonElement>('.category-chip');
       const bookmarkCards = document.querySelectorAll<HTMLDivElement>('.bookmark-card');
       const bookmarkLinks = document.querySelectorAll<HTMLAnchorElement>('.bookmark-link');
-      // Remove results count reference
       const noResults = document.getElementById('no-results');
       const bookmarksContainer = document.getElementById('bookmarks-container');
       
-      // Sort order buttons - with null checks
-      const sortDescBtn = document.getElementById('sort-desc-btn');
-      const sortAscBtn = document.getElementById('sort-asc-btn');
+      // Simplified sort buttons
+      const sortNewestBtn = document.getElementById('sort-newest');
+      const sortOldestBtn = document.getElementById('sort-oldest');
       
       // Safety check - if essential elements are missing, exit early
       if (!searchInput || !bookmarksContainer || !noResults) {
@@ -269,31 +263,24 @@ const uniqueCategories = Array.from(allCategories).sort();
       
       // Apply visited styles on page load
       applyVisitedStyles();
-
-      // Function to get sort order label for display
-      function getSortOrderLabel() {
-        return currentSortOrder === 'desc' ? 'newest first' : 'oldest first';
+      
+      // Update active sort option and sort bookmarks
+      function updateSortOption() {
+        if (sortNewestBtn && sortOldestBtn) {
+          // Update active styles
+          if (currentSortOrder === 'desc') {
+            sortNewestBtn.classList.add('active-sort-button', 'font-medium', 'text-gray-900', 'dark:text-gray-200');
+            sortOldestBtn.classList.remove('active-sort-button', 'font-medium', 'text-gray-900', 'dark:text-gray-200');
+          } else {
+            sortOldestBtn.classList.add('active-sort-button', 'font-medium', 'text-gray-900', 'dark:text-gray-200');
+            sortNewestBtn.classList.remove('active-sort-button', 'font-medium', 'text-gray-900', 'dark:text-gray-200');
+          }
+        }
+        
+        // Sort the bookmarks
+        sortBookmarks();
       }
       
-      // Update active sort button - with null checks
-      function updateSortButtonStyles() {
-        if (!sortDescBtn || !sortAscBtn) return;
-        
-        if (currentSortOrder === 'desc') {
-          sortDescBtn.classList.add('bg-gray-100', 'dark:bg-gray-700', 'text-gray-800', 'dark:text-gray-200');
-          sortDescBtn.classList.remove('text-gray-500', 'dark:text-gray-400', 'hover:bg-gray-50', 'dark:hover:bg-gray-700');
-          
-          sortAscBtn.classList.remove('bg-gray-100', 'dark:bg-gray-700', 'text-gray-800', 'dark:text-gray-200');
-          sortAscBtn.classList.add('text-gray-500', 'dark:text-gray-400', 'hover:bg-gray-50', 'dark:hover:bg-gray-700');
-        } else {
-          sortAscBtn.classList.add('bg-gray-100', 'dark:bg-gray-700', 'text-gray-800', 'dark:text-gray-200');
-          sortAscBtn.classList.remove('text-gray-500', 'dark:text-gray-400', 'hover:bg-gray-50', 'dark:hover:bg-gray-700');
-          
-          sortDescBtn.classList.remove('bg-gray-100', 'dark:bg-gray-700', 'text-gray-800', 'dark:text-gray-200');
-          sortDescBtn.classList.add('text-gray-500', 'dark:text-gray-400', 'hover:bg-gray-50', 'dark:hover:bg-gray-700');
-        }
-      }
-
       // Sort bookmarks function - with null check for container
       function sortBookmarks() {
         if (!bookmarksContainer) return;
@@ -370,17 +357,17 @@ const uniqueCategories = Array.from(allCategories).sort();
           if (!chipCategory) return;
           
           if (chipCategory === currentCategory) {
-            chip.classList.add('bg-gray-200', 'dark:bg-gray-900', 'text-gray-900', 'dark:text-gray-100', 
+            chip.classList.add('bg-gray-200', 'dark:bg-[#2a2a2a]', 'text-gray-900', 'dark:text-gray-100', 
                               'border-gray-300', 'dark:border-gray-600', 'shadow-sm', 'scale-105');
-            chip.classList.remove('bg-gray-50', 'bg-gray-100', 'dark:bg-black', 'text-gray-700', 'dark:text-gray-300', 
+            chip.classList.remove('bg-gray-50', 'bg-gray-100', 'dark:bg-[#1a1a1a]', 'text-gray-700', 'dark:text-gray-300', 
                                 'border-transparent');
             
             // Add pulse animation to the active chip
             chip.style.animation = 'pulse 2s infinite';
           } else {
-            chip.classList.remove('bg-gray-200', 'dark:bg-gray-900', 'text-gray-900', 'dark:text-gray-100', 
+            chip.classList.remove('bg-gray-200', 'dark:bg-[#2a2a2a]', 'text-gray-900', 'dark:text-gray-100', 
                                  'border-gray-300', 'dark:border-gray-600', 'shadow-sm', 'scale-105');
-            chip.classList.add('bg-gray-50', 'dark:bg-black', 'text-gray-700', 'dark:text-gray-300', 
+            chip.classList.add('bg-gray-50', 'dark:bg-[#1a1a1a]', 'text-gray-700', 'dark:text-gray-300', 
                               'border-transparent');
             
             // Remove animation from inactive chips
@@ -389,26 +376,20 @@ const uniqueCategories = Array.from(allCategories).sort();
         });
       }
       
-      // Attach event listeners for sort buttons - with null checks
-      if (sortDescBtn) {
-        sortDescBtn.addEventListener('click', () => {
-          if (currentSortOrder !== 'desc') {
-            currentSortOrder = 'desc';
-            updateSortButtonStyles();
-            sortBookmarks();
-          }
-        });
-      }
+      // Attach event listeners for sort options - simplified
+      sortNewestBtn?.addEventListener('click', () => {
+        if (currentSortOrder !== 'desc') {
+          currentSortOrder = 'desc';
+          updateSortOption();
+        }
+      });
       
-      if (sortAscBtn) {
-        sortAscBtn.addEventListener('click', () => {
-          if (currentSortOrder !== 'asc') {
-            currentSortOrder = 'asc';
-            updateSortButtonStyles();
-            sortBookmarks();
-          }
-        });
-      }
+      sortOldestBtn?.addEventListener('click', () => {
+        if (currentSortOrder !== 'asc') {
+          currentSortOrder = 'asc';
+          updateSortOption();
+        }
+      });
 
       // Mark bookmark as visited when clicked - with safety checks
       bookmarkLinks.forEach(link => {
@@ -468,8 +449,13 @@ const uniqueCategories = Array.from(allCategories).sort();
         });
       });
 
-      // Initial filter and sort
-      updateSortButtonStyles();
+      // Add focus to search input on page load
+      setTimeout(() => {
+        searchInput?.focus();
+      }, 500); // Short delay to ensure page is ready
+      
+      // Initial setup
+      updateSortOption();
       filterBookmarks();
     });
   </script>
@@ -488,11 +474,11 @@ const uniqueCategories = Array.from(allCategories).sort();
       }
     }
 
-    /* Dark mode animation - UPDATED FOR GRAYSCALE THEME */
+    /* Dark mode animation - UPDATED TO MATCH NAVIGATION THEME */
     @media (prefers-color-scheme: dark) {
       @keyframes pulse {
         0% {
-          box-shadow: 0 0 0 0 rgba(156, 163, 175, 0.2); /* Gray-400 with low opacity */
+          box-shadow: 0 0 0 0 rgba(156, 163, 175, 0.15);
         }
         70% {
           box-shadow: 0 0 0 6px rgba(156, 163, 175, 0);
@@ -581,9 +567,13 @@ const uniqueCategories = Array.from(allCategories).sort();
     /* SIMPLIFIED: Visited card checkmark - Dark Theme */
     @media (prefers-color-scheme: dark) {
       .bookmark-card.visited::before {
-        background-color: #4b5563; /* Gray-600 - more in line with site theme */
-        color: #f3f4f6; /* Gray-100 - light text */
-        box-shadow: none;
+        background-color: #2a2a2a;
+        color: #f0f0f0;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+      }
+      
+      .bookmark-card.visited::after {
+        color: #cccccc;
       }
     }
     
@@ -613,9 +603,99 @@ const uniqueCategories = Array.from(allCategories).sort();
     .checkmark-svg {
       display: none;
     }
+    
+    /* Add consistent hover effects like in navigation */
+    .bookmark-card {
+      transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+    
+    .bookmark-card:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+    }
+    
+    :global(.dark) .bookmark-card:hover {
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+    
+    /* Make category chips have navigation-like interactions */
+    .category-chip {
+      position: relative;
+      overflow: hidden;
+      z-index: 1;
+    }
+    
+    .category-chip::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 0;
+      height: 0;
+      background: rgba(0, 0, 0, 0.05);
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+      transition: width 0.4s ease, height 0.4s ease;
+      z-index: -1;
+      pointer-events: none;
+    }
+    
+    @media (prefers-color-scheme: dark) {
+      .category-chip::before {
+        background: rgba(255, 255, 255, 0.05);
+      }
+    }
+    
+    .category-chip:hover::before {
+      width: 120%;
+      height: 120%;
+    }
+    
+    /* Match the input field styling to the navigation */
+    #search-input {
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+      background-color: #ffffff !important; /* Force white background in light mode */
+    }
+    
+    #search-input:focus {
+      box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.05);
+      border-color: #aaaaaa;
+      background-color: #ffffff !important; /* Maintain white background when focused */
+    }
+    
+    @media (prefers-color-scheme: dark) {
+      #search-input {
+        background-color: #1a1a1a !important;
+        border-color: #333333;
+      }
+      
+      #search-input:focus {
+        box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.1);
+        border-color: #555555;
+        background-color: #1a1a1a !important;
+      }
+    }
+
+    /* Style for active sort option */
+    .active-sort-button {
+      position: relative;
+    }
+    
+    .active-sort-button::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: -2px;
+      height: 2px;
+      background-color: #4b5563;
+      border-radius: 1px;
+    }
+    
+    :global(.dark) .active-sort-button::after {
+      background-color: #9ca3af;
+    }
   </style>
-  
-  <!-- Remove SVG definitions to keep it minimal -->
 </Layout>
 
 <script>
