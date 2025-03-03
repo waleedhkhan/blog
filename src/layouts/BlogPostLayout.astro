@@ -1,0 +1,34 @@
+---
+// ...existing imports...
+---
+
+<MainLayout>
+  <!-- ...existing content... -->
+  
+  <!-- Ensure TableOfContents is hidden on mobile -->
+  <div class="hidden md:block">
+    {Astro.slots.has('table-of-contents') && (
+      <div class="table-of-contents-container">
+        <slot name="table-of-contents" />
+      </div>
+    )}
+  </div>
+  
+  <!-- ...rest of the layout... -->
+</MainLayout>
+
+<style>
+  /* ...existing styles... */
+  
+  .table-of-contents-container {
+    /* Your existing styles */
+    display: none;
+  }
+  
+  /* Only show on medium screens and above */
+  @media (min-width: 768px) {
+    .table-of-contents-container {
+      display: block;
+    }
+  }
+</style>

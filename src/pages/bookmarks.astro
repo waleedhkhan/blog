@@ -161,17 +161,17 @@ const uniqueCategories = Array.from(allCategories).sort();
       <!-- Stats counter removed -->
     </div>
 
-    <!-- Category filter chips - Updated gray colors -->
+    <!-- Category filter chips - Updated with darker black background for dark mode -->
     <div class=":uno: flex flex-wrap gap-2 mb-2"></span>
       <button 
-        class=":uno: category-chip text-xs px-3 py-1.5 rounded-full bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 border border-transparent hover:border-gray-300 dark:hover:border-gray-700 transition-all duration-200 hover:scale-105 active:scale-95 hover:shadow-sm" 
+        class=":uno: category-chip text-xs px-3 py-1.5 rounded-full bg-gray-100 dark:bg-black text-gray-700 dark:text-gray-300 border border-transparent hover:border-gray-300 dark:hover:border-gray-700 transition-all duration-200 hover:scale-105 active:scale-95 hover:shadow-sm" 
         data-category="all"
       >
         All
       </button>
       {uniqueCategories.map(category => (
         <button 
-          class=":uno: category-chip text-xs px-3 py-1.5 rounded-full bg-gray-50 dark:bg-gray-800 text-gray-700 dark:text-gray-300 border border-transparent hover:border-gray-300 dark:hover:border-gray-700 transition-all duration-200 hover:scale-105 active:scale-95 hover:shadow-sm" 
+          class=":uno: category-chip text-xs px-3 py-1.5 rounded-full bg-gray-50 dark:bg-black text-gray-700 dark:text-gray-300 border border-transparent hover:border-gray-300 dark:hover:border-gray-700 transition-all duration-200 hover:scale-105 active:scale-95 hover:shadow-sm" 
           data-category={category}
         >
           {category}
@@ -187,7 +187,7 @@ const uniqueCategories = Array.from(allCategories).sort();
             data-categories={bookmark.processedCategories.join(' ')}
             data-url={bookmark.url}
             data-date={bookmark.date || ""}
-            class=":uno: bookmark-card p-4 border border-gray-200 dark:border-gray-700 rounded-md transition-all duration-200 hover:shadow-sm hover:border-gray-300 dark:hover:border-gray-600 bg-white dark:bg-gray-800 h-[230px] flex flex-col"
+            class=":uno: bookmark-card p-4 border border-gray-200 dark:border-gray-700 rounded-md transition-all duration-200 hover:shadow-sm hover:border-gray-300 dark:hover:border-gray-600 bg-white dark:bg-black h-[230px] flex flex-col"
           >
             <div class=":uno: flex items-center justify-between mb-2">
               <span class=":uno: text-[10px] text-gray-400 dark:text-gray-500 font-mono">{`#${(bookmark.id || 0).toString().padStart(3, '0')}`}</span>
@@ -370,17 +370,17 @@ const uniqueCategories = Array.from(allCategories).sort();
           if (!chipCategory) return;
           
           if (chipCategory === currentCategory) {
-            chip.classList.add('bg-gray-200', 'dark:bg-gray-700', 'text-gray-900', 'dark:text-gray-100', 
+            chip.classList.add('bg-gray-200', 'dark:bg-gray-900', 'text-gray-900', 'dark:text-gray-100', 
                               'border-gray-300', 'dark:border-gray-600', 'shadow-sm', 'scale-105');
-            chip.classList.remove('bg-gray-50', 'bg-gray-100', 'dark:bg-gray-800', 'text-gray-700', 'dark:text-gray-300', 
+            chip.classList.remove('bg-gray-50', 'bg-gray-100', 'dark:bg-black', 'text-gray-700', 'dark:text-gray-300', 
                                 'border-transparent');
             
             // Add pulse animation to the active chip
             chip.style.animation = 'pulse 2s infinite';
           } else {
-            chip.classList.remove('bg-gray-200', 'dark:bg-gray-700', 'text-gray-900', 'dark:text-gray-100', 
+            chip.classList.remove('bg-gray-200', 'dark:bg-gray-900', 'text-gray-900', 'dark:text-gray-100', 
                                  'border-gray-300', 'dark:border-gray-600', 'shadow-sm', 'scale-105');
-            chip.classList.add('bg-gray-50', 'dark:bg-gray-800', 'text-gray-700', 'dark:text-gray-300', 
+            chip.classList.add('bg-gray-50', 'dark:bg-black', 'text-gray-700', 'dark:text-gray-300', 
                               'border-transparent');
             
             // Remove animation from inactive chips

@@ -3,7 +3,7 @@
 </script>
 
 <template>
-  <div class="toc-wrapper">
+  <div class="toc-wrapper hidden md:block">
     <slot />
   </div>
 </template>
