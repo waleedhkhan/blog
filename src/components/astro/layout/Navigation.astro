@@ -40,7 +40,7 @@ const { posts } = Astro.props;
     links.map((link, idx) => (
       <NavigationItem
         label={link.label}
-        className={`${currentPath.match(`${link.href}/.?`) || currentPath === link.href ? "active-link" : ""}`.trim()}
+        className={`nav-item ${currentPath.match(`${link.href}/.?`) || currentPath === link.href ? "active-link" : ""}`.trim()}
         href={link.href}
         client:load
       >
@@ -50,7 +50,6 @@ const { posts } = Astro.props;
   }
 
   <div class="nav-divider mx-2"></div>
-
 
   <ThemeSwitcher />
 
@@ -85,20 +84,66 @@ const { posts } = Astro.props;
     background-color: #333333;
   }
   
-  /* Consistent button styling */
-  .confetti-btn {
-    transition: background-color 0.2s ease;
-    margin-left: 8px;
+  /* Enhanced navigation items with micro-interactions */
+  :global(.nav-item) {
+    position: relative;
+    overflow: hidden;
+    transition: all 0.2s ease;
+    border-radius: 0.5rem;
+    isolation: isolate; /* Creates stacking context for z-index */
+  }
+
+  :global(.nav-item::before) {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    background: rgba(0, 0, 0, 0.05);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    transition: width 0.4s ease, height 0.4s ease;
+    z-index: 0;
+    pointer-events: none; /* Ensure it doesn't block clicks */
   }
   
-  .confetti-btn:hover,
-  .confetti-btn:focus {
+  :global(.dark .nav-item::before) {
+    background: rgba(255, 255, 255, 0.05);
+  }
+  
+  :global(.nav-item:hover::before) {
+    width: 120%;
+    height: 120%;
+  }
+  
+  :global(.nav-icon) {
+    position: relative;
+    z-index: 1;
+    transition: transform 0.2s ease, color 0.2s ease;
+  }
+  
+  :global(.nav-item:hover .nav-icon) {
+    transform: scale(1.2);
+  }
+  
+  :global(.active-link) {
     background-color: #f5f5f5;
+    color: #000000;
   }
   
-  :global(.dark) .confetti-btn:hover,
-  :global(.dark) .confetti-btn:focus {
+  :global(.dark .active-link) {
     background-color: #2a2a2a;
+    color: #ffffff;
+  }
+  
+  :global(.active-link .nav-icon) {
+    color: currentColor;
+    transform: scale(1.1);
+  }
+  
+  :global(.active-link:hover .nav-icon) {
+    transform: scale(1.25);
   }
   
   /* Mobile adjustments */
@@ -111,6 +156,14 @@ const { posts } = Astro.props;
       margin: 0 4px;
     }
   }
+
+  /* Prevent ripple from causing layout shifts */
+  :global(.nav-ripple) {
+    will-change: transform, opacity, width, height;
+    pointer-events: none;
+    z-index: 1;
+    position: absolute;
+  }
 </style>
 
 <script>
@@ -121,6 +174,66 @@ const { posts } = Astro.props;
       particleCount: 100,
       spread: 70,
       origin: { y: 0.6 }
+    });
+  });
+
+  // Improved ripple effect for navigation items
+  document.addEventListener('DOMContentLoaded', () => {
+    const navItems = document.querySelectorAll('.nav-item');
+    
+    navItems.forEach(item => {
+      item.addEventListener('click', function(e) {
+        // Prevent multiple ripples on quick clicks
+        const existingRipple = item.querySelector('.nav-ripple');
+        if (existingRipple) {
+          existingRipple.remove();
+        }
+        
+        // Get accurate position relative to the item
+        const rect = item.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        
+        // Create ripple element with proper class for easier cleanup
+        const ripple = document.createElement('span');
+        ripple.className = 'nav-ripple';
+        ripple.style.cssText = `
+          position: absolute;
+          top: ${y}px;
+          left: ${x}px;
+          transform: translate(-50%, -50%);
+          width: 0;
+          height: 0;
+          background-color: rgba(0, 0, 0, 0.05);
+          border-radius: 50%;
+          opacity: 0.6;
+          pointer-events: none;
+          z-index: 0;
+        `;
+        
+        // Dark mode ripple - use more subtle opacity
+        if (document.documentElement.classList.contains('dark')) {
+          ripple.style.backgroundColor = 'rgba(255, 255, 255, 0.05)';
+        }
+        
+        item.appendChild(ripple);
+        
+        // Use microtask to ensure animation runs smoothly
+        queueMicrotask(() => {
+          // Use smaller ripple size to avoid overflow issues
+          ripple.style.width = '120px';
+          ripple.style.height = '120px';
+          ripple.style.opacity = '0';
+          ripple.style.transition = 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)';
+          
+          // Clean up ripple after animation completes
+          setTimeout(() => {
+            if (ripple.parentElement === item) {
+              item.removeChild(ripple);
+            }
+          }, 400);
+        });
+      });
     });
   });
 </script>
