@@ -4,55 +4,57 @@
       "name": "Telepathic instruments",
       "url": "https://telepathicinstruments.com",
       "category": "inspiration, design",
-      "description": "Orchid's advanced intuitive chord generator."
+      "description": "Orchid's advanced intuitive chord generator.",
+      "date": "2025-03-02"
     },
     {
       "name": "Chat with your SQL database",
       "url": "https://github.com/vanna-ai/vanna",
       "category": "ai, data, sql",
-      "description": "Tool to chat with your SQL database."
+      "description": "Tool to chat with your SQL database.",
+      "date": "2025-03-02"
     },
     {
       "name": "rork.app - AI-powered app development",
       "url": "https://rork.app",
       "category": "ai, mobile-dev",
-      "description": "AI-powered app development platform."
+      "description": "AI-powered app development platform.",
+      "date": "2025-03-02"
     },
     {
       "name": "Design, Build & Convert: Your Practical Guide to Web Design Mastery",
       "url": "https://marinabudarina.design/webdesignmastery",
       "category": "design, webdesign",
-      "description": "Practical guide to web design mastery."
+      "description": "Practical guide to web design mastery.",
+      "date": "2025-03-02"
     },
     {
       "name": "Minimal MacBook Pro Setup",
       "url": "https://eugeneyan.com/writing/mac-setup/",
       "category": "engineering, misc",
-      "description": "Guide to minimal MacBook Pro setup."
+      "description": "Guide to minimal MacBook Pro setup.",
+      "date": "2025-03-02"
     },
     {
       "name": "Tana - AI productivity tool",
       "url": "https://tana.inc",
       "category": "ai, productivity",
-      "description": "AI productivity tool."
+      "description": "AI productivity tool.",
+      "date": "2025-03-02"
     },
     {
       "name": "Raycast",
       "url": "https://www.raycast.com",
       "description": "A collection of powerful productivity tools all within an extendable launcher. Fast, ergonomic and reliable.",
-      "category": [
-        "productivity",
-        "engineering"
-      ]
+      "category": ["productivity", "engineering"],
+      "date": "2025-03-02"
     },
     {
       "name": "smallpond",
       "url": "https://github.com/deepseek-ai/smallpond",
       "description": "DeepSeek has just open-sourced a lightweight big data processing framework! 🔥",
-      "category": [
-        "ai",
-        "engineering"
-      ]
+      "category": ["ai", "engineering"],
+      "date": "2025-03-03"
     }
   ]
 }
