@@ -9,6 +9,7 @@ import AppLink from "@/components/astro/ui/AppLink.astro";
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Customers from "@/components/astro/modules/home/Customers.astro";
 import RecentlyPlayed from "@/components/astro/modules/home/RecentlyPlayed.astro";
+import RecentBookmarks from "@/components/astro/modules/home/RecentBookmarks.astro";
 
 const title = "Waleed | Building Impactful Digital Products";
 const description =
@@ -37,23 +38,22 @@ const description =
     <h2
       class=":uno: col-start-1 col-end-13 md:col-end-4 font-semibold tracking-tight text-heading transition-colors"
     >
-      Recent Posts
+   Recent Posts   
     </h2>
 
     <div class="col-start-1 col-end-13 md:col-start-5 space-y-4 leading-[1.75]">
       <Posts />
 
-      <AppLink
-        class=":uno: mt-8 inline-flex items-center arrow__link hover:text-heading focus:text-heading"
-        href="/posts"
-      >
-        <Icon name="lucide:arrow-right" class=":uno: w-4 arrow__before" />
-        <span class=":uno: link__text inline-block">See all posts</span>
-        <Icon
-          name="lucide:arrow-right"
-          class=":uno: w-4 -translate-x-8 opacity-0 arrow__after"
-        />
-      </AppLink>
+      <div class=":uno: flex justify-end">
+        <AppLink
+          class=":uno: mt-8 inline-flex items-center justify-center w-12 h-12 rounded-full bg-gray-100 dark:bg-stone-900 hover:bg-gray-200 dark:hover:bg-stone-800 transition-all duration-200 group relative"
+          href="/posts"
+          aria-label="See all posts"
+        >
+          <span class=":uno: absolute right-full mr-2 opacity-0 group-hover:opacity-100 group-hover:mr-3 transition-all duration-200 whitespace-nowrap text-sm font-medium">See all posts</span>
+          <Icon name="lucide:arrow-right" class=":uno: w-5 h-5 text-gray-700 dark:text-gray-300" />
+        </AppLink>
+      </div>
     </div>
   </section>
 
@@ -78,6 +78,18 @@ const description =
 
     <div class="col-start-1 col-end-13 md:col-start-5 text-heading space-y-4 leading-[1.75]">
       <Customers />
+    </div>
+  </section>
+
+  <!-- New Recent Bookmarks Section -->
+  <section class=":uno: grid grid-cols-12 gap-4">
+    <h2
+      class=":uno: col-start-1 col-end-13 md:col-end-4 font-semibold tracking-tight text-heading transition-colors">
+       Recent Bookmarks
+    </h2>
+
+    <div class="col-start-1 col-end-13 md:col-start-5 space-y-4 leading-[1.75]">
+      <RecentBookmarks />
     </div>
   </section>
 

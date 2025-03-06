@@ -1,14 +1,14 @@
 {
   "bookmarks": [
     {
-      "name": "Telepathic instruments",
+      "name": "telepathic instruments",
       "url": "https://telepathicinstruments.com",
       "category": "inspiration",
       "description": "Orchid's advanced intuitive chord generator.",
       "date": "2025-03-02"
     },
     {
-      "name": "Chat with your SQL database",
+      "name": "chat with your SQL database",
       "url": "https://github.com/vanna-ai/vanna",
       "category": "ai",
       "description": "Tool to chat with your SQL database.",
@@ -22,27 +22,27 @@
       "date": "2025-03-02"
     },
     {
-      "name": "Design, Build & Convert",
+      "name": "design, build & convert",
       "url": "https://marinabudarina.design/webdesignmastery",
       "description": "Practical guide to web design mastery.",
       "category": ["design"]
     },
     {
-      "name": "Minimal MacBook Pro Setup",
+      "name": "minimal macBook pro setup",
       "url": "https://eugeneyan.com/writing/mac-setup/",
       "category": "engineering",
       "description": "Guide to minimal MacBook Pro setup.",
       "date": "2025-03-02"
     },
     {
-      "name": "Tana - AI productivity tool",
+      "name": "tana - ai productivity tool",
       "url": "https://tana.inc",
       "category": "ai, productivity",
       "description": "AI productivity tool.",
       "date": "2025-03-02"
     },
     {
-      "name": "Raycast",
+      "name": "raycast",
       "url": "https://www.raycast.com",
       "description": "A collection of powerful productivity tools all within an extendable launcher. Fast, ergonomic and reliable.",
       "category": ["productivity"],
@@ -61,6 +61,13 @@
       "description": "Whirls  is a curated collection of hand-drawn illustrations.",
       "category": ["design"],
       "date": "2025-03-04"
+    },
+    {
+      "name": "composio",
+      "url": "https://composio.dev",
+      "description": "Integration Platform for AI Agents & LLMs",
+      "category": ["ai"],
+      "date": "2025-03-05"
     }
   ]
 }
