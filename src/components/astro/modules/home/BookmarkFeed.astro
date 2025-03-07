@@ -192,6 +192,10 @@ const recentBookmarks = processedBookmarks.slice(0, 6);
                     <Icon name="lucide:share" class="w-5 h-5" />
                     <span class="text-[10px] mt-0.5">Share</span>
                   </button>
+                  <div class="view-counter flex flex-col items-center text-white/80">
+                    <Icon name="lucide:eye" class="w-5 h-5" />
+                    <span class="text-[10px] mt-0.5 view-count" data-bookmark-id={bookmark.id}>--</span>
+                  </div>
                 </div>
                 <div class="bookmark-indicator flex gap-1">
                   {Array.from({ length: recentBookmarks.length }).map((_, i) => (
@@ -340,6 +344,97 @@ const recentBookmarks = processedBookmarks.slice(0, 6);
       });
     });
     
+    // Setup view counts tracking and display
+    const viewCounters = document.querySelectorAll('.view-count');
+    
+    // Function to fetch view count for a bookmark
+    async function fetchViewCount(bookmarkId) {
+      try {
+        const response = await fetch(`/api/bookmark-views?id=${bookmarkId}`);
+        if (!response.ok) throw new Error('Failed to fetch view count');
+        const data = await response.json();
+        return data.views;
+      } catch (error) {
+        console.error('Error fetching view count:', error);
+        return null;
+      }
+    }
+    
+    // Function to increment view count for a bookmark
+    async function incrementViewCount(bookmarkId) {
+      try {
+        const response = await fetch('/api/bookmark-views', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ id: bookmarkId }),
+        });
+        
+        if (!response.ok) throw new Error('Failed to increment view count');
+        const data = await response.json();
+        return data.views;
+      } catch (error) {
+        console.error('Error incrementing view count:', error);
+        return null;
+      }
+    }
+    
+    // Format view count for display
+    function formatViewCount(count) {
+      if (count === null) return '--';
+      if (count < 1000) return count.toString();
+      return `${(count / 1000).toFixed(1)}k`;
+    }
+    
+    // Initialize view counts
+    viewCounters.forEach(async (counter) => {
+      const bookmarkId = counter.dataset.bookmarkId;
+      if (!bookmarkId) return;
+      
+      // First display from cache
+      const viewCount = await fetchViewCount(bookmarkId);
+      counter.textContent = formatViewCount(viewCount);
+    });
+    
+    // Intersection Observer for view counting
+    const viewObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach(async (entry) => {
+          if (entry.isIntersecting) {
+            const card = entry.target;
+            const bookmarkId = card.dataset.bookmarkId;
+            
+            if (bookmarkId && !card.dataset.viewCounted) {
+              // Mark as counted to prevent multiple counts
+              card.dataset.viewCounted = 'true';
+              
+              // Wait a bit to ensure real views (not just scrolling by)
+              setTimeout(async () => {
+                if (document.visibilityState === 'visible') {
+                  const newCount = await incrementViewCount(bookmarkId);
+                  
+                  // Update all instances of this bookmark's view count
+                  document.querySelectorAll(`.view-count[data-bookmark-id="${bookmarkId}"]`).forEach(counter => {
+                    counter.textContent = formatViewCount(newCount);
+                  });
+                }
+              }, 2000); // 2 second delay to prevent accidental counts
+              
+              // No need to keep observing after counting
+              viewObserver.unobserve(card);
+            }
+          }
+        });
+      },
+      { threshold: 0.7 } // 70% visibility required to count as a view
+    );
+    
+    // Start observing cards for view counting
+    bookmarkCards.forEach((card) => {
+      viewObserver.observe(card);
+    });
+    
     // Share button functionality - optimized
     const shareButtons = document.querySelectorAll('.share-btn');
     shareButtons.forEach(button => {
@@ -371,25 +466,6 @@ const recentBookmarks = processedBookmarks.slice(0, 6);
           }
         }
       });
-    });
-    
-    // Intersection Observer for lazy loading
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('visible');
-            // Once visible, no need to observe anymore
-            observer.unobserve(entry.target);
-          }
-        });
-      },
-      { threshold: 0.3 }
-    );
-    
-    // Observe all cards
-    bookmarkCards.forEach((card) => {
-      observer.observe(card);
     });
   });
 </script>
