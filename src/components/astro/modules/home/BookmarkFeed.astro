@@ -1,0 +1,395 @@
+---
+import { Icon } from "astro-icon/components";
+import bookmarksData from "@/data/bookmarks.json";
+
+// Define proper types for our bookmarks
+interface BaseBookmark {
+  id: string;
+  name: string;
+  url: string;
+  description: string;
+  timestamp?: string;
+}
+
+interface StringCategoryBookmark extends BaseBookmark {
+  category: string;
+}
+
+interface ArrayCategoryBookmark extends BaseBookmark {
+  category: string[];
+}
+
+type Bookmark = StringCategoryBookmark | ArrayCategoryBookmark;
+
+// Extended bookmark with processed properties
+interface ProcessedBookmark extends BaseBookmark {
+  category: string | string[];
+  formattedDate: string;
+  dateTimestamp: number;
+  processedCategories: string[];
+  domain: string;
+  gradientClass: string;
+}
+
+// Format date function
+function formatDate(dateString: string | undefined): string {
+  if (!dateString) return "";
+  
+  const date = new Date(dateString);
+  if (isNaN(date.getTime())) return ""; // Invalid date
+  
+  const now = new Date();
+  const diffInMilliseconds = now.getTime() - date.getTime();
+  const diffInSeconds = Math.floor(diffInMilliseconds / 1000);
+  const diffInMinutes = Math.floor(diffInSeconds / 60);
+  const diffInHours = Math.floor(diffInMinutes / 60);
+  const diffInDays = Math.floor(diffInHours / 24);
+
+  if (diffInDays > 7) {
+    return new Intl.DateTimeFormat('en-US', { 
+      month: 'short', 
+      day: 'numeric' 
+    }).format(date);
+  } else if (diffInDays > 0) {
+    return `${diffInDays}d`;
+  } else if (diffInHours > 0) {
+    return `${diffInHours}h`;
+  } else if (diffInMinutes > 0) {
+    return `${diffInMinutes}m`;
+  } else {
+    return 'now';
+  }
+}
+
+// Convert string to date for sorting
+function dateToTimestamp(dateString: string | undefined): number {
+  if (!dateString) return 0; // No date means oldest
+  const date = new Date(dateString);
+  return isNaN(date.getTime()) ? 0 : date.getTime();
+}
+
+// Extract domain from URL
+function extractDomain(url: string): string {
+  try {
+    const domain = new URL(url).hostname.replace('www.', '');
+    return domain;
+  } catch (e) {
+    return '';
+  }
+}
+
+// Get a gradient class based on category
+function getGradientClass(category: string): string {
+  const gradients = [
+    'bg-gradient-to-br from-gray-700 to-gray-900',
+    'bg-gradient-to-br from-stone-700 to-stone-900',
+    'bg-gradient-to-br from-slate-700 to-slate-900',
+    'bg-gradient-to-br from-zinc-700 to-zinc-900',
+    'bg-gradient-to-br from-neutral-700 to-neutral-900',
+    'bg-gradient-to-br from-gray-800 to-slate-900',
+  ];
+
+  // Use the category string to deterministically pick a gradient
+  const categoryHash = category.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
+  return gradients[categoryHash % gradients.length];
+}
+
+// Process bookmarks
+let processedBookmarks = bookmarksData.bookmarks.map((bookmark) => {
+  // Create a new object with all properties from the original bookmark
+  const processed = { ...bookmark } as ProcessedBookmark;
+  
+  // Format the date if it exists
+  if (processed.timestamp) {
+    processed.formattedDate = formatDate(processed.timestamp);
+    processed.dateTimestamp = dateToTimestamp(processed.timestamp);
+  } else {
+    processed.formattedDate = "";
+    processed.dateTimestamp = 0;
+  }
+  
+  // Process categories
+  let categories: string[] = [];
+  if (typeof processed.category === 'string') {
+    categories = processed.category.split(',').map(cat => cat.trim());
+  } else if (Array.isArray(processed.category)) {
+    categories = processed.category.map(String);
+  }
+  processed.processedCategories = categories;
+  
+  // Extract domain
+  processed.domain = extractDomain(processed.url);
+
+  // Assign gradient class based on primary category
+  processed.gradientClass = getGradientClass(processed.processedCategories[0] || 'default');
+  
+  return processed;
+});
+
+// Sort by newest first and take 6 most recent bookmarks for mobile
+processedBookmarks.sort((a, b) => b.dateTimestamp - a.dateTimestamp);
+const recentBookmarks = processedBookmarks.slice(0, 6);
+---
+
+<div class="bookmark-feed-container w-full max-w-md mx-auto relative h-[70vh] min-h-[400px] max-h-[600px]">
+  <div class="bookmark-feed flex flex-col items-center gap-4 w-full h-full overflow-y-auto scroll-smooth snap-y snap-mandatory">
+    {recentBookmarks.map((bookmark, index) => (
+      <div 
+        class="bookmark-card w-full snap-start snap-always h-full min-h-[400px] flex flex-col items-center justify-center"
+        data-bookmark-id={bookmark.id}
+        data-url={bookmark.url}
+      >
+        <div class="bookmark-card-inner w-full h-full flex flex-col rounded-xl overflow-hidden relative shadow-lg">
+          <div class={`bookmark-gradient ${bookmark.gradientClass} absolute inset-0 opacity-90`}></div>
+          <div class="bookmark-overlay absolute inset-0 bg-black bg-opacity-20"></div>
+          <div class="bookmark-content z-10 flex flex-col justify-between h-full p-4 sm:p-6 text-white">
+            
+            <div class="bookmark-header flex items-center gap-3">
+              <div class="bookmark-icon w-10 h-10 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center">
+                <span class="text-base font-bold">{bookmark.name.charAt(0).toUpperCase()}</span>
+              </div>
+              <div>
+                <h3 class="text-xl font-bold tracking-tight">{bookmark.name}</h3>
+                <div class="flex items-center gap-1 text-white/80 text-xs">
+                  <span>{bookmark.domain}</span>
+                  <span class="text-xs">•</span>
+                  <span>{bookmark.formattedDate}</span>
+                </div>
+              </div>
+            </div>
+            
+            <div class="bookmark-body flex-grow my-4 sm:my-6">
+              <p class="text-base sm:text-lg font-medium leading-relaxed mb-4 line-clamp-[6]">
+                {bookmark.description}
+              </p>
+              <div class="flex flex-wrap gap-2 mt-3">
+                {bookmark.processedCategories.slice(0, 3).map(category => (
+                  <span class="px-2 py-1 bg-white/20 backdrop-blur-sm rounded-full text-xs sm:text-sm font-medium">
+                    #{category.toLowerCase().replace(/\s+/g, '')}
+                  </span>
+                ))}
+              </div>
+            </div>
+            
+            <div class="bookmark-footer">
+              <a 
+                href={bookmark.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="visit-btn w-full py-2.5 px-4 bg-white/20 hover:bg-white/30 backdrop-blur-md rounded-lg font-medium text-center transition-all flex items-center justify-center gap-2"
+              >
+                <Icon name="lucide:external-link" class="w-4 h-4" />
+                Visit Site
+              </a>
+              
+              <div class="bookmark-actions flex justify-between mt-3">
+                <div class="flex items-center gap-3">
+                  <button class="like-btn flex flex-col items-center text-white/80 hover:text-white transition-colors">
+                    <Icon name="lucide:heart" class="w-5 h-5" />
+                    <span class="text-[10px] mt-0.5">Like</span>
+                  </button>
+                  <button class="share-btn flex flex-col items-center text-white/80 hover:text-white transition-colors">
+                    <Icon name="lucide:share" class="w-5 h-5" />
+                    <span class="text-[10px] mt-0.5">Share</span>
+                  </button>
+                </div>
+                <div class="bookmark-indicator flex gap-1">
+                  {Array.from({ length: recentBookmarks.length }).map((_, i) => (
+                    <span class={`h-1.5 rounded-full ${i === index ? 'w-4 bg-white' : 'w-1.5 bg-white/40'}`}></span>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    ))}
+    
+    <div class="feed-end flex items-center justify-center h-20 w-full text-center text-gray-500 snap-start">
+      <div>
+        <a href="/bookmarks" class="text-sm underline inline-block">View all bookmarks</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  /* Hide scrollbar for Chrome, Safari, and Opera */
+  .bookmark-feed::-webkit-scrollbar {
+    display: none;
+  }
+  
+  /* Hide scrollbar for IE, Edge, and Firefox */
+  .bookmark-feed {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+  }
+  
+  /* Animation for cards */
+  @keyframes cardAppear {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  .bookmark-card {
+    animation: cardAppear 0.4s forwards;
+    will-change: transform;
+  }
+  
+  .like-btn.liked svg {
+    fill: currentColor;
+  }
+  
+  @keyframes heartPop {
+    0% {
+      opacity: 0;
+      transform: scale(0);
+    }
+    50% {
+      opacity: 1;
+      transform: scale(1.4);
+    }
+    100% {
+      opacity: 0;
+      transform: scale(1);
+    }
+  }
+  
+  .heart-animation {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 70px;
+    height: 70px;
+    background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white" stroke="white"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>');
+    background-repeat: no-repeat;
+    background-position: center;
+    animation: heartPop 1s forwards;
+    pointer-events: none;
+    z-index: 100;
+    contain: layout paint;
+  }
+</style>
+
+<script>
+  // Use intersection observer to lazy load and track visible elements
+  document.addEventListener('DOMContentLoaded', () => {
+    // Performance optimization - only run the needed code
+    const bookmarkCards = document.querySelectorAll('.bookmark-card');
+    
+    // Early return if no bookmark cards
+    if (!bookmarkCards.length) return;
+    
+    // Double-tap to like with debounce
+    let lastTap = 0;
+    bookmarkCards.forEach((card) => {
+      card.addEventListener('click', (e) => {
+        // Ignore clicks on buttons and links
+        if (e.target.closest('button') || e.target.closest('a')) {
+          return;
+        }
+        
+        const currentTime = new Date().getTime();
+        const tapLength = currentTime - lastTap;
+        
+        if (tapLength < 300 && tapLength > 0) {
+          // Double tap detected
+          const likeButton = card.querySelector('.like-btn');
+          if (likeButton) {
+            likeButton.classList.add('liked');
+            
+            // Show heart animation
+            const heart = document.createElement('div');
+            heart.classList.add('heart-animation');
+            card.appendChild(heart);
+            
+            setTimeout(() => {
+              heart.remove();
+            }, 1000);
+          }
+          
+          e.preventDefault();
+        }
+        
+        lastTap = currentTime;
+      });
+    });
+    
+    // Set up like buttons
+    const likeButtons = document.querySelectorAll('.like-btn');
+    likeButtons.forEach(button => {
+      button.addEventListener('click', () => {
+        button.classList.toggle('liked');
+        
+        // Update the SVG fill when toggling liked state
+        const icon = button.querySelector('svg');
+        if (button.classList.contains('liked')) {
+          // Create a filled heart for liked state
+          icon.innerHTML = '<path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" fill="currentColor" stroke="currentColor"></path>';
+        } else {
+          // Create an outline heart for unliked state
+          icon.innerHTML = '<path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>';
+        }
+      });
+    });
+    
+    // Share button functionality - optimized
+    const shareButtons = document.querySelectorAll('.share-btn');
+    shareButtons.forEach(button => {
+      button.addEventListener('click', async () => {
+        const card = button.closest('.bookmark-card');
+        const url = card.dataset.url;
+        
+        if (url) {
+          if (navigator.share) {
+            try {
+              await navigator.share({
+                url: url
+              });
+            } catch (err) {
+              // Silently fail if user cancels
+              if (err.name !== 'AbortError') {
+                console.error('Error sharing:', err);
+              }
+            }
+          } else {
+            // Fallback - copy to clipboard
+            navigator.clipboard.writeText(url);
+            const span = button.querySelector('span');
+            const originalText = span.textContent;
+            span.textContent = 'Copied!';
+            setTimeout(() => {
+              span.textContent = originalText;
+            }, 2000);
+          }
+        }
+      });
+    });
+    
+    // Intersection Observer for lazy loading
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            // Once visible, no need to observe anymore
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.3 }
+    );
+    
+    // Observe all cards
+    bookmarkCards.forEach((card) => {
+      observer.observe(card);
+    });
+  });
+</script>

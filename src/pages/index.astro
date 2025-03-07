@@ -5,6 +5,7 @@ import Experiences from "@/components/astro/modules/home/Experiences.astro";
 import Posts from "@/components/astro/modules/home/Posts.astro";
 import Customers from "@/components/astro/modules/home/Customers.astro";
 import RecentlyPlayed from "@/components/astro/modules/home/RecentlyPlayed.astro";
+import BookmarkFeed from "@/components/astro/modules/home/BookmarkFeed.astro";
 import RecentBookmarks from "@/components/astro/modules/home/RecentBookmarks.astro";
 import { Icon } from "astro-icon/components";
 import AppLink from "@/components/astro/ui/AppLink.astro";
@@ -63,7 +64,15 @@ const description =
     </h2>
 
     <div class="col-start-1 col-end-13 md:col-start-5 space-y-4 leading-[1.75]">
-      <RecentBookmarks />
+      <!-- Desktop view (visible on md screens and up) -->
+      <div class=":uno: hidden md:block">
+        <RecentBookmarks />
+      </div>
+      
+      <!-- Mobile/Tablet view (hidden on md screens and up) -->
+      <div class=":uno: block md:hidden">
+        <BookmarkFeed />
+      </div>
     </div>
   </section>
 
