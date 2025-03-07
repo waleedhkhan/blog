@@ -25,7 +25,7 @@
       "name": "design, build & convert",
       "url": "https://marinabudarina.design/webdesignmastery",
       "description": "Practical guide to web design mastery.",
-      "category": ["design"]
+      "category": "design"
     },
     {
       "name": "minimal macBook pro setup",
@@ -37,7 +37,7 @@
     {
       "name": "tana - ai productivity tool",
       "url": "https://tana.inc",
-      "category": "ai, productivity",
+      "category": "ai",
       "description": "AI productivity tool.",
       "date": "2025-03-02"
     },
@@ -45,29 +45,43 @@
       "name": "raycast",
       "url": "https://www.raycast.com",
       "description": "A collection of powerful productivity tools all within an extendable launcher. Fast, ergonomic and reliable.",
-      "category": ["productivity"],
+      "category": "productivity",
       "date": "2025-03-02"
     },
     {
       "name": "smallpond",
       "url": "https://github.com/deepseek-ai/smallpond",
       "description": "DeepSeek has just open-sourced a lightweight big data processing framework! 🔥",
-      "category": ["ai"],
+      "category": "ai",
       "date": "2025-03-03"
     },
     {
       "name": "whirrls",
       "url": "https://www.whirrls.com/",
       "description": "Whirls  is a curated collection of hand-drawn illustrations.",
-      "category": ["design"],
+      "category": "design",
       "date": "2025-03-04"
     },
     {
       "name": "composio",
       "url": "https://composio.dev",
       "description": "Integration Platform for AI Agents & LLMs",
-      "category": ["ai"],
+      "category": "ai",
       "date": "2025-03-05"
+    },
+    {
+      "name": "Windsurf Editor by CodeiumDiscord",
+      "url": "https://codeium.com/windsurf",
+      "category": "ai",
+      "description": "Tomorrow's editor, today. Windsurf Editor is the first AI agent-powered IDE that keeps developers in the flow. Available today on Mac, Windows, and Linux.",
+      "date": "2025-03-07"
+    },
+    {
+      "name": "mgp/book-notes",
+      "url": "https://github.com/mgp/book-notes",
+      "category": "engineering",
+      "description": "Notes from books and other interesting things that I've read. Table of contents at the end 👇",
+      "date": "2025-03-07"
     }
   ]
 }

@@ -132,32 +132,60 @@ graph TD
 - SEO optimizations and meta tags
 - Open Graph images generation
 
-## Bookmarks Management with Raycast
+## Bookmarks Management
 
-This repository includes a Raycast extension for managing the blog's bookmarks directly from Raycast.
+This repository includes two methods for managing bookmarks:
 
-### Installation
+### 1. Bookmarks CLI Tool
 
-1. Install the extension locally:
+A high-performance Node.js CLI tool for managing bookmarks with automatic metadata extraction.
 
-   ```bash
-   cd extensions/raycast-bookmarks
-   npm install
-   ```
+#### Features
 
-2. Link the extension to Raycast:
-   ```bash
-   npm run dev
-   ```
+- **Quick Add**: Automatically fetch title, description, and category from URLs
+- **Smart Categorization**: Intelligently categorizes bookmarks based on content
+- **Interactive Mode**: Full-featured interactive interface for custom bookmark management
+- **Search**: Find bookmarks by text or category
+- **Special Handling**: Enhanced support for GitHub repositories, tech blogs, and framework sites
 
-### Usage
+#### Installation
 
-The extension provides the following commands:
+```bash
+# Create a symbolic link to use the tool from anywhere
+ln -sf $(pwd)/scripts/bookmarks-cli.js ~/.local/bin/bookmarks
+```
 
-- **List Bookmarks**: View and manage all your bookmarks
-- **Add Bookmark**: Add a new bookmark
+Add to your shell config (`.zshrc` or `.bash_profile`):
+```bash
+export PATH="$HOME/.local/bin:$PATH"
+```
 
-The extension edits your local `src/data/bookmarks.json` file, which you can then commit and push to your repository manually when ready to update your live site.
+#### Usage
+
+```bash
+# Quick add a bookmark with automatic metadata extraction
+bookmarks quick https://example.com
+
+# List all bookmarks
+bookmarks list
+
+# List bookmarks in a specific category
+bookmarks list -c javascript
+
+# Search bookmarks
+bookmarks search react
+
+# Add a bookmark interactively
+bookmarks add
+
+# Delete a bookmark
+bookmarks delete
+
+# Convert bookmarks to use single categories
+bookmarks convert-categories
+```
+
+The CLI tool manages the `src/data/bookmarks.json` file, which is then used by the website to display your bookmarks.
 
 ## License
 
