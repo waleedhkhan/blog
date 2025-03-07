@@ -6,7 +6,7 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import inquirer from 'inquirer';
 import chalk from 'chalk';
-import { format } from 'date-fns';
+import { format, parseISO } from 'date-fns';
 import CryptoJS from 'crypto-js';
 import * as cheerio from 'cheerio';
 import { promisify } from 'util';
@@ -313,9 +313,37 @@ async function fetchMetadata(url) {
   }
 }
 
+// Format timestamp for display
+function formatTimestamp(timestamp) {
+  try {
+    if (!timestamp) return 'Unknown';
+    
+    // If it's just a date string (YYYY-MM-DD format)
+    if (/^\d{4}-\d{2}-\d{2}$/.test(timestamp)) {
+      return timestamp;
+    }
+    
+    // If it's an ISO timestamp
+    return format(parseISO(timestamp), 'yyyy-MM-dd HH:mm:ss');
+  } catch (error) {
+    return timestamp; // Return original if parsing fails
+  }
+}
+
+// Get current ISO timestamp
+function getCurrentTimestamp() {
+  return new Date().toISOString();
+}
+
 // List all bookmarks
-async function listBookmarks(options) {
-  const data = await loadBookmarks();
+async function listBookmarks(options = {}) {
+  let data;
+  try {
+    data = await loadBookmarks();
+  } catch (error) {
+    console.error(chalk.red('Error loading bookmarks:'), error.message);
+    return;
+  }
   
   // Filter by category if specified
   let filteredBookmarks = data.bookmarks;
@@ -324,12 +352,11 @@ async function listBookmarks(options) {
   }
   
   // Sort by date if needed
-  if (options.sort) {
+  if (options.sort === 'date') {
     filteredBookmarks.sort((a, b) => {
-      if (options.sort === 'date') {
-        return new Date(b.date || 0) - new Date(a.date || 0);
-      }
-      return a.name.localeCompare(b.name);
+      const dateA = a.timestamp || a.date || '';
+      const dateB = b.timestamp || b.date || '';
+      return dateB.localeCompare(dateA); // Sort descending (newest first)
     });
   }
   
@@ -339,6 +366,7 @@ async function listBookmarks(options) {
   }
   
   console.log(chalk.bold('\nYour Bookmarks:'));
+  
   filteredBookmarks.forEach((bookmark, index) => {
     console.log(`\n${chalk.cyan(index + 1)}. ${chalk.bold(bookmark.name)}`);
     console.log(`   ${chalk.blue('URL:')} ${bookmark.url}`);
@@ -346,8 +374,12 @@ async function listBookmarks(options) {
     if (bookmark.description) {
       console.log(`   ${chalk.yellow('Description:')} ${bookmark.description}`);
     }
-    if (bookmark.date) {
-      console.log(`   ${chalk.magenta('Date Added:')} ${bookmark.date}`);
+    if (bookmark.timestamp || bookmark.date) {
+      const displayDate = bookmark.timestamp ? formatTimestamp(bookmark.timestamp) : bookmark.date;
+      console.log(`   ${chalk.magenta('Date Added:')} ${displayDate}`);
+    }
+    if (bookmark.id) {
+      console.log(`   ${chalk.cyan('ID:')} ${bookmark.id}`);
     }
   });
 }
@@ -356,7 +388,7 @@ async function listBookmarks(options) {
 async function addBookmark(options) {
   // If quick add mode and we have URL
   if (options.quick && options.url) {
-    const today = format(new Date(), 'yyyy-MM-dd');
+    const timestamp = getCurrentTimestamp();
     const data = await loadBookmarks();
     
     // If auto-fetch metadata is requested
@@ -379,11 +411,12 @@ async function addBookmark(options) {
       : options.category || 'uncategorized';
     
     const newBookmark = {
+      id: crypto.randomUUID(),
       name: options.name || options.url.split('/').pop(),
       url: options.url,
       category: singleCategory,
       description: options.description || '',
-      date: today
+      timestamp: timestamp
     };
     
     data.bookmarks.push(newBookmark);
@@ -394,6 +427,8 @@ async function addBookmark(options) {
     if (newBookmark.description) {
       console.log(`   ${chalk.yellow('Description:')} ${newBookmark.description}`);
     }
+    console.log(`   ${chalk.magenta('Date Added:')} ${formatTimestamp(newBookmark.timestamp)}`);
+    console.log(`   ${chalk.cyan('ID:')} ${newBookmark.id}`);
     return;
   }
   
@@ -436,15 +471,16 @@ async function addBookmark(options) {
     ? categoryInput.split(',')[0].trim() 
     : categoryInput.trim();
   
-  const today = format(new Date(), 'yyyy-MM-dd');
+  const timestamp = getCurrentTimestamp();
   const data = await loadBookmarks();
   
   const newBookmark = {
+    id: crypto.randomUUID(),
     name,
     url,
     category,
     description,
-    date: today
+    timestamp
   };
   
   data.bookmarks.push(newBookmark);
@@ -494,9 +530,21 @@ async function deleteBookmark() {
 }
 
 // Search bookmarks
-async function searchBookmarks(term) {
-  const data = await loadBookmarks();
-  const searchTerm = term.toLowerCase();
+async function searchBookmarks(searchTerm) {
+  if (!searchTerm || searchTerm.trim() === '') {
+    console.error(chalk.red('Please provide a search term'));
+    return;
+  }
+  
+  searchTerm = searchTerm.toLowerCase();
+  
+  let data;
+  try {
+    data = await loadBookmarks();
+  } catch (error) {
+    console.error(chalk.red('Error loading bookmarks:'), error.message);
+    return;
+  }
   
   const results = data.bookmarks.filter(bookmark => 
     bookmark.name.toLowerCase().includes(searchTerm) ||
@@ -506,17 +554,23 @@ async function searchBookmarks(term) {
   );
   
   if (results.length === 0) {
-    console.log(chalk.yellow(`No bookmarks found matching "${term}".`));
+    console.log(chalk.yellow(`No bookmarks found matching '${searchTerm}'`));
     return;
   }
   
-  console.log(chalk.bold(`\nSearch results for "${term}":`));
   results.forEach((bookmark, index) => {
     console.log(`\n${chalk.cyan(index + 1)}. ${chalk.bold(bookmark.name)}`);
     console.log(`   ${chalk.blue('URL:')} ${bookmark.url}`);
     console.log(`   ${chalk.green('Category:')} ${bookmark.category || 'Uncategorized'}`);
     if (bookmark.description) {
       console.log(`   ${chalk.yellow('Description:')} ${bookmark.description}`);
+    }
+    if (bookmark.timestamp || bookmark.date) {
+      const displayDate = bookmark.timestamp ? formatTimestamp(bookmark.timestamp) : bookmark.date;
+      console.log(`   ${chalk.magenta('Date Added:')} ${displayDate}`);
+    }
+    if (bookmark.id) {
+      console.log(`   ${chalk.cyan('ID:')} ${bookmark.id}`);
     }
   });
 }
@@ -546,6 +600,82 @@ async function convertCategoriesToSingle() {
     }
   } catch (error) {
     console.error(chalk.red('Error converting categories:'), error.message);
+  }
+}
+
+// Add unique IDs to all bookmarks that don't have them
+async function addUniqueIds() {
+  try {
+    const data = await loadBookmarks();
+    let modified = false;
+    
+    data.bookmarks = data.bookmarks.map(bookmark => {
+      if (!bookmark.id) {
+        modified = true;
+        return {
+          id: crypto.randomUUID(),
+          ...bookmark
+        };
+      }
+      return bookmark;
+    });
+    
+    if (modified) {
+      await saveBookmarks(data);
+      console.log(chalk.green('Successfully added unique IDs to all bookmarks.'));
+    } else {
+      console.log(chalk.blue('All bookmarks already have unique IDs. No changes needed.'));
+    }
+  } catch (error) {
+    console.error(chalk.red('Error adding unique IDs:'), error.message);
+  }
+}
+
+// Update existing date fields to timestamps
+async function updateTimestamps() {
+  try {
+    const data = await loadBookmarks();
+    let modified = false;
+    
+    data.bookmarks = data.bookmarks.map(bookmark => {
+      // If there's no timestamp but there's a date
+      if (!bookmark.timestamp && bookmark.date) {
+        modified = true;
+        
+        // Try to convert date to a timestamp
+        let timestamp;
+        if (/^\d{4}-\d{2}-\d{2}$/.test(bookmark.date)) {
+          // If it's a valid date string (YYYY-MM-DD), create a timestamp at noon on that day
+          const dateObj = new Date(bookmark.date + 'T12:00:00Z');
+          timestamp = dateObj.toISOString();
+        } else {
+          // Otherwise, use current time
+          timestamp = getCurrentTimestamp();
+        }
+        
+        return {
+          ...bookmark,
+          timestamp
+        };
+      } else if (!bookmark.timestamp) {
+        // If there's no timestamp or date, add current timestamp
+        modified = true;
+        return {
+          ...bookmark,
+          timestamp: getCurrentTimestamp()
+        };
+      }
+      return bookmark;
+    });
+    
+    if (modified) {
+      await saveBookmarks(data);
+      console.log(chalk.green('Successfully updated all bookmarks with ISO timestamps.'));
+    } else {
+      console.log(chalk.blue('All bookmarks already have timestamps. No changes needed.'));
+    }
+  } catch (error) {
+    console.error(chalk.red('Error updating timestamps:'), error.message);
   }
 }
 
@@ -588,9 +718,19 @@ program
   .action(setupEncryption);
 
 program
+  .command('update-timestamps')
+  .description('Update all bookmarks to use ISO timestamps')
+  .action(updateTimestamps);
+
+program
   .command('convert-categories')
   .description('Convert all bookmarks to use a single category instead of arrays')
   .action(convertCategoriesToSingle);
+
+program
+  .command('add-ids')
+  .description('Add unique IDs to all bookmarks that don\'t have them')
+  .action(addUniqueIds);
 
 // Allow for quick-add shorthand
 program

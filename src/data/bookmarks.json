@@ -1,129 +1,173 @@
 {
   "bookmarks": [
     {
+      "id": "775a15c3-e7aa-4156-9b2c-0774741a2d65",
       "name": "telepathic instruments",
       "url": "https://telepathicinstruments.com",
       "category": "inspiration",
       "description": "Orchid's advanced intuitive chord generator.",
-      "date": "2025-03-02"
+      "date": "2025-03-02",
+      "timestamp": "2025-03-02T12:00:00.000Z"
     },
     {
+      "id": "b19a5eed-8e42-4614-84d3-e3c4488cc166",
       "name": "chat with your SQL database",
       "url": "https://github.com/vanna-ai/vanna",
       "category": "ai",
       "description": "Tool to chat with your SQL database.",
-      "date": "2025-03-02"
+      "date": "2025-03-02",
+      "timestamp": "2025-03-02T12:00:00.000Z"
     },
     {
+      "id": "a896d3b7-dfc3-4365-929b-7f25690df760",
       "name": "rork.app - AI-powered app development",
       "url": "https://rork.app",
       "category": "ai",
       "description": "AI-powered app development platform.",
-      "date": "2025-03-02"
+      "date": "2025-03-02",
+      "timestamp": "2025-03-02T12:00:00.000Z"
     },
     {
+      "id": "1073b626-7f0c-46fb-95c7-1d4fd897b65b",
       "name": "design, build & convert",
       "url": "https://marinabudarina.design/webdesignmastery",
       "description": "Practical guide to web design mastery.",
-      "category": "design"
+      "category": "design",
+      "timestamp": "2025-03-07T18:53:28.712Z"
     },
     {
+      "id": "060111df-b7b8-4055-bb18-66362df854b0",
       "name": "minimal macBook pro setup",
       "url": "https://eugeneyan.com/writing/mac-setup/",
       "category": "engineering",
       "description": "Guide to minimal MacBook Pro setup.",
-      "date": "2025-03-02"
+      "date": "2025-03-02",
+      "timestamp": "2025-03-02T12:00:00.000Z"
     },
     {
+      "id": "6c8cb2a4-1ee1-4c8a-9e1d-cafa8399b83f",
       "name": "tana - ai productivity tool",
       "url": "https://tana.inc",
       "category": "ai",
       "description": "AI productivity tool.",
-      "date": "2025-03-02"
+      "date": "2025-03-02",
+      "timestamp": "2025-03-02T12:00:00.000Z"
     },
     {
+      "id": "295d795b-9c0c-483f-b66b-3cfa6f977741",
       "name": "raycast",
       "url": "https://www.raycast.com",
       "description": "A collection of powerful productivity tools all within an extendable launcher. Fast, ergonomic and reliable.",
       "category": "productivity",
-      "date": "2025-03-02"
+      "date": "2025-03-02",
+      "timestamp": "2025-03-02T12:00:00.000Z"
     },
     {
+      "id": "60a12662-a82b-4000-b4fa-dfd9fe53a27a",
       "name": "smallpond",
       "url": "https://github.com/deepseek-ai/smallpond",
       "description": "DeepSeek has just open-sourced a lightweight big data processing framework! 🔥",
       "category": "ai",
-      "date": "2025-03-03"
+      "date": "2025-03-03",
+      "timestamp": "2025-03-03T12:00:00.000Z"
     },
     {
+      "id": "292581f1-09a4-4094-ac7a-82ded23c10e4",
       "name": "whirrls",
       "url": "https://www.whirrls.com/",
       "description": "Whirls  is a curated collection of hand-drawn illustrations.",
       "category": "design",
-      "date": "2025-03-04"
+      "date": "2025-03-04",
+      "timestamp": "2025-03-04T12:00:00.000Z"
     },
     {
+      "id": "23900f3b-50f7-4fd1-9dbf-5d9e3429a30f",
       "name": "composio",
       "url": "https://composio.dev",
       "description": "Integration Platform for AI Agents & LLMs",
       "category": "ai",
-      "date": "2025-03-05"
+      "date": "2025-03-05",
+      "timestamp": "2025-03-05T12:00:00.000Z"
     },
     {
+      "id": "0792fd63-cd88-4911-bcee-9f297ebcb706",
       "name": "Windsurf Editor",
       "url": "https://codeium.com/windsurf",
       "category": "ai",
       "description": "Tomorrow's editor, today. Windsurf Editor is the first AI agent-powered IDE that keeps developers in the flow. Available today on Mac, Windows, and Linux.",
-      "date": "2025-03-07"
+      "date": "2025-03-07",
+      "timestamp": "2025-03-07T12:00:00.000Z"
     },
     {
+      "id": "49131687-c217-4279-9795-255cb65b3ea7",
       "name": "mgp/book-notes",
       "url": "https://github.com/mgp/book-notes",
       "category": "engineering",
       "description": "Notes from books and other interesting things that I've read. Table of contents at the end 👇",
-      "date": "2025-03-07"
+      "date": "2025-03-07",
+      "timestamp": "2025-03-07T12:00:00.000Z"
     },
     {
+      "id": "c5f63d93-7a20-45ea-9830-50f8e4dde480",
       "name": "SignalSignal by UNMS",
       "url": "https://signal.un.ms",
       "category": "inspiration",
       "description": "Build better outcomes\nwith every conversation\n",
-      "date": "2025-03-07"
+      "date": "2025-03-07",
+      "timestamp": "2025-03-07T12:00:00.000Z"
     },
     {
+      "id": "6a6959a4-b9f6-4141-b994-9f2301ca3c90",
       "name": "activepieces",
       "url": "https://github.com/activepieces/activepieces",
       "category": "engineering",
       "description": "Your friendliest open source AI automation tool ✨ Workflow automation tool 200+ integration / Enterprise automation tool / Zapier Alternative",
-      "date": "2025-03-07"
+      "date": "2025-03-07",
+      "timestamp": "2025-03-07T12:00:00.000Z"
     },
     {
+      "id": "f84ee940-fe3d-4952-863f-2b1abe67817a",
       "name": "Rive",
       "url": "https://rive.app/",
       "category": "design",
       "description": "Rive is a new way to build production-ready UI and graphics — with rich interactivity and state-driven animation. Complex designer-developer handoff is a thing of the past, empowering teams to iterate faster and build better products.",
-      "date": "2025-03-07"
+      "date": "2025-03-07",
+      "timestamp": "2025-03-07T12:00:00.000Z"
     },
     {
+      "id": "3b527fae-3350-4e48-84aa-18150eca7e00",
       "name": "Braun X Paul Smith Limited Edition",
       "url": "https://de.braun-clocks.com/collections/wall-clocks/products/braun-x-paul-smith-limited-edition-classic-large-analogue-wall-clock-black",
       "category": "industrial design",
       "description": "A collaborative design project that partners German design with British fashion. Braun and Paul Smith have teamed up on a limited-edition clock and watch project. Paul Smith is one of Britain’s foremost designers, renowned for his creative spirit, which combines tradition and modernity. The BC17BPS is derived from the ",
-      "date": "2025-03-07"
+      "date": "2025-03-07",
+      "timestamp": "2025-03-07T12:00:00.000Z"
     },
     {
+      "id": "93f3788c-a8f9-42d4-85ac-ee7bd9c45536",
       "name": "Firecrawl",
       "url": "https://www.firecrawl.dev/",
       "category": "crawling",
       "description": "Turn any website into LLM-ready data.",
-      "date": "2025-03-07"
+      "date": "2025-03-07",
+      "timestamp": "2025-03-07T12:00:00.000Z"
     },
     {
+      "id": "3e21c350-7357-4139-8387-396e529195d1",
       "name": "Lovable",
       "url": "https://lovable.dev/",
       "category": "ai",
       "description": "Build software products, using only a chat interface",
-      "date": "2025-03-07"
+      "date": "2025-03-07",
+      "timestamp": "2025-03-07T12:00:00.000Z"
+    },
+    {
+      "id": "0979b589-e741-4bc1-98bc-a5d32dd557ab",
+      "name": "The Astro Blog | Astro",
+      "url": "https://astro.build/blog",
+      "category": "astro",
+      "description": "Get all the latest news from the Astroverse.",
+      "timestamp": "2025-03-07T18:53:41.456Z"
     }
   ]
 }
