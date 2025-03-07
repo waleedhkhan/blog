@@ -168,6 +168,14 @@
       "category": "astro",
       "description": "Get all the latest news from the Astroverse.",
       "timestamp": "2025-03-07T18:53:41.456Z"
+    },
+    {
+      "id": "be529cd1-7126-46ac-8358-f28d5d85beea",
+      "name": "Calzy",
+      "url": "https://calzy.app/",
+      "category": "design",
+      "description": "Calzy is a beautiful iPhone/iPad calculator for your everyday use. It helps you perform your day to day mathemetical calculation in a more elegant way. It also lets you save your frequently used expression and use it back. It is simple, straight forward and modern. And It looks gorgeous on your iPhone and iPad.",
+      "timestamp": "2025-03-07T21:42:37.187Z"
     }
   ]
 }
