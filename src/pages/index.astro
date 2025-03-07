@@ -1,19 +1,17 @@
 ---
-import { Icon } from "astro-icon/components";
 import Layout from "@/components/astro/layout/Layout.astro";
-import TextLink from "@/components/astro/ui/TextLink.astro";
 import Profile from "@/components/astro/modules/home/Profile.astro";
-import Posts from "@/components/astro/modules/home/Posts.astro";
 import Experiences from "@/components/astro/modules/home/Experiences.astro";
-import AppLink from "@/components/astro/ui/AppLink.astro";
-import BaseLayout from '../layouts/BaseLayout.astro';
+import Posts from "@/components/astro/modules/home/Posts.astro";
 import Customers from "@/components/astro/modules/home/Customers.astro";
 import RecentlyPlayed from "@/components/astro/modules/home/RecentlyPlayed.astro";
 import RecentBookmarks from "@/components/astro/modules/home/RecentBookmarks.astro";
+import { Icon } from "astro-icon/components";
+import AppLink from "@/components/astro/ui/AppLink.astro";
 
 const title = "Waleed | Building Impactful Digital Products";
 const description =
-  "Hi, I’m Waleed —a technology and business leader passionate about crafting impactful digital products and helping teams work smarter. Over the years, I’ve collaborated with industry giants like eBay, PayPal, and Adobe to create scalable solutions that drive meaningful change.";
+  "Hi, I'm Waleed —a technology and business leader passionate about crafting impactful digital products and helping teams work smarter. Over the years, I've collaborated with industry giants like eBay, PayPal, and Adobe to create scalable solutions that drive meaningful change.";
 ---
 
 <Layout title={title} description={description}>
@@ -22,11 +20,11 @@ const description =
 
     <div class="col-start-1 col-end-13 md:col-start-5 space-y-4 leading-[1.75]">
       <p>
-        Hi there! I’m Waleed – welcome to my personal website! I’m a software engineer based in the vibrant city of Berlin, with over a decade of experience designing and operating large-scale e-commerce systems.
+        Hi there! I'm Waleed – welcome to my personal website! I'm a software engineer based in the vibrant city of Berlin, with over a decade of experience designing and operating large-scale e-commerce systems.
       </p>
 
     <p>
-        I’m passionate about creating simple, functional, and beautifully designed applications. I love diving into the latest innovations in tech, where I have a deep appreciation for high-quality, practical products that combine utility with sleek aesthetics.
+        I'm passionate about creating simple, functional, and beautifully designed applications. I love diving into the latest innovations in tech, where I have a deep appreciation for high-quality, practical products that combine utility with sleek aesthetics.
        <p>Thanks for stopping by feel free to explore and connect!
 
       </p>
@@ -38,7 +36,7 @@ const description =
     <h2
       class=":uno: col-start-1 col-end-13 md:col-end-4 font-semibold tracking-tight text-heading transition-colors"
     >
-   Recent Posts   
+    Recent Posts   
     </h2>
 
     <div class="col-start-1 col-end-13 md:col-start-5 space-y-4 leading-[1.75]">
@@ -61,7 +59,7 @@ const description =
     <h2
       class=":uno: col-start-1 col-end-13 md:col-end-4 font-semibold tracking-tight text-heading transition-colors"
     >
-      Experiences
+      Experience
     </h2>
 
     <div class="col-start-1 col-end-13 md:col-start-5 space-y-4 leading-[1.75]">
@@ -73,7 +71,7 @@ const description =
     <h2
       class=":uno: col-start-1 col-end-13 md:col-end-4 font-semibold tracking-tight text-heading transition-colors"
     >
-     Selected Clients
+      Clients
     </h2>
 
     <div class="col-start-1 col-end-13 md:col-start-5 text-heading space-y-4 leading-[1.75]">
@@ -81,56 +79,27 @@ const description =
     </div>
   </section>
 
-  <!-- New Recent Bookmarks Section -->
   <section class=":uno: grid grid-cols-12 gap-4">
     <h2
-      class=":uno: col-start-1 col-end-13 md:col-end-4 font-semibold tracking-tight text-heading transition-colors">
-       Recent Bookmarks
-    </h2>
-
-    <div class="col-start-1 col-end-13 md:col-start-5 space-y-4 leading-[1.75]">
-      <RecentBookmarks />
-    </div>
-  </section>
-
-  <section class=":uno: grid grid-cols-12 gap-4">
-    <h2
-      class=":uno: col-start-1 col-end-13 md:col-end-4 font-semibold tracking-tight text-heading transition-colors">
-      Recently Played
+      class=":uno: col-start-1 col-end-13 md:col-end-4 font-semibold tracking-tight text-heading transition-colors"
+    >
+      Music
     </h2>
 
     <div class="col-start-1 col-end-13 md:col-start-5 space-y-4 leading-[1.75]">
       <RecentlyPlayed />
     </div>
   </section>
+
+  <section class=":uno: grid grid-cols-12 gap-4">
+    <h2
+      class=":uno: col-start-1 col-end-13 md:col-end-4 font-semibold tracking-tight text-heading transition-colors"
+    >
+      Bookmarks
+    </h2>
+
+    <div class="col-start-1 col-end-13 md:col-start-5 space-y-4 leading-[1.75]">
+      <RecentBookmarks />
+    </div>
+  </section>
 </Layout>
-
-<style>
-  .arrow__before,
-  .arrow__after,
-  .link__text {
-    transition: all 200ms cubic-bezier(0.33, 1, 0.68, 1);
-  }
-
-  .arrow__before {
-    transform: translateX(-4px);
-    opacity: 1;
-  }
-
-  .arrow__link:hover .arrow__before,
-  .arrow__link:focus .arrow__before {
-    opacity: 0;
-    transform: translateX(16px);
-  }
-
-  .arrow__link:hover .link__text,
-  .arrow__link:focus .link__text {
-    transform: translateX(-16px);
-  }
-
-  .arrow__link:hover .arrow__after,
-  .arrow__link:focus .arrow__after {
-    opacity: 1;
-    transform: translateX(-12px);
-  }
-</style>

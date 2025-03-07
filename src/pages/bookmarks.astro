@@ -149,7 +149,7 @@ const uniqueCategories = Array.from(allCategories).sort();
           class=":uno: category-chip text-xs px-3.5 py-1.5 rounded-full bg-gray-50 dark:bg-[#1a1a1a] text-gray-700 dark:text-gray-300 border border-transparent hover:border-gray-300 dark:hover:border-gray-600 transition-all duration-200 hover:scale-105 active:scale-95 hover:shadow-sm" 
           data-category={category}
         >
-          {category}
+          {category.toLowerCase()}
         </button>
       ))}
     </div>
@@ -201,7 +201,7 @@ const uniqueCategories = Array.from(allCategories).sort();
                   title={bookmark.url}
                   data-url={bookmark.url}
                 >
-                  {bookmark.name}
+                  {bookmark.name.toLowerCase()}
                   <svg xmlns="http://www.w3.org/2000/svg" class=":uno: h-3 w-3 ml-1 mt-0.5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
                   </svg>
@@ -216,7 +216,7 @@ const uniqueCategories = Array.from(allCategories).sort();
             <div class=":uno: flex flex-wrap gap-1 mt-auto">
               {bookmark.processedCategories.map(category => (
                 <span class=":uno: text-[10px] px-1.5 py-0.5 bg-gray-100 dark:bg-[#2a2a2a] rounded-full text-gray-600 dark:text-gray-300">
-                  {category}
+                  {category.toLowerCase()}
                 </span>
               ))}
             </div>
