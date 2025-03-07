@@ -1,0 +1,225 @@
+/* 
+ * Whimsical CSS elements that complement the Bauhaus design
+ * Focusing on geometric shapes, clean animations, and playful interactions
+ * 
+ * Performance-focused:
+ * - Effects only apply when .whimsy-mode class is present
+ * - Respects prefers-reduced-motion
+ * - Uses hardware-accelerated properties
+ */
+
+/* Whimsy mode toggle */
+.whimsy-toggle {
+  position: fixed;
+  bottom: 6rem;
+  right: 1.5rem;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 0;
+  background-color: rgba(255, 255, 255, 0.8);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  color: #333;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 9990;
+  opacity: 0.6;
+  transition: opacity 0.2s ease, transform 0.2s ease, background-color 0.2s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.whimsy-toggle:hover {
+  opacity: 1;
+  transform: translateY(-2px);
+}
+
+.dark .whimsy-toggle {
+  background-color: rgba(30, 30, 30, 0.8);
+  border-color: rgba(255, 255, 255, 0.1);
+  color: #e0e0e0;
+}
+
+/* Active state for toggle */
+.whimsy-mode .whimsy-toggle {
+  background-color: var(--color-bauhaus-blue, #1E88E5);
+  color: white;
+  opacity: 0.9;
+}
+
+/* Toast notification */
+.whimsy-toast {
+  position: fixed;
+  bottom: 9.5rem;
+  right: 1.5rem;
+  padding: 0.5rem 1rem;
+  background-color: rgba(0, 0, 0, 0.7);
+  color: white;
+  border-radius: 0;
+  font-size: 0.75rem;
+  z-index: 9991;
+  transform: translateY(0);
+  opacity: 1;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+  font-family: var(--font-mono);
+  text-transform: lowercase;
+  letter-spacing: 0.02em;
+}
+
+.whimsy-toast.fade-out {
+  transform: translateY(10px);
+  opacity: 0;
+}
+
+/* Custom Geometric Cursor - only active in whimsy mode */
+.geometric-cursor {
+  position: fixed;
+  width: 8px;
+  height: 8px;
+  background-color: var(--color-bauhaus-blue, #1E88E5);
+  transform: translate(-50%, -50%);
+  border-radius: 0; /* Square shape for Bauhaus aesthetic */
+  pointer-events: none;
+  z-index: 9999;
+  mix-blend-mode: difference;
+  transition: background-color 0.3s ease;
+  opacity: 0;
+  display: none;
+}
+
+.whimsy-mode .geometric-cursor {
+  opacity: 1;
+  display: block;
+}
+
+.cursor-trail {
+  position: fixed;
+  width: 6px;
+  height: 6px;
+  background-color: var(--color-bauhaus-red, #E53935);
+  transform: translate(-50%, -50%);
+  border-radius: 0;
+  pointer-events: none;
+  z-index: 9998;
+  opacity: 0;
+  mix-blend-mode: difference;
+  transition: transform 0.15s ease-out;
+  display: none;
+}
+
+.whimsy-mode .cursor-trail {
+  opacity: 0.7;
+  display: block;
+}
+
+.cursor-trail:nth-child(2) {
+  background-color: var(--color-bauhaus-yellow, #FDD835);
+}
+
+.cursor-trail:nth-child(3) {
+  background-color: var(--color-bauhaus-blue, #1E88E5);
+}
+
+/* Hide cursor on interactive elements when in whimsy mode */
+.whimsy-mode a:hover, 
+.whimsy-mode button:hover, 
+.whimsy-mode input:hover {
+  cursor: none;
+}
+
+/* Geometric shapes for click Easter eggs */
+.bauhaus-shape {
+  position: fixed;
+  pointer-events: none;
+  z-index: 9990;
+  animation: shapeAppear 1s forwards;
+}
+
+.bauhaus-shape.circle {
+  border-radius: 50%;
+}
+
+.bauhaus-shape.square {
+  border-radius: 0;
+}
+
+.bauhaus-shape.triangle {
+  width: 0 !important;
+  height: 0 !important;
+  background-color: transparent !important;
+  border-left: 20px solid transparent;
+  border-right: 20px solid transparent;
+  border-bottom: 34px solid black; /* Will be overridden by inline style */
+}
+
+@keyframes shapeAppear {
+  0% {
+    opacity: 1;
+    transform: translateY(0) rotate(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-40px) rotate(45deg);
+  }
+}
+
+/* Hover effects for cards - enhanced in whimsy mode */
+.whimsy-mode .bookmark-card {
+  transition: transform 0.3s cubic-bezier(0.25, 0.1, 0.25, 1), box-shadow 0.3s ease;
+}
+
+.whimsy-mode .bookmark-card:hover {
+  transform: translateY(-4px) scale(1.01);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+
+.dark.whimsy-mode .bookmark-card:hover {
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+}
+
+/* Special underline animation for links in whimsy mode */
+.whimsy-mode .bauhaus-link::after {
+  transition: transform 0.4s cubic-bezier(0.65, 0, 0.35, 1) !important;
+}
+
+/* Page transition animations - only in whimsy mode */
+.whimsy-mode main section {
+  animation: fadeIn 0.5s ease forwards;
+  opacity: 0;
+}
+
+.whimsy-mode main section:nth-child(1) { animation-delay: 0.1s; }
+.whimsy-mode main section:nth-child(2) { animation-delay: 0.2s; }
+.whimsy-mode main section:nth-child(3) { animation-delay: 0.3s; }
+.whimsy-mode main section:nth-child(4) { animation-delay: 0.4s; }
+.whimsy-mode main section:nth-child(5) { animation-delay: 0.5s; }
+.whimsy-mode main section:nth-child(6) { animation-delay: 0.6s; }
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Preserve reduced motion if user prefers it */
+@media (prefers-reduced-motion: reduce) {
+  .geometric-cursor,
+  .cursor-trail,
+  .bauhaus-shape,
+  main section,
+  .bookmark-card,
+  .bauhaus-card {
+    transition: none !important;
+    animation: none !important;
+  }
+}
+
+/* Subtle hover glow for bookmark-cards */
+.bookmark-card:hover {
+  box-shadow: 0 5px 15px rgba(30, 136, 229, 0.1);
+}

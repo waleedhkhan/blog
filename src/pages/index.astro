@@ -15,28 +15,28 @@ const description =
 ---
 
 <Layout title={title} description={description}>
-  <section class=":uno: grid grid-cols-12 gap-4">
+  <section class=":uno: grid grid-cols-12 gap-4 bauhaus-stack-lg">
     <Profile />
 
-    <div class="col-start-1 col-end-13 md:col-start-5 space-y-4 leading-[1.75]">
+    <div class="col-start-1 col-end-13 md:col-start-5 space-y-4 leading-[1.75] bauhaus-content">
       <p>
-        Hi there! I'm Waleed – welcome to my personal website! I'm a software engineer based in the vibrant city of Berlin, with over a decade of experience designing and operating large-scale e-commerce systems.
+        hi there! i'm waleed – welcome to my personal website! i'm a software engineer based in the vibrant city of berlin, with over a decade of experience designing and operating large-scale e-commerce systems.
       </p>
 
     <p>
-        I'm passionate about creating simple, functional, and beautifully designed applications. I love diving into the latest innovations in tech, where I have a deep appreciation for high-quality, practical products that combine utility with sleek aesthetics.
-       <p>Thanks for stopping by feel free to explore and connect!
+        i'm passionate about creating simple, functional, and beautifully designed applications. i love diving into the latest innovations in tech, where i have a deep appreciation for high-quality, practical products that combine utility with sleek aesthetics.
+       <p>thanks for stopping by feel free to explore and connect!
 
       </p>
       </p>
     </div>
   </section>
 
-  <section class=":uno: grid grid-cols-12 gap-4">
+  <section class=":uno: grid grid-cols-12 gap-4 bauhaus-stack-lg">
     <h2
-      class=":uno: col-start-1 col-end-13 md:col-end-4 font-semibold tracking-tight text-heading transition-colors"
+      class=":uno: col-start-1 col-end-13 md:col-end-4 font-normal text-lg tracking-tight text-heading transition-colors bauhaus-title bauhaus-accent"
     >
-    Recent Posts   
+    recent posts   
     </h2>
 
     <div class="col-start-1 col-end-13 md:col-start-5 space-y-4 leading-[1.75]">
@@ -44,22 +44,34 @@ const description =
 
       <div class=":uno: flex justify-end">
         <AppLink
-          class=":uno: mt-8 inline-flex items-center justify-center w-12 h-12 rounded-full bg-gray-100 dark:bg-stone-900 hover:bg-gray-200 dark:hover:bg-stone-800 transition-all duration-200 group relative"
+          class=":uno: mt-8 inline-flex items-center justify-center w-auto h-auto px-3 py-2 rounded-sm bauhaus-button bg-gray-100 dark:bg-stone-900 hover:bg-gray-200 dark:hover:bg-stone-800 transition-all duration-200 group relative text-sm"
           href="/posts"
           aria-label="See all posts"
         >
-          <span class=":uno: absolute right-full mr-2 opacity-0 group-hover:opacity-100 group-hover:mr-3 transition-all duration-200 whitespace-nowrap text-sm font-medium">See all posts</span>
-          <Icon name="lucide:arrow-right" class=":uno: w-5 h-5 text-gray-700 dark:text-gray-300" />
+          <span class=":uno: font-normal bauhaus-mono lowercase">all posts</span>
+          <Icon name="lucide:arrow-right" class=":uno: w-4 h-4 ml-1 text-gray-700 dark:text-gray-300" />
         </AppLink>
       </div>
     </div>
   </section>
 
-  <section class=":uno: grid grid-cols-12 gap-4">
+  <section class=":uno: grid grid-cols-12 gap-4 bauhaus-stack-lg">
     <h2
-      class=":uno: col-start-1 col-end-13 md:col-end-4 font-semibold tracking-tight text-heading transition-colors"
+      class=":uno: col-start-1 col-end-13 md:col-end-4 font-normal text-lg tracking-tight text-heading transition-colors bauhaus-title bauhaus-accent"
     >
-      Experience
+      bookmarks
+    </h2>
+
+    <div class="col-start-1 col-end-13 md:col-start-5 space-y-4 leading-[1.75]">
+      <RecentBookmarks />
+    </div>
+  </section>
+
+  <section class=":uno: grid grid-cols-12 gap-4 bauhaus-stack-lg">
+    <h2
+      class=":uno: col-start-1 col-end-13 md:col-end-4 font-normal text-lg tracking-tight text-heading transition-colors bauhaus-title bauhaus-accent"
+    >
+      experience
     </h2>
 
     <div class="col-start-1 col-end-13 md:col-start-5 space-y-4 leading-[1.75]">
@@ -67,11 +79,11 @@ const description =
     </div>
   </section>
 
-  <section class=":uno: grid grid-cols-12 gap-4">
+  <section class=":uno: grid grid-cols-12 gap-4 bauhaus-stack-lg">
     <h2
-      class=":uno: col-start-1 col-end-13 md:col-end-4 font-semibold tracking-tight text-heading transition-colors"
+      class=":uno: col-start-1 col-end-13 md:col-end-4 font-normal text-lg tracking-tight text-heading transition-colors bauhaus-title bauhaus-accent"
     >
-      Clients
+      clients
     </h2>
 
     <div class="col-start-1 col-end-13 md:col-start-5 text-heading space-y-4 leading-[1.75]">
@@ -79,11 +91,11 @@ const description =
     </div>
   </section>
 
-  <section class=":uno: grid grid-cols-12 gap-4">
+  <section class=":uno: grid grid-cols-12 gap-4 bauhaus-stack-lg">
     <h2
-      class=":uno: col-start-1 col-end-13 md:col-end-4 font-semibold tracking-tight text-heading transition-colors"
+      class=":uno: col-start-1 col-end-13 md:col-end-4 font-normal text-lg tracking-tight text-heading transition-colors bauhaus-title bauhaus-accent"
     >
-      Music
+      music
     </h2>
 
     <div class="col-start-1 col-end-13 md:col-start-5 space-y-4 leading-[1.75]">
@@ -91,15 +103,4 @@ const description =
     </div>
   </section>
 
-  <section class=":uno: grid grid-cols-12 gap-4">
-    <h2
-      class=":uno: col-start-1 col-end-13 md:col-end-4 font-semibold tracking-tight text-heading transition-colors"
-    >
-      Bookmarks
-    </h2>
-
-    <div class="col-start-1 col-end-13 md:col-start-5 space-y-4 leading-[1.75]">
-      <RecentBookmarks />
-    </div>
-  </section>
 </Layout>

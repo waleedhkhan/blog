@@ -1,0 +1,171 @@
+/* 
+ * Bauhaus-inspired design enhancements
+ * Focusing on typography, whitespace, and geometric precision
+ */
+
+:root {
+  /* Refined color palette with subtle neutrals */
+  --color-bauhaus-red: #E53935;
+  --color-bauhaus-blue: #1E88E5;
+  --color-bauhaus-yellow: #FDD835;
+  
+  /* Spacing system based on 8px grid */
+  --space-unit: 0.5rem;
+  --space-xs: calc(var(--space-unit) * 1); /* 8px */
+  --space-sm: calc(var(--space-unit) * 2); /* 16px */
+  --space-md: calc(var(--space-unit) * 3); /* 24px */
+  --space-lg: calc(var(--space-unit) * 5); /* 40px */
+  --space-xl: calc(var(--space-unit) * 8); /* 64px */
+  
+  /* Typography enhancements */
+  --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Monaco, Consolas, monospace;
+  --letter-spacing-tight: -0.015em;
+  --letter-spacing-wide: 0.01em;
+}
+
+/* Enhanced typography focus - IA Writer inspired */
+.bauhaus-title {
+  font-weight: 500;
+  letter-spacing: var(--letter-spacing-tight);
+  text-transform: lowercase;
+}
+
+.bauhaus-subtitle {
+  font-weight: 400;
+  letter-spacing: var(--letter-spacing-tight);
+  color: var(--color-text-secondary, #71717a);
+  text-transform: lowercase;
+}
+
+.bauhaus-mono {
+  font-family: var(--font-mono);
+  letter-spacing: -0.02em; /* Tighter tracking for monospace */
+}
+
+/* Refined card styling with subtle borders and intentional whitespace */
+.bauhaus-card {
+  border-radius: 4px; /* More precise, slightly less rounded */
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  transition: all 0.2s ease-out;
+}
+
+.dark .bauhaus-card {
+  border-color: rgba(255, 255, 255, 0.08);
+}
+
+.bauhaus-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.03);
+}
+
+.dark .bauhaus-card:hover {
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Geometric accents - Bauhaus inspired */
+.bauhaus-accent {
+  position: relative;
+}
+
+.bauhaus-accent::before {
+  content: "";
+  position: absolute;
+  bottom: -5px;
+  left: 0;
+  width: 24px;
+  height: 2px;
+  background-color: var(--color-bauhaus-red);
+}
+
+/* IA Writer inspired focus state */
+.bauhaus-focus-ring:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(30, 136, 229, 0.4);
+}
+
+/* Precise button styling with optical alignment */
+.bauhaus-button {
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  text-transform: lowercase;
+  transition: all 0.2s ease;
+  border: 1px solid transparent;
+  line-height: 1.15;
+}
+
+/* Apple-inspired subtle hover state */
+.bauhaus-link {
+  position: relative;
+  text-decoration: none;
+  font-weight: 450; /* Slightly more defined */
+}
+
+.bauhaus-link::after {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 1px;
+  bottom: -1px;
+  left: 0;
+  background-color: currentColor;
+  transform: scaleX(0);
+  transform-origin: bottom right;
+  transition: transform 0.25s ease-out;
+  opacity: 0.8;
+}
+
+.bauhaus-link:hover::after {
+  transform: scaleX(1);
+  transform-origin: bottom left;
+}
+
+/* Precise, intentional spacing helpers */
+.bauhaus-stack > * + * {
+  margin-top: var(--space-sm);
+}
+
+.bauhaus-stack-lg > * + * {
+  margin-top: var(--space-lg);
+}
+
+/* Subtle but precise dividers */
+.bauhaus-divider {
+  height: 1px;
+  background-color: rgba(0, 0, 0, 0.06);
+  margin: var(--space-md) 0;
+}
+
+.dark .bauhaus-divider {
+  background-color: rgba(255, 255, 255, 0.06);
+}
+
+/* Improved readability for content areas */
+.bauhaus-content {
+  max-width: 72ch; /* Optimal line width for readability */
+  line-height: 1.6;
+}
+
+.bauhaus-content p {
+  margin-bottom: 1.5em;
+}
+
+/* Apple-inspired list styling */
+.bauhaus-list {
+  list-style: none;
+  padding-left: 1rem;
+}
+
+.bauhaus-list li {
+  position: relative;
+  padding-left: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.bauhaus-list li::before {
+  content: "—";
+  position: absolute;
+  left: -1rem;
+  color: var(--color-text-secondary, #71717a);
+}

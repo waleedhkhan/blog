@@ -85,9 +85,8 @@ const recentBookmarks = processedBookmarks.slice(0, 4);
   <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-3 gap-3">
     {recentBookmarks.map((bookmark, index) => {
       const cardClasses = [
-        "bookmark-card p-4 border border-gray-200 dark:border-[#333333]", 
-        "rounded-md transition-all duration-200 hover:shadow-sm", 
-        "hover:border-gray-300 dark:hover:border-gray-600",
+        "bookmark-card bauhaus-card p-4 border border-gray-200 dark:border-[#333333]", 
+        "transition-all duration-200", 
         "bg-white dark:bg-[#1a1a1a] h-[188px] flex flex-col"
       ];
       
@@ -105,35 +104,35 @@ const recentBookmarks = processedBookmarks.slice(0, 4);
         >
           <div class=":uno: flex items-center justify-between mb-2">
             {bookmark.formattedDate && (
-              <span class=":uno: text-[10px] text-gray-400 dark:text-gray-500">{bookmark.formattedDate}</span>
+              <span class=":uno: text-[10px] bauhaus-mono text-gray-400 dark:text-gray-500 tracking-tight">{bookmark.formattedDate}</span>
             )}
           </div>
           
           <div class=":uno: mb-3">
-            <h3 class=":uno: font-medium text-sm text-gray-900 dark:text-gray-100">
+            <h3 class=":uno: font-medium text-sm text-gray-900 dark:text-gray-100 bauhaus-title">
               <a
                 href={bookmark.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                class=":uno: bookmark-link hover:text-blue-600 dark:hover:text-gray-300 flex items-start"
+                class=":uno: bookmark-link bauhaus-link hover:text-blue-600 dark:hover:text-gray-300 flex items-start"
                 title={bookmark.url}
                 data-url={bookmark.url}
               >
                 {bookmark.name.toLowerCase()}
                 <svg xmlns="http://www.w3.org/2000/svg" class=":uno: h-3 w-3 ml-1 mt-0.5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
                 </svg>
               </a>
             </h3>
           </div>
           
-          <p class=":uno: text-xs text-gray-600 dark:text-gray-400 mb-3 line-clamp-3 min-h-[48px]">
-            {bookmark.description || "No description available"}
+          <p class=":uno: text-xs text-gray-600 dark:text-gray-400 mb-3 line-clamp-3 min-h-[48px] leading-relaxed bauhaus-subtitle">
+            {bookmark.description || "no description available"}
           </p>
           
           <div class=":uno: flex flex-wrap gap-1 mt-auto">
             {bookmark.processedCategories.map(category => (
-              <span class=":uno: text-[10px] px-1.5 py-0.5 bg-gray-100 dark:bg-[#2a2a2a] rounded-full text-gray-600 dark:text-gray-300">
+              <span class=":uno: text-[10px] px-1.5 py-0.5 bg-gray-100 dark:bg-[#2a2a2a] rounded-sm text-gray-600 dark:text-gray-300 bauhaus-mono">
                 {category.toLowerCase()}
               </span>
             ))}
@@ -145,12 +144,12 @@ const recentBookmarks = processedBookmarks.slice(0, 4);
   
   <div class=":uno: flex justify-end">
     <AppLink
-      class=":uno: mt-8 inline-flex items-center justify-center w-12 h-12 rounded-full bg-gray-100 dark:bg-stone-900 hover:bg-gray-200 dark:hover:bg-stone-800 transition-all duration-200 group relative"
+      class=":uno: mt-8 inline-flex items-center justify-center w-auto h-auto px-3 py-2 rounded-sm bauhaus-button bg-gray-100 dark:bg-stone-900 hover:bg-gray-200 dark:hover:bg-stone-800 transition-all duration-200 group relative text-sm"
       href="/bookmarks"
       aria-label="See all bookmarks"
     >
-      <span class=":uno: absolute right-full mr-2 opacity-0 group-hover:opacity-100 group-hover:mr-3 transition-all duration-200 whitespace-nowrap text-sm font-medium">See all bookmarks</span>
-      <Icon name="lucide:arrow-right" class=":uno: w-5 h-5 text-gray-700 dark:text-gray-300" />
+      <span class=":uno: font-normal bauhaus-mono lowercase">all bookmarks</span>
+      <Icon name="lucide:arrow-right" class=":uno: w-4 h-4 ml-1 text-gray-700 dark:text-gray-300" />
     </AppLink>
   </div>
 </div>
@@ -238,5 +237,52 @@ const recentBookmarks = processedBookmarks.slice(0, 4);
     background-color: #2a2a2a;
     color: #f0f0f0;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+  }
+  
+  /* Bauhaus-inspired design elements */
+  .bauhaus-card {
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .bauhaus-title {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+  }
+  
+  .bauhaus-subtitle {
+    font-family: 'Lato', sans-serif;
+    font-weight: 400;
+    letter-spacing: 0.01em;
+  }
+  
+  .bauhaus-mono {
+    font-family: 'IBM Plex Mono', monospace;
+    font-weight: 400;
+    letter-spacing: 0.02em;
+  }
+  
+  .bauhaus-link {
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
+  
+  .bauhaus-link:hover {
+    color: #3498db;
+  }
+  
+  .bauhaus-button {
+    border-radius: 4px;
+    padding: 8px 12px;
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0.01em;
+    transition: background-color 0.2s ease, color 0.2s ease;
+  }
+  
+  .bauhaus-button:hover {
+    background-color: #f7f7f7;
+    color: #333;
   }
 </style>
