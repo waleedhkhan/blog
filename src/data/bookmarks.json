@@ -103,6 +103,27 @@
       "category": "design",
       "description": "Rive is a new way to build production-ready UI and graphics — with rich interactivity and state-driven animation. Complex designer-developer handoff is a thing of the past, empowering teams to iterate faster and build better products.",
       "date": "2025-03-07"
+    },
+    {
+      "name": "Braun X Paul Smith Limited Edition",
+      "url": "https://de.braun-clocks.com/collections/wall-clocks/products/braun-x-paul-smith-limited-edition-classic-large-analogue-wall-clock-black",
+      "category": "industrial design",
+      "description": "A collaborative design project that partners German design with British fashion. Braun and Paul Smith have teamed up on a limited-edition clock and watch project. Paul Smith is one of Britain’s foremost designers, renowned for his creative spirit, which combines tradition and modernity. The BC17BPS is derived from the ",
+      "date": "2025-03-07"
+    },
+    {
+      "name": "Firecrawl",
+      "url": "https://www.firecrawl.dev/",
+      "category": "crawling",
+      "description": "Turn any website into LLM-ready data.",
+      "date": "2025-03-07"
+    },
+    {
+      "name": "Lovable",
+      "url": "https://lovable.dev/",
+      "category": "ai",
+      "description": "Build software products, using only a chat interface",
+      "date": "2025-03-07"
     }
   ]
 }
