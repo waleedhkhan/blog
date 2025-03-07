@@ -82,6 +82,27 @@
       "category": "engineering",
       "description": "Notes from books and other interesting things that I've read. Table of contents at the end 👇",
       "date": "2025-03-07"
+    },
+    {
+      "name": "SignalSignal by UNMS",
+      "url": "https://signal.un.ms",
+      "category": "inspiration",
+      "description": "Build better outcomes\nwith every conversation\n",
+      "date": "2025-03-07"
+    },
+    {
+      "name": "activepieces",
+      "url": "https://github.com/activepieces/activepieces",
+      "category": "engineering",
+      "description": "Your friendliest open source AI automation tool ✨ Workflow automation tool 200+ integration / Enterprise automation tool / Zapier Alternative",
+      "date": "2025-03-07"
+    },
+    {
+      "name": "Rive",
+      "url": "https://rive.app/",
+      "category": "design",
+      "description": "Rive is a new way to build production-ready UI and graphics — with rich interactivity and state-driven animation. Complex designer-developer handoff is a thing of the past, empowering teams to iterate faster and build better products.",
+      "date": "2025-03-07"
     }
   ]
 }
