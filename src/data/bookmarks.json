@@ -138,7 +138,7 @@
       "id": "3b527fae-3350-4e48-84aa-18150eca7e00",
       "name": "Braun X Paul Smith Limited Edition",
       "url": "https://de.braun-clocks.com/collections/wall-clocks/products/braun-x-paul-smith-limited-edition-classic-large-analogue-wall-clock-black",
-      "category": "industrial design",
+      "category": "design",
       "description": "A collaborative design project that partners German design with British fashion. Braun and Paul Smith have teamed up on a limited-edition clock and watch project. Paul Smith is one of Britain’s foremost designers, renowned for his creative spirit, which combines tradition and modernity. The BC17BPS is derived from the ",
       "date": "2025-03-07",
       "timestamp": "2025-03-07T12:00:00.000Z"
@@ -162,20 +162,20 @@
       "timestamp": "2025-03-07T12:00:00.000Z"
     },
     {
-      "id": "0979b589-e741-4bc1-98bc-a5d32dd557ab",
-      "name": "The Astro Blog | Astro",
-      "url": "https://astro.build/blog",
-      "category": "astro",
-      "description": "Get all the latest news from the Astroverse.",
-      "timestamp": "2025-03-07T18:53:41.456Z"
-    },
-    {
       "id": "be529cd1-7126-46ac-8358-f28d5d85beea",
       "name": "Calzy",
       "url": "https://calzy.app/",
       "category": "design",
       "description": "Calzy is a beautiful iPhone/iPad calculator for your everyday use. It helps you perform your day to day mathemetical calculation in a more elegant way. It also lets you save your frequently used expression and use it back. It is simple, straight forward and modern. And It looks gorgeous on your iPhone and iPad.",
       "timestamp": "2025-03-07T21:42:37.187Z"
+    },
+    {
+      "id": "5cb3223d-7be1-4352-892b-11c4e88d42ab",
+      "name": "Write commands naturally, without worrying about arguments",
+      "url": "https://bashbuddy.run",
+      "category": "engineering",
+      "description": "BashBuddy is an AI assistant that helps you get things done. Make your day-to-day less painful.",
+      "timestamp": "2025-03-07T22:57:46.788Z"
     }
   ]
 }
