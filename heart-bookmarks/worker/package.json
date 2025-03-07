@@ -1,0 +1,20 @@
+{
+  "name": "heart-bookmarks-worker",
+  "version": "1.0.0",
+  "description": "Cloudflare Worker backend for Heart Bookmarks Chrome extension",
+  "main": "src/index.js",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler publish"
+  },
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "hono": "^3.11.11",
+    "itty-router": "^4.0.23",
+    "uuid": "^9.0.1"
+  },
+  "devDependencies": {
+    "wrangler": "^3.19.0"
+  }
+}

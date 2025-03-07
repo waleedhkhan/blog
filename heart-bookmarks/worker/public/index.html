@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Heart Bookmarks Dashboard</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/svg+xml" href="heart.svg">
+  <meta name="description" content="Manage your Heart Bookmarks collection">
+</head>
+<body>
+  <div class="app">
+    <header>
+      <div class="container">
+        <div class="header-content">
+          <div class="logo">
+            <img src="heart.svg" alt="Heart Bookmarks Logo" width="32" height="32">
+            <h1>Heart Bookmarks</h1>
+          </div>
+          <div class="user-info">
+            <span id="username">Loading...</span>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <div class="container">
+        <div class="dashboard">
+          <aside class="sidebar">
+            <div class="search-box">
+              <input type="text" id="search-input" placeholder="Search bookmarks...">
+            </div>
+            
+            <nav>
+              <h2>Categories</h2>
+              <ul id="categories-list">
+                <li><a href="#" class="active" data-category="all">All Bookmarks</a></li>
+                <li><a href="#" data-category="general">General</a></li>
+                <li><a href="#" data-category="work">Work</a></li>
+                <li><a href="#" data-category="personal">Personal</a></li>
+                <!-- More categories will be added dynamically -->
+                <li class="loading">Loading categories...</li>
+              </ul>
+            </nav>
+            
+            <div class="stats">
+              <h2>Stats</h2>
+              <div class="stat-item">
+                <span class="stat-label">Total Bookmarks</span>
+                <span class="stat-value" id="total-bookmarks">-</span>
+              </div>
+            </div>
+          </aside>
+          
+          <section class="content">
+            <div class="content-header">
+              <h2 id="current-category">All Bookmarks</h2>
+              <button id="add-bookmark-btn" class="btn primary">+ Add Bookmark</button>
+            </div>
+
+            <div class="content-filters">
+              <div class="filters">
+                <select id="sort-by">
+                  <option value="newest">Newest First</option>
+                  <option value="oldest">Oldest First</option>
+                  <option value="alphabetical">Alphabetical</option>
+                </select>
+              </div>
+              <div class="pagination" id="pagination">
+                <!-- Pagination will be added dynamically -->
+              </div>
+            </div>
+            
+            <div class="bookmarks-grid" id="bookmarks-grid">
+              <!-- Bookmarks will be loaded here -->
+              <div class="loading-container">
+                <div class="loading-spinner"></div>
+                <p>Loading your bookmarks...</p>
+              </div>
+            </div>
+          </section>
+        </div>
+      </div>
+    </main>
+
+    <footer>
+      <div class="container">
+        <p>&copy; 2025 Heart Bookmarks</p>
+        <p>
+          <a href="#" id="privacy-link">Privacy Policy</a> |
+          <a href="#" id="help-link">Help</a> |
+          <a href="https://github.com/yourusername/heart-bookmarks" target="_blank">GitHub</a>
+        </p>
+      </div>
+    </footer>
+  </div>
+
+  <!-- Add Bookmark Modal -->
+  <div class="modal" id="add-bookmark-modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>Add New Bookmark</h2>
+        <button class="close-btn" id="close-modal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <form id="add-bookmark-form">
+          <div class="form-group">
+            <label for="bookmark-url">URL</label>
+            <input type="url" id="bookmark-url" placeholder="https://example.com" required>
+          </div>
+          <div class="form-group">
+            <label for="bookmark-title">Title</label>
+            <input type="text" id="bookmark-title" placeholder="Website Title" required>
+          </div>
+          <div class="form-group">
+            <label for="bookmark-category">Category</label>
+            <select id="bookmark-category" required>
+              <option value="general">General</option>
+              <option value="work">Work</option>
+              <option value="personal">Personal</option>
+              <option value="shopping">Shopping</option>
+              <option value="reading">Reading</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="bookmark-description">Description (Optional)</label>
+            <textarea id="bookmark-description" placeholder="Add a description..."></textarea>
+          </div>
+          <div class="form-actions">
+            <button type="button" class="btn secondary" id="cancel-add">Cancel</button>
+            <button type="submit" class="btn primary">Save Bookmark</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

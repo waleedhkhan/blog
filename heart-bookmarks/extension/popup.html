@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Heart Bookmarks</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>❤️ Heart Bookmarks</h1>
+    </div>
+    
+    <div class="bookmark-status">
+      <div id="status-message"></div>
+    </div>
+    
+    <div class="bookmark-form">
+      <input type="text" id="bookmark-title" placeholder="Title" />
+      <select id="bookmark-category">
+        <option value="general">General</option>
+        <option value="work">Work</option>
+        <option value="personal">Personal</option>
+        <option value="shopping">Shopping</option>
+        <option value="reading">Reading</option>
+      </select>
+      <button id="add-bookmark">Add to Favorites</button>
+    </div>
+    
+    <div class="bookmark-list">
+      <h2>Recent Bookmarks</h2>
+      <div id="bookmarks-container">
+        <div class="loading">Loading...</div>
+      </div>
+    </div>
+    
+    <div class="footer">
+      <a href="https://your-bookmarks-dashboard.com" target="_blank">View All Bookmarks</a>
+    </div>
+  </div>
+  <script src="popup.js"></script>
+</body>
+</html>

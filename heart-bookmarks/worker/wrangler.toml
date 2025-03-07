@@ -1,0 +1,21 @@
+name = "heart-bookmarks"
+main = "src/index.js"
+compatibility_date = "2023-09-04"
+
+[[kv_namespaces]]
+binding = "BOOKMARKS_KV"
+id = "298a2b0845b7420296fe9bed89aa764b" # KV namespace ID
+preview_id = "298a2b0845b7420296fe9bed89aa764b" # Using same ID for preview
+
+[vars]
+ENVIRONMENT = "production"
+
+[triggers]
+crons = ["0 */6 * * *"] # Run every 6 hours
+
+[site]
+bucket = "./public"
+
+[env.development]
+name = "heart-bookmarks-dev"
+vars = { ENVIRONMENT = "development" }
