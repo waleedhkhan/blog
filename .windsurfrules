@@ -1,0 +1,29 @@
+## Also stay true to the stack
+
+### Core Technologies
+
+- Astro - Main framework for static site generation with dynamic islands
+- JavaScript with JSDoc - Type-safe JavaScript without TypeScript
+- TailwindCSS - Utility-first CSS framework for styling, MDX - Extended - Markdown for writing blog posts with embedded components
+- Bauhaus minimnal design
+
+### Additional Tools
+
+- UnoCSS - Atomic CSS engine (being used alongside Tailwind)
+- Vue - Used for interactive components and islands
+- Cloudflare Pages - Hosting platform with edge functions
+- Swiper - For image carousels and sliders
+- Architecture Server-side rendering with islands architecture
+  Content collection pattern for blog posts
+- API integration with LastFM for recently played tracks Static assets with dynamic components
+
+## Flollow these design principles
+
+- **Performance First**: Optimize for speed and efficiency, with a focus on core web vitals.
+- Keep it simple: Use minimalistic design and avoid unnecessary complexity.
+- **Responsive Design**: Ensure the website is responsive and works well on various devices and screen sizes.
+- **Accessibility**: Make the website accessible to all users, including those with disabilities.
+- **SEO**: Optimize the website for search engines to improve visibility and ranking.
+- **Content First**: Prioritize content and user experience over design elements.
+- Use elements from Bauhaus design principles and from Berlin brutalist architecture.
+- Make sure site works on cloudflare pages.

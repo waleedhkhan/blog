@@ -1,8 +1,24 @@
 ---
+/**
+ * BaseLayout - The fundamental layout component for the blog
+ * Implements Bauhaus minimalist design principles with clean typography and structure
+ * Handles theme initialization and view transitions
+ * 
+ * @prop {string} title - The page title to be displayed in the head
+ * @prop {string} [description] - The meta description for SEO
+ */
 import { ClientRouter } from 'astro:transitions';
 import { Umami } from "astro-umami-analytics";
 import "../styles/global.css";
 import Navigation from "@/components/astro/layout/Navigation.astro";
+
+interface Props {
+  /** Title for the page, used in <title> tag */
+  title: string;
+  /** Meta description for SEO */
+  description?: string;
+}
+
 const { title, description } = Astro.props;
 ---
 <html lang="en" transition:name="root" transition:animate="fade">
@@ -14,6 +30,10 @@ const { title, description } = Astro.props;
     <ClientRouter transition:name="root" transition:animate="slide">
     <!-- Theme initialization script -->
     <script is:inline>
+      /**
+       * Immediately invoked function to initialize theme
+       * Sets dark/light mode based on localStorage or system preference
+       */
       (function() {
         const theme = (() => {
           if (typeof localStorage !== 'undefined' && localStorage.getItem('theme')) {
