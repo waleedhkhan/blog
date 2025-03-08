@@ -4,23 +4,24 @@ import { Icon } from "astro-icon/components";
 import Layout from "@/components/astro/layout/Layout.astro";
 import TextLink from "@/components/astro/ui/TextLink.astro";
 import AppLink from "@/components/astro/ui/AppLink.astro";
+import Changelog from "@/components/astro/changelog/Changelog.astro";
 
 const inspirations = [
   {
     name: "Manuel Moreal",
     href: "https://manuelmoreale.com",
   },
-
+  // Add more inspirations here if needed
 ];
 
 const title = "Colophon";
 const description =
-  "A full list of resources and technologies that empowers waleed.de";
+  "The architecture, technologies, and design principles behind waleed.de";
 
 ---
 
 <Layout title={title} description={description} og="og-colophon">
-  <section class=":uno: grid grid-cols-12 gap-4">
+  <section class=":uno: grid grid-cols-12 gap-4 mb-12">
     <div class=":uno: col-start-1 col-end-13 md:col-end-4 mb-8 md:mb-0">
       <h1 class=":uno: text-2xl text-heading font-semibold tracking-tight transition-colors">
         Colophon
@@ -29,7 +30,6 @@ const description =
       <div
         class="mt-2 md:mt-4 space-y-0 space-x-4 md:space-y-2 md:space-x-0 flex md:flex-col"
       >
-      
         <p
           class=":uno: flex items-center space-x-2 font-mono transition-colors hover:text-heading focus:text-heading"
         >
@@ -44,106 +44,161 @@ const description =
     </div>
     <div class=":uno: col-start-1 md:col-start-5 col-end-13 space-y-4">
       <p>
-        This website is statically-generated with <TextLink
-          href="https://astro.build/"
-        >
-          Astro</TextLink
-        > combined with <TextLink href="https://vuejs.org/"> Vue</TextLink> in the
-        mix that empowers reactive components. Stylings are powered by <TextLink
-          href="https://unocss.dev/"
-        >
-          UnoCSS</TextLink
-        >, an on-demand atomic CSS engine.
-      </p>
-
-      <p>
-        Website is hosted with 100% renewable energy on <TextLink
-          href="https://pages.cloudflare.com/"
-        >
-          Cloudflare Pages</TextLink
-        >. 
+        This page details the architecture, technologies, and design principles behind this website. It serves as both documentation and a tribute to the tools that make this site possible.
       </p>
     </div>
   </section>
 
-  <section class=":uno: grid grid-cols-12 gap-4">
+  <section class=":uno: grid grid-cols-12 gap-4 mb-12">
     <h2
       class=":uno: col-start-1 col-end-13 md:col-end-4 text-heading font-semibold transition-colors"
     >
-      Design
+      Architecture
     </h2>
 
     <div class=":uno: col-start-1 md:col-start-5 col-end-13 space-y-4">
       <p>
-        Colors are extracted from <TextLink href="https://www.untitledui.com/">
-          Untitled UI</TextLink
-        > design system and <TextLink
-          href="https://tailwindcss.com/docs/customizing-colors"
-          >TailwindCSS</TextLink
-        > color system with a few twist of my own.
+        This website follows the <strong>islands architecture</strong> pattern, combining static site generation with dynamic islands of interactivity. Content is primarily static for optimal performance, with interactive components selectively hydrated only when necessary.
       </p>
 
       <p>
-        There are 2 typefaces that are used in this website: Inter and JetBrains
-        Mono.
+        The site is built with <TextLink href="https://astro.build/">Astro</TextLink>, a modern framework for building faster websites with less client-side JavaScript. It uses server-side rendering with a content collection pattern for blog posts.
       </p>
 
       <p>
-        <TextLink href="https://rsms.me/inter/">Inter</TextLink> is a neo-grosteque
-        sans-serif designed as a workhorse typeface for a wide range of applications,
-        including user interfaces. Inter is used as the main font of this website,
-        serving as the typeface body copies and headings alike.
-      </p>
-
-      <p>
-        <TextLink href="https://www.jetbrains.com/lp/mono/">
-          JetBrains Mono</TextLink
-        > is a monospaced font created by JetBrains and distributed under the SIL
-        Font License. JetBrains Mono is used in codeblocks and miscellanous accents.
+        Hosted on <TextLink href="https://pages.cloudflare.com/">Cloudflare Pages</TextLink> with 100% renewable energy, the site leverages edge functions for dynamic content while maintaining near-instant load times.
       </p>
     </div>
   </section>
 
-  <section class=":uno: grid grid-cols-12 gap-4">
+  <section class=":uno: grid grid-cols-12 gap-4 mb-12">
     <h2
       class=":uno: col-start-1 col-end-13 md:col-end-4 text-heading font-semibold transition-colors"
     >
-      Graphical Contents
+      Core Technologies
+    </h2>
+
+    <div class=":uno: col-start-1 md:col-start-5 col-end-13 space-y-4">
+      <ul class=":uno: space-y-4">
+        <li>
+          <strong>Astro</strong> — Main framework for static site generation with dynamic islands
+        </li>
+        <li>
+          <strong>JavaScript with JSDoc</strong> — Type-safe JavaScript without TypeScript
+        </li>
+        <li>
+          <strong>TailwindCSS & UnoCSS</strong> — Utility-first CSS frameworks for styling
+        </li>
+        <li>
+          <strong>Vue</strong> — Used for interactive components and islands
+        </li>
+        <li>
+          <strong>MDX</strong> — Extended Markdown for writing blog posts with embedded components
+        </li>
+        <li>
+          <strong>Swiper</strong> — For image carousels and sliders
+        </li>
+      </ul>
+
+      <p>
+        The site integrates with the <TextLink href="https://www.last.fm/api">LastFM API</TextLink> to display recently played tracks, combining static assets with dynamic components for an optimal user experience.
+      </p>
+    </div>
+  </section>
+
+  <section class=":uno: grid grid-cols-12 gap-4 mb-12">
+    <h2
+      class=":uno: col-start-1 col-end-13 md:col-end-4 text-heading font-semibold transition-colors"
+    >
+      Changelog
+    </h2>
+
+    <div class=":uno: col-start-1 md:col-start-5 col-end-13">
+      <p class=":uno: mb-6">
+        This section automatically displays the latest changes to the website from the GitHub commit history. Commits are categorized by type for easier navigation.
+      </p>
+      
+      <Changelog />
+    </div>
+  </section>
+
+  <section class=":uno: grid grid-cols-12 gap-4 mb-12">
+    <h2
+      class=":uno: col-start-1 col-end-13 md:col-end-4 text-heading font-semibold transition-colors"
+    >
+      Design Principles
     </h2>
 
     <div class=":uno: col-start-1 md:col-start-5 col-end-13 space-y-4">
       <p>
-        Most of the images on my posts are taken from various sources with
-        attribution that can be found under the image. Diagrams are made with <TextLink
-          href="https://miro.com/">Miro</TextLink
-        > and
-        <TextLink href="https://mermaid.js.org/">Mermaid</TextLink>.
+        The design follows Bauhaus minimalist principles with influences from Berlin brutalist architecture, focusing on:
+      </p>
+
+      <ul class=":uno: space-y-2 list-disc pl-5">
+        <li>
+          <strong>Performance First</strong> — Optimized for speed and efficiency, with a focus on core web vitals.
+        </li>
+        <li>
+          <strong>Simplicity</strong> — Minimalistic design that avoids unnecessary complexity.
+        </li>
+        <li>
+          <strong>Responsive Design</strong> — Works well on various devices and screen sizes.
+        </li>
+        <li>
+          <strong>Accessibility</strong> — Designed to be accessible to all users, including those with disabilities.
+        </li>
+        <li>
+          <strong>Content First</strong> — Prioritizes content and user experience over design elements.
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <section class=":uno: grid grid-cols-12 gap-4 mb-12">
+    <h2
+      class=":uno: col-start-1 col-end-13 md:col-end-4 text-heading font-semibold transition-colors"
+    >
+      Typography
+    </h2>
+
+    <div class=":uno: col-start-1 md:col-start-5 col-end-13 space-y-4">
+      <p>
+        Two carefully selected typefaces are used throughout the site:
       </p>
 
       <p>
-        Icons are handpicked from the combination of <TextLink
-          href="https://lucide.dev/"
-        >
-          Lucide</TextLink
-        > for the general UI icons and <TextLink
-          href="https://simpleicons.org/"
-        >
-          Simple Icons</TextLink
-        > for all brand icons, except for theme switcher icon which is taken from
-        <TextLink href="https://toggles.dev/">toggles.dev</TextLink>.
+        <TextLink href="https://rsms.me/inter/">Inter</TextLink> — A neo-grotesque sans-serif designed as a versatile typeface for user interfaces. Used for body copy and headings.
       </p>
 
       <p>
-        Icons are served with the help of <TextLink
-          href="https://iconify.design/"
-        >
-          Iconify</TextLink
-        >.
+        <TextLink href="https://www.jetbrains.com/lp/mono/">JetBrains Mono</TextLink> — A monospaced font created by JetBrains and distributed under the SIL Font License. Used in code blocks and miscellaneous accents.
       </p>
     </div>
   </section>
 
-  <section class=":uno: grid grid-cols-12 gap-4">
+  <section class=":uno: grid grid-cols-12 gap-4 mb-12">
+    <h2
+      class=":uno: col-start-1 col-end-13 md:col-end-4 text-heading font-semibold transition-colors"
+    >
+      Visual Elements
+    </h2>
+
+    <div class=":uno: col-start-1 md:col-start-5 col-end-13 space-y-4">
+      <p>
+        Colors are extracted from <TextLink href="https://www.untitledui.com/">Untitled UI</TextLink> design system and <TextLink href="https://tailwindcss.com/docs/customizing-colors">TailwindCSS</TextLink> color system with personal modifications.
+      </p>
+
+      <p>
+        Icons are handpicked from <TextLink href="https://lucide.dev/">Lucide</TextLink> for UI elements and <TextLink href="https://simpleicons.org/">Simple Icons</TextLink> for brand icons, served via <TextLink href="https://iconify.design/">Iconify</TextLink>.
+      </p>
+
+      <p>
+        Diagrams are created with <TextLink href="https://miro.com/">Miro</TextLink> and <TextLink href="https://mermaid.js.org/">Mermaid</TextLink>, while images in posts are sourced with proper attribution.
+      </p>
+    </div>
+  </section>
+
+  <section class=":uno: grid grid-cols-12 gap-4 mb-12">
     <h2
       class=":uno: col-start-1 col-end-13 md:col-end-4 text-heading font-semibold transition-colors"
     >
@@ -152,9 +207,7 @@ const description =
 
     <div class=":uno: col-start-1 md:col-start-5 col-end-13 space-y-4">
       <p>
-        The design of this website is influenced by multiple sources I stumbled
-        upon. Below is the list of inspirations that influences this website in
-        no particular order:
+        This website's design is influenced by multiple sources. Below is a list of inspirations in no particular order:
       </p>
 
       <ul class=":uno: grid grid-cols-1 sm:grid-cols-2 gap-y-2 gap-x-4">
@@ -187,14 +240,7 @@ const description =
 
     <div class=":uno: col-start-1 md:col-start-5 col-end-13 space-y-4">
       <p>
-        This website is open-sourced and can be found on my <TextLink
-          href="https://github.com/waleedhkhan/blog.git"
-        >
-          GitHub</TextLink
-        >. If you find a bug on this site, feel free to create an
-        <TextLink href="https://github.com/waleedhkhan/blog/issues">
-          issue</TextLink
-        >.
+        This website is open-sourced and can be found on <TextLink href="https://github.com/waleedhkhan/blog.git">GitHub</TextLink>. If you find a bug, feel free to create an <TextLink href="https://github.com/waleedhkhan/blog/issues">issue</TextLink>.
       </p>
     </div>
   </section>

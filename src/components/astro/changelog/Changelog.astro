@@ -1,0 +1,122 @@
+---
+/**
+ * Changelog component
+ * Displays recent changes from GitHub commit history
+ */
+import { Icon } from "astro-icon/components";
+import { getLatestCommits, categorizeCommits, formatDate } from "@/utils/github";
+
+// Fetch the latest commits (default: 20)
+const commits = await getLatestCommits(20);
+const categorizedCommits = categorizeCommits(commits);
+
+// Define category icons
+const categoryIcons = {
+  'Feature': 'lucide:plus-circle',
+  'Fix': 'lucide:bug',
+  'Performance': 'lucide:zap',
+  'Design': 'lucide:palette',
+  'Content': 'lucide:file-text',
+  'SEO': 'lucide:search',
+  'Refactor': 'lucide:refresh-cw',
+  'Other': 'lucide:git-commit'
+};
+
+// Define category colors (using Tailwind/UnoCSS classes)
+const categoryColors = {
+  'Feature': 'text-emerald-600 dark:text-emerald-400',
+  'Fix': 'text-amber-600 dark:text-amber-400',
+  'Performance': 'text-purple-600 dark:text-purple-400',
+  'Design': 'text-blue-600 dark:text-blue-400',
+  'Content': 'text-slate-600 dark:text-slate-400',
+  'SEO': 'text-orange-600 dark:text-orange-400',
+  'Refactor': 'text-cyan-600 dark:text-cyan-400',
+  'Other': 'text-gray-600 dark:text-gray-400'
+};
+
+// Sort categories by priority
+const sortedCategories = [
+  'Feature',
+  'Performance',
+  'Design',
+  'Content',
+  'SEO',
+  'Fix',
+  'Refactor',
+  'Other'
+].filter(category => categorizedCommits[category] && categorizedCommits[category].length > 0);
+---
+
+<div class=":uno: space-y-8">
+  {sortedCategories.length > 0 ? (
+    sortedCategories.map(category => (
+      <div class=":uno: space-y-4">
+        <h3 class=":uno: flex items-center space-x-2 font-medium text-heading">
+          <Icon name={categoryIcons[category]} class={`:uno: w-5 h-5 ${categoryColors[category]}`} />
+          <span>{category}</span>
+        </h3>
+        
+        <div class=":uno: overflow-x-auto">
+          <table class=":uno: min-w-full border-collapse">
+            <thead>
+              <tr class=":uno: border-b border-gray-200 dark:border-gray-800">
+                <th class=":uno: py-2 px-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider w-10"></th>
+                <th class=":uno: py-2 px-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Change</th>
+                <th class=":uno: py-2 px-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider w-32">Author</th>
+                <th class=":uno: py-2 px-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider w-32">Date</th>
+              </tr>
+            </thead>
+            <tbody class=":uno: divide-y divide-gray-200 dark:divide-gray-800">
+              {categorizedCommits[category].map(commit => (
+                <tr class=":uno: group hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors">
+                  <td class=":uno: py-3 px-3">
+                    <div class=":uno: w-8 h-8 rounded-full overflow-hidden bg-gray-100 dark:bg-gray-800">
+                      {commit.author.avatar ? (
+                        <img 
+                          src={commit.author.avatar} 
+                          alt={commit.author.name} 
+                          class=":uno: w-full h-full object-cover"
+                          width="32"
+                          height="32"
+                          loading="lazy"
+                        />
+                      ) : (
+                        <div class=":uno: w-full h-full flex items-center justify-center bg-gray-200 dark:bg-gray-700">
+                          <Icon name="lucide:user" class=":uno: w-4 h-4 text-gray-500 dark:text-gray-400" />
+                        </div>
+                      )}
+                    </div>
+                  </td>
+                  <td class=":uno: py-3 px-3">
+                    <a 
+                      href={commit.url} 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      class=":uno: group flex items-center space-x-1"
+                    >
+                      <span class=":uno: text-sm font-medium text-heading line-clamp-2">
+                        {commit.message.split('\n')[0]}
+                      </span>
+                      <Icon name="lucide:external-link" class=":uno: w-3.5 h-3.5 text-gray-400 opacity-0 group-hover:opacity-100 transition-opacity" />
+                    </a>
+                  </td>
+                  <td class=":uno: py-3 px-3 text-xs text-gray-500 dark:text-gray-400">
+                    {commit.author.name}
+                  </td>
+                  <td class=":uno: py-3 px-3 text-xs text-gray-500 dark:text-gray-400">
+                    <time datetime={commit.date.toISOString()}>{formatDate(commit.date)}</time>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    ))
+  ) : (
+    <div class=":uno: py-8 text-center text-gray-500 dark:text-gray-400">
+      <Icon name="lucide:git-branch" class=":uno: w-12 h-12 mx-auto mb-4 opacity-50" />
+      <p>Unable to load commit history. Please check back later.</p>
+    </div>
+  )}
+</div>
