@@ -42,8 +42,14 @@
 
 /* Active state for toggle */
 .whimsy-mode .whimsy-toggle {
-  background-color: var(--color-bauhaus-blue, #1E88E5);
+  background-color: rgba(0, 0, 0, 0.7);
   color: white;
+  opacity: 0.9;
+}
+
+.dark .whimsy-mode .whimsy-toggle {
+  background-color: rgba(255, 255, 255, 0.7);
+  color: #1a1a1a;
   opacity: 0.9;
 }
 
@@ -76,7 +82,7 @@
   position: fixed;
   width: 8px;
   height: 8px;
-  background-color: var(--color-bauhaus-blue, #1E88E5);
+  background-color: rgba(0, 0, 0, 0.8);
   transform: translate(-50%, -50%);
   border-radius: 0; /* Square shape for Bauhaus aesthetic */
   pointer-events: none;
@@ -85,6 +91,10 @@
   transition: background-color 0.3s ease;
   opacity: 0;
   display: none;
+}
+
+.dark .geometric-cursor {
+  background-color: rgba(255, 255, 255, 0.8);
 }
 
 .whimsy-mode .geometric-cursor {
@@ -96,7 +106,7 @@
   position: fixed;
   width: 6px;
   height: 6px;
-  background-color: var(--color-bauhaus-red, #E53935);
+  background-color: rgba(0, 0, 0, 0.7);
   transform: translate(-50%, -50%);
   border-radius: 0;
   pointer-events: none;
@@ -107,17 +117,29 @@
   display: none;
 }
 
+.dark .cursor-trail {
+  background-color: rgba(255, 255, 255, 0.7);
+}
+
 .whimsy-mode .cursor-trail {
   opacity: 0.7;
   display: block;
 }
 
 .cursor-trail:nth-child(2) {
-  background-color: var(--color-bauhaus-yellow, #FDD835);
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.dark .cursor-trail:nth-child(2) {
+  background-color: rgba(255, 255, 255, 0.5);
 }
 
 .cursor-trail:nth-child(3) {
-  background-color: var(--color-bauhaus-blue, #1E88E5);
+  background-color: rgba(0, 0, 0, 0.3);
+}
+
+.dark .cursor-trail:nth-child(3) {
+  background-color: rgba(255, 255, 255, 0.3);
 }
 
 /* Hide cursor on interactive elements when in whimsy mode */
@@ -165,16 +187,11 @@
 
 /* Hover effects for cards - enhanced in whimsy mode */
 .whimsy-mode .bookmark-card {
-  transition: transform 0.3s cubic-bezier(0.25, 0.1, 0.25, 1), box-shadow 0.3s ease;
+  transition: transform 0.3s cubic-bezier(0.25, 0.1, 0.25, 1);
 }
 
 .whimsy-mode .bookmark-card:hover {
-  transform: translateY(-4px) scale(1.01);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-}
-
-.dark.whimsy-mode .bookmark-card:hover {
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+  transform: translateY(-4px);
 }
 
 /* Special underline animation for links in whimsy mode */

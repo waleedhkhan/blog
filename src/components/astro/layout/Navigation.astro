@@ -35,7 +35,7 @@ const currentPath = Astro.url.pathname;
 const { posts } = Astro.props;
 ---
 
-<nav class="flat-nav fixed bottom-8 left-1/2 -translate-x-1/2 z-50 px-6 py-3 rounded-sm flex items-center shadow-md bg-white/90 dark:bg-stone-900/90 backdrop-blur-md border border-gray-200 dark:border-gray-800">
+<nav class="flat-nav fixed bottom-8 left-1/2 -translate-x-1/2 z-50 px-6 py-3 rounded-sm flex items-center backdrop-blur-md">
   {
     links.map((link, idx) => (
       <NavigationItem

@@ -4,10 +4,15 @@
  */
 
 :root {
-  /* Refined color palette with subtle neutrals */
-  --color-bauhaus-red: #E53935;
-  --color-bauhaus-blue: #1E88E5;
-  --color-bauhaus-yellow: #FDD835;
+  /* Neutral grayscale palette replacing colored accents */
+  --color-bauhaus-red: rgba(0, 0, 0, 0.8);
+  --color-bauhaus-blue: rgba(0, 0, 0, 0.6);
+  --color-bauhaus-yellow: rgba(0, 0, 0, 0.4);
+  
+  /* Dark mode equivalents */
+  --dark-color-bauhaus-red: rgba(255, 255, 255, 0.8);
+  --dark-color-bauhaus-blue: rgba(255, 255, 255, 0.6);
+  --dark-color-bauhaus-yellow: rgba(255, 255, 255, 0.4);
   
   /* Spacing system based on 8px grid */
   --space-unit: 0.5rem;
@@ -21,6 +26,13 @@
   --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Monaco, Consolas, monospace;
   --letter-spacing-tight: -0.015em;
   --letter-spacing-wide: 0.01em;
+}
+
+.dark {
+  /* Override bauhaus colors in dark mode */
+  --color-bauhaus-red: var(--dark-color-bauhaus-red);
+  --color-bauhaus-blue: var(--dark-color-bauhaus-blue);
+  --color-bauhaus-yellow: var(--dark-color-bauhaus-yellow);
 }
 
 /* Enhanced typography focus - IA Writer inspired */
@@ -73,14 +85,22 @@
   bottom: -5px;
   left: 0;
   width: 24px;
-  height: 2px;
-  background-color: var(--color-bauhaus-red);
+  height: 1px;
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+.dark .bauhaus-accent::before {
+  background-color: rgba(255, 255, 255, 0.1);
 }
 
 /* IA Writer inspired focus state */
 .bauhaus-focus-ring:focus {
   outline: none;
-  box-shadow: 0 0 0 2px rgba(30, 136, 229, 0.4);
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1);
+}
+
+.dark .bauhaus-focus-ring:focus {
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.1);
 }
 
 /* Precise button styling with optical alignment */
