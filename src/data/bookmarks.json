@@ -33,7 +33,8 @@
       "url": "https://marinabudarina.design/webdesignmastery",
       "description": "Practical guide to web design mastery.",
       "category": "design",
-      "timestamp": "2025-03-07T18:53:28.712Z"
+      "timestamp": "2025-03-07T18:53:28.712Z",
+      "date": "2025-03-07"
     },
     {
       "id": "060111df-b7b8-4055-bb18-66362df854b0",
@@ -167,6 +168,7 @@
       "url": "https://calzy.app/",
       "category": "design",
       "description": "Calzy is a beautiful iPhone/iPad calculator for your everyday use. It helps you perform your day to day mathemetical calculation in a more elegant way. It also lets you save your frequently used expression and use it back. It is simple, straight forward and modern. And It looks gorgeous on your iPhone and iPad.",
+      "date": "2025-03-07",
       "timestamp": "2025-03-07T21:42:37.187Z"
     },
     {
@@ -175,7 +177,17 @@
       "url": "https://bashbuddy.run",
       "category": "engineering",
       "description": "BashBuddy is an AI assistant that helps you get things done. Make your day-to-day less painful.",
+      "date": "2025-03-07",
       "timestamp": "2025-03-07T22:57:46.788Z"
+    },
+    {
+      "id": "2c8322b9-9f6e-42ac-9c17-76bf1843b7f8",
+      "name": "Manus",
+      "url": "https://manus.im",
+      "category": "ai",
+      "description": "Manus is a general AI agent that turns your thoughts into actions. It excels at various tasks in work and life, getting everything done while you rest.",
+      "date": "2025-03-10",
+      "timestamp": "2025-03-10T11:23:34.996Z"
     }
   ]
 }

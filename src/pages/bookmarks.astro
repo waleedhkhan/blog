@@ -7,10 +7,12 @@ const description = "A collection of useful links and resources";
 
 // Define proper types for our bookmarks
 interface BaseBookmark {
+  id: string;
   name: string;
   url: string;
   description: string;
   date?: string;
+  timestamp?: string;
 }
 
 interface StringCategoryBookmark extends BaseBookmark {
@@ -23,14 +25,13 @@ interface ArrayCategoryBookmark extends BaseBookmark {
 
 type Bookmark = StringCategoryBookmark | ArrayCategoryBookmark;
 
-// Extended bookmark with processed properties
+// Extended type for processed bookmarks with additional properties
 interface ProcessedBookmark extends BaseBookmark {
-  category: string | string[];
   originalIndex: number;
-  id?: number;
   formattedDate: string;
   dateTimestamp: number;
   processedCategories: string[];
+  category: string | string[];
 }
 
 // Process categories - handle both string and array formats
@@ -51,10 +52,20 @@ function formatDate(dateString: string | undefined): string {
 }
 
 // Convert string to date for sorting
-function dateToTimestamp(dateString: string | undefined): number {
-  if (!dateString) return 0; // No date means oldest
-  const date = new Date(dateString);
-  return isNaN(date.getTime()) ? 0 : date.getTime();
+function dateToTimestamp(dateString: string | undefined, timestampString: string | undefined): number {
+  // First check if timestamp exists (most precise)
+  if (timestampString) {
+    const timestamp = new Date(timestampString);
+    return isNaN(timestamp.getTime()) ? 0 : timestamp.getTime();
+  }
+  
+  // Fall back to date if timestamp isn't available
+  if (dateString) {
+    const date = new Date(dateString);
+    return isNaN(date.getTime()) ? 0 : date.getTime();
+  }
+  
+  return 0; // No date means oldest
 }
 
 // Process bookmarks and add index
@@ -68,11 +79,12 @@ let processedBookmarks = bookmarksData.bookmarks.map((bookmark, index) => {
   // Format the date if it exists
   if (processed.date) {
     processed.formattedDate = formatDate(processed.date);
-    processed.dateTimestamp = dateToTimestamp(processed.date);
   } else {
     processed.formattedDate = "";
-    processed.dateTimestamp = 0;
   }
+  
+  // Get timestamp for sorting (using timestamp field first if available, then date field)
+  processed.dateTimestamp = dateToTimestamp(processed.date, processed.timestamp);
   
   // Process categories
   let categories: string[] = [];
@@ -94,59 +106,59 @@ let currentSortOrder = "desc"; // Default sort order (descending - newest first)
 
 // Sort bookmarks by date based on initial sort order
 processedBookmarks.sort((a, b) => {
-  const sortMultiplier = currentSortOrder === "desc" ? 1 : -1;
+  const sortMultiplier = currentSortOrder === "desc" ? -1 : 1;
   
   // Sort by timestamp based on sort direction
   if (b.dateTimestamp !== a.dateTimestamp) {
     return (b.dateTimestamp - a.dateTimestamp) * sortMultiplier;
   }
   
-  // If timestamps are equal, maintain original order
-  return a.originalIndex - b.originalIndex;
+  // If dates are equal, maintain original order for stability
+  return (a.originalIndex - b.originalIndex) * sortMultiplier;
 });
 
 // Re-number the IDs based on the new sort order
 processedBookmarks.forEach((bookmark, index) => {
-  bookmark.id = index + 1;
+  bookmark.id = String(index + 1);
 });
 
 const uniqueCategories = Array.from(allCategories).sort();
 ---
 
 <Layout title={title} description={description}>
-  <section class=":uno: space-y-6">
-    <div class=":uno: space-y-3 text-center">
-      <h1 class=":uno: font-semibold text-2xl tracking-tight text-heading">Bookmarks</h1>
-      <p class=":uno: text-base leading-[1.75]">{description}</p>
+  <section class="space-y-6">
+    <div class="space-y-3 text-center">
+      <h1 class="font-semibold text-2xl tracking-tight text-heading">Bookmarks</h1>
+      <p class="text-base leading-relaxed">{description}</p>
     </div>
 
-    <!-- Redesigned search section with prominent search bar - Updated with white background -->
-    <div class=":uno: max-w-2xl mx-auto mb-8">
-      <div class=":uno: relative">
+    <!-- Clean search section with minimalist input -->
+    <div class="max-w-xl mx-auto mb-6">
+      <div class="relative">
         <input 
           type="text" 
           id="search-input" 
           placeholder="Search bookmarks..."
           aria-label="Search bookmarks" 
-          class=":uno: w-full px-4 py-3 pr-10 text-base rounded-md border bg-white dark:bg-[#1a1a1a] border-gray-300 dark:border-[#333333] shadow-sm hover:shadow-md transition-shadow focus:ring-2 focus:ring-offset-2 focus:ring-offset-white dark:focus:ring-offset-black focus:ring-gray-400 dark:focus:ring-gray-600 focus:border-gray-400 dark:focus:border-gray-600"
+          class="w-full px-3 py-2 text-sm border-b border-gray-200 dark:border-gray-700 bg-transparent focus:outline-none focus:border-gray-400 dark:focus:border-gray-500 transition-all"
         />
-        <svg xmlns="http://www.w3.org/2000/svg" class=":uno: absolute right-3 top-3.5 h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+        <svg xmlns="http://www.w3.org/2000/svg" class="absolute right-2 top-2 h-4 w-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
         </svg>
       </div>
     </div>
 
-    <!-- Category filter chips - Centered and improved -->
-    <div class=":uno: flex flex-wrap gap-2 mb-4 justify-center">
+    <!-- Simple category filter -->
+    <div class="flex flex-wrap gap-1.5 mb-6 justify-center">
       <button 
-        class=":uno: category-chip text-xs px-3.5 py-1.5 rounded-full bg-gray-100 dark:bg-[#1a1a1a] text-gray-800 dark:text-gray-300 border border-transparent hover:border-gray-300 dark:hover:border-gray-600 transition-all duration-200 hover:scale-105 active:scale-95 hover:shadow-sm" 
+        class="category-chip text-xs px-2.5 py-0.5 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 transition-colors" 
         data-category="all"
       >
         all
       </button>
       {uniqueCategories.map(category => (
         <button 
-          class=":uno: category-chip text-xs px-3.5 py-1.5 rounded-full bg-gray-50 dark:bg-[#1a1a1a] text-gray-700 dark:text-gray-300 border border-transparent hover:border-gray-300 dark:hover:border-gray-600 transition-all duration-200 hover:scale-105 active:scale-95 hover:shadow-sm" 
+          class="category-chip text-xs px-2.5 py-0.5 bg-gray-50 dark:bg-gray-800/70 text-gray-600 dark:text-gray-400 transition-colors" 
           data-category={category}
         >
           {category.toLowerCase()}
@@ -154,569 +166,263 @@ const uniqueCategories = Array.from(allCategories).sort();
       ))}
     </div>
     
-    <!-- Sort controls - Simplified and moved to the right -->
-    <div class=":uno: flex justify-end mb-4">
-      <div class=":uno: flex items-center gap-1 text-xs text-gray-500 dark:text-gray-400">
+    <!-- Simple sort controls -->
+    <div class="flex justify-end mb-4">
+      <div class="flex items-center gap-1 text-xs text-gray-500 dark:text-gray-400">
         <span>Sort:</span>
         <button 
           id="sort-newest" 
-          class=":uno: px-2 py-1 rounded hover:bg-gray-100 dark:hover:bg-[#2a2a2a] active-sort-button"
+          class="px-2 py-0.5 hover:text-gray-800 dark:hover:text-gray-200 active-sort-button"
         >
           Newest
         </button>
         <span>|</span>
         <button 
           id="sort-oldest" 
-          class=":uno: px-2 py-1 rounded hover:bg-gray-100 dark:hover:bg-[#2a2a2a]"
+          class="px-2 py-0.5 hover:text-gray-800 dark:hover:text-gray-200"
         >
           Oldest
         </button>
       </div>
     </div>
 
-    <!-- Compact bookmark grid - Updated with matching dark colors -->
-    <div id="bookmarks-container" class=":uno: grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3">
-      {processedBookmarks.map((bookmark) => {
-        return (
-          <div 
-            data-categories={bookmark.processedCategories.join(' ')}
-            data-url={bookmark.url}
-            data-date={bookmark.date || ""}
-            class=":uno: bookmark-card p-4 border border-gray-200 dark:border-[#333333] rounded-md transition-all duration-200 hover:shadow-sm hover:border-gray-300 dark:hover:border-gray-600 bg-white dark:bg-[#1a1a1a] h-[230px] flex flex-col"
-          >
-            <div class=":uno: flex items-center justify-between mb-2">
-              <span class=":uno: text-[10px] text-gray-400 dark:text-gray-500 font-mono">{`#${(bookmark.id || 0).toString().padStart(3, '0')}`}</span>
-              {bookmark.formattedDate && (
-                <span class=":uno: text-[10px] text-gray-400 dark:text-gray-500">{bookmark.formattedDate}</span>
-              )}
-            </div>
-            
-            <div class=":uno: mb-3">
-              <h3 class=":uno: font-medium text-sm text-gray-900 dark:text-gray-100">
+    <!-- Clean minimal table -->
+    <div id="bookmarks-container" class="w-full overflow-x-auto pb-8 max-w-4xl mx-auto">
+      <table class="min-w-full text-left">
+        <thead>
+          <tr class="border-b border-gray-200 dark:border-gray-700">
+            <th class="py-3 px-3 text-xs font-medium text-gray-500 dark:text-gray-400">NAME</th>
+            <th class="py-3 px-3 text-xs font-medium text-gray-500 dark:text-gray-400 hidden md:table-cell">DESCRIPTION</th>
+            <th class="py-3 px-3 text-xs font-medium text-gray-500 dark:text-gray-400 hidden sm:table-cell">CATEGORY</th>
+            <th class="py-3 px-3 text-xs font-medium text-gray-500 dark:text-gray-400 hidden sm:table-cell">ADDED</th>
+          </tr>
+        </thead>
+        <tbody>
+          {processedBookmarks.map((bookmark, index) => (
+            <tr 
+              data-categories={bookmark.processedCategories.join(' ')}
+              data-url={bookmark.url}
+              data-date={bookmark.date || ""}
+              class="bookmark-card border-b border-gray-100 dark:border-gray-800/80 hover:bg-gray-50/50 dark:hover:bg-gray-800/30 transition-colors"
+            >
+              <td class="py-3 px-3">
                 <a
                   href={bookmark.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  class=":uno: bookmark-link hover:text-blue-600 dark:hover:text-gray-300 flex items-start"
+                  class="text-sm font-medium text-gray-800 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 transition-colors flex items-center gap-1.5"
                   title={bookmark.url}
                   data-url={bookmark.url}
                 >
                   {bookmark.name.toLowerCase()}
-                  <svg xmlns="http://www.w3.org/2000/svg" class=":uno: h-3 w-3 ml-1 mt-0.5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
                   </svg>
                 </a>
-              </h3>
-            </div>
-            
-            <p class=":uno: text-xs text-gray-600 dark:text-gray-400 mb-3 line-clamp-3 min-h-[48px]">
-              {bookmark.description || "No description available"}
-            </p>
-            
-            <div class=":uno: flex flex-wrap gap-1 mt-auto">
-              {bookmark.processedCategories.map(category => (
-                <span class=":uno: text-[10px] px-1.5 py-0.5 bg-gray-100 dark:bg-[#2a2a2a] rounded-full text-gray-600 dark:text-gray-300">
-                  {category.toLowerCase()}
-                </span>
-              ))}
-            </div>
-          </div>
-        );
-      })}
+              </td>
+              <td class="py-3 px-3 text-xs text-gray-600 dark:text-gray-400 hidden md:table-cell max-w-md">
+                {bookmark.description || "No description available"}
+              </td>
+              <td class="py-3 px-3 hidden sm:table-cell">
+                <div class="flex flex-wrap gap-1">
+                  {bookmark.processedCategories.map(category => (
+                    <span class="text-[10px] px-1.5 py-0.5 bg-gray-100/80 dark:bg-gray-800/80 text-gray-600 dark:text-gray-400">
+                      {category.toLowerCase()}
+                    </span>
+                  ))}
+                </div>
+              </td>
+              <td class="py-3 px-3 text-xs text-gray-400 dark:text-gray-500 hidden sm:table-cell">
+                {bookmark.formattedDate}
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
 
     <!-- No results message -->
-    <div id="no-results" class=":uno: hidden text-center py-10 text-gray-500 dark:text-gray-400 text-sm">
+    <div id="no-results" class="hidden text-center py-8 text-gray-500 dark:text-gray-400 text-sm">
       No bookmarks found matching your search
     </div>
   </section>
 
-  <script>
-    // Search and filter functionality
-    document.addEventListener('DOMContentLoaded', () => {
-      // Get DOM elements with proper null checking
-      const searchInput = document.getElementById('search-input') as HTMLInputElement | null;
-      const categoryChips = document.querySelectorAll<HTMLButtonElement>('.category-chip');
-      const bookmarkCards = document.querySelectorAll<HTMLDivElement>('.bookmark-card');
-      const bookmarkLinks = document.querySelectorAll<HTMLAnchorElement>('.bookmark-link');
-      const noResults = document.getElementById('no-results');
-      const bookmarksContainer = document.getElementById('bookmarks-container');
-      
-      // Simplified sort buttons
-      const sortNewestBtn = document.getElementById('sort-newest');
-      const sortOldestBtn = document.getElementById('sort-oldest');
-      
-      // Safety check - if essential elements are missing, exit early
-      if (!searchInput || !bookmarksContainer || !noResults) {
-        console.error('Essential DOM elements not found');
-        return;
-      }
-      
-      // Current state
-      let currentCategory = 'all';
-      let currentSortOrder = 'desc';
-      
-      // Initialize visited bookmarks from localStorage
-      const visitedBookmarks = new Set(
-        JSON.parse(localStorage.getItem('visitedBookmarks') || '[]')
-      );
-      
-      // Apply visited styles on page load
-      applyVisitedStyles();
-      
-      // Update active sort option and sort bookmarks
-      function updateSortOption() {
-        if (sortNewestBtn && sortOldestBtn) {
-          // Update active styles
-          if (currentSortOrder === 'desc') {
-            sortNewestBtn.classList.add('active-sort-button', 'font-medium', 'text-gray-900', 'dark:text-gray-200');
-            sortOldestBtn.classList.remove('active-sort-button', 'font-medium', 'text-gray-900', 'dark:text-gray-200');
-          } else {
-            sortOldestBtn.classList.add('active-sort-button', 'font-medium', 'text-gray-900', 'dark:text-gray-200');
-            sortNewestBtn.classList.remove('active-sort-button', 'font-medium', 'text-gray-900', 'dark:text-gray-200');
-          }
-        }
-        
-        // Sort the bookmarks
-        sortBookmarks();
-      }
-      
-      // Sort bookmarks function - with null check for container
-      function sortBookmarks() {
-        if (!bookmarksContainer) return;
-        
-        const cards = Array.from(bookmarksContainer.querySelectorAll<HTMLDivElement>('.bookmark-card'));
-        
-        cards.sort((a, b) => {
-          // Get date attribute directly from the card
-          const aDateStr = a.getAttribute('data-date') || '';
-          const bDateStr = b.getAttribute('data-date') || '';
-          
-          const aDate = aDateStr ? new Date(aDateStr).getTime() : 0;
-          const bDate = bDateStr ? new Date(bDateStr).getTime() : 0;
-          
-          // Sort based on date and current sort order
-          if (currentSortOrder === 'desc') {
-            return bDate - aDate;
-          } else {
-            return aDate - bDate;
-          }
-        });
-        
-        // Detach all cards from DOM to avoid unnecessary reflows
-        const fragment = document.createDocumentFragment();
-        cards.forEach(card => fragment.appendChild(card));
-        
-        // Clear container and re-attach cards in sorted order
-        while (bookmarksContainer.firstChild) {
-          bookmarksContainer.removeChild(bookmarksContainer.firstChild);
-        }
-        bookmarksContainer.appendChild(fragment);
-        
-        // Remove update to results text
-      }
-
-      // Filter bookmarks function - with null checks
-      function filterBookmarks() {
-        if (!searchInput || !noResults || !bookmarksContainer) return;
-        
-        const searchTerm = searchInput.value.toLowerCase();
-        
-        let visibleCount = 0;
-
-        bookmarkCards.forEach(card => {
-          const title = card.querySelector('h3')?.textContent?.toLowerCase() || '';
-          const categoriesString = card.dataset.categories || '';
-          const description = card.querySelector('p')?.textContent?.toLowerCase() || '';
-          
-          const matchesSearch = title.includes(searchTerm) || description.includes(searchTerm);
-          const matchesCategory = currentCategory === 'all' || 
-                                 categoriesString.split(' ').includes(currentCategory);
-          
-          if (matchesSearch && matchesCategory) {
-            card.classList.remove('hidden');
-            visibleCount++;
-          } else {
-            card.classList.add('hidden');
-          }
-        });
-
-        // Remove setting text content for results count
-        
-        if (visibleCount === 0) {
-          noResults.classList.remove('hidden');
-          bookmarksContainer.classList.add('hidden');
-        } else {
-          noResults.classList.add('hidden');
-          bookmarksContainer.classList.remove('hidden');
-        }
-
-        // Update category chip active state - with safety checks
-        categoryChips.forEach(chip => {
-          const chipCategory = chip.dataset.category;
-          if (!chipCategory) return;
-          
-          if (chipCategory === currentCategory) {
-            chip.classList.add('bg-gray-200', 'dark:bg-[#2a2a2a]', 'text-gray-900', 'dark:text-gray-100', 
-                              'border-gray-300', 'dark:border-gray-600', 'shadow-sm', 'scale-105');
-            chip.classList.remove('bg-gray-50', 'bg-gray-100', 'dark:bg-[#1a1a1a]', 'text-gray-700', 'dark:text-gray-300', 
-                                'border-transparent');
-            
-            // Add pulse animation to the active chip
-            chip.style.animation = 'pulse 2s infinite';
-          } else {
-            chip.classList.remove('bg-gray-200', 'dark:bg-[#2a2a2a]', 'text-gray-900', 'dark:text-gray-100', 
-                                 'border-gray-300', 'dark:border-gray-600', 'shadow-sm', 'scale-105');
-            chip.classList.add('bg-gray-50', 'dark:bg-[#1a1a1a]', 'text-gray-700', 'dark:text-gray-300', 
-                              'border-transparent');
-            
-            // Remove animation from inactive chips
-            chip.style.animation = '';
-          }
-        });
-      }
-      
-      // Attach event listeners for sort options - simplified
-      sortNewestBtn?.addEventListener('click', () => {
-        if (currentSortOrder !== 'desc') {
-          currentSortOrder = 'desc';
-          updateSortOption();
-        }
-      });
-      
-      sortOldestBtn?.addEventListener('click', () => {
-        if (currentSortOrder !== 'asc') {
-          currentSortOrder = 'asc';
-          updateSortOption();
-        }
-      });
-
-      // Mark bookmark as visited when clicked - with safety checks
-      bookmarkLinks.forEach(link => {
-        // Add click event listener to each bookmark link
-        link.addEventListener('click', () => {
-          const url = link.getAttribute('data-url');
-          if (url) {
-            // Add to visited set
-            visitedBookmarks.add(url);
-            // Save to localStorage
-            localStorage.setItem('visitedBookmarks', JSON.stringify([...visitedBookmarks]));
-            // Apply visited styles with animation
-            const card = link.closest('.bookmark-card');
-            if (card && !card.classList.contains('visited')) {
-              card.classList.add('visited');
-              card.classList.add('just-visited'); // Add class for animation trigger
-              setTimeout(() => {
-                card.classList.remove('just-visited');
-              }, 500); // Shorter animation time for simplicity
-            }
-          }
-        });
-        
-        // Check if this link was previously visited
-        const url = link.getAttribute('data-url');
-        if (url && visitedBookmarks.has(url)) {
-          const card = link.closest('.bookmark-card');
-          if (card) {
-            card.classList.add('visited');
-          }
-        }
-      });
-      
-      // Function to apply visited styles based on localStorage data
-      function applyVisitedStyles() {
-        bookmarkCards.forEach(card => {
-          const url = card.getAttribute('data-url');
-          if (url && visitedBookmarks.has(url)) {
-            card.classList.add('visited');
-          }
-        });
-      }
-
-      // Add input event listener - with null check
-      if (searchInput) {
-        searchInput.addEventListener('input', filterBookmarks);
-      }
-      
-      // Handle category chip clicks - with safety checks
-      categoryChips.forEach(chip => {
-        chip.addEventListener('click', () => {
-          const chipCategory = chip.dataset.category;
-          if (chipCategory) {
-            currentCategory = chipCategory;
-            filterBookmarks();
-          }
-        });
-      });
-
-      // Add focus to search input on page load
-      setTimeout(() => {
-        searchInput?.focus();
-      }, 500); // Short delay to ensure page is ready
-      
-      // Initial setup
-      updateSortOption();
-      filterBookmarks();
-    });
-  </script>
-
   <style>
-    /* Subtle pulse animation - UPDATED FOR GRAYSCALE THEME */
-    @keyframes pulse {
-      0% {
-        box-shadow: 0 0 0 0 rgba(107, 114, 128, 0.2); /* Gray-500 with low opacity */
-      }
-      70% {
-        box-shadow: 0 0 0 6px rgba(107, 114, 128, 0);
-      }
-      100% {
-        box-shadow: 0 0 0 0 rgba(107, 114, 128, 0);
+    /* Responsive table styles */
+    table {
+      width: 100%;
+      border-spacing: 0;
+    }
+
+    @media (max-width: 640px) {
+      table {
+        font-size: 0.875rem;
       }
     }
 
-    /* Dark mode animation - UPDATED TO MATCH NAVIGATION THEME */
-    @media (prefers-color-scheme: dark) {
-      @keyframes pulse {
-        0% {
-          box-shadow: 0 0 0 0 rgba(156, 163, 175, 0.15);
-        }
-        70% {
-          box-shadow: 0 0 0 6px rgba(156, 163, 175, 0);
-        }
-        100% {
-          box-shadow: 0 0 0 0 rgba(156, 163, 175, 0);
-        }
-      }
+    /* Active category chip */
+    .category-chip.active {
+      background-color: #e5e7eb;
+      color: #111827;
+    }
+    
+    .dark .category-chip.active {
+      background-color: #374151;
+      color: #f9fafb;
     }
 
-    /* UPDATED: Focus styles for accessibility - grayscale theme */
-    .category-chip:focus {
-      outline: 2px solid rgba(107, 114, 128, 0.5); /* Gray-500 */
-      outline-offset: 2px;
+    /* Active sort button */
+    .active-sort-button {
+      font-weight: 500;
+      color: #111827;
+    }
+    
+    .dark .active-sort-button {
+      color: #f9fafb;
+    }
+    
+    /* Custom scrollbar for table */
+    #bookmarks-container::-webkit-scrollbar {
+      height: 6px;
     }
 
-    /* Ensure we don't show outline when using mouse, only for keyboard navigation */
-    .category-chip:focus:not(:focus-visible) {
+    #bookmarks-container::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    #bookmarks-container::-webkit-scrollbar-thumb {
+      background-color: rgba(156, 163, 175, 0.3);
+      border-radius: 3px;
+    }
+
+    .dark #bookmarks-container::-webkit-scrollbar-thumb {
+      background-color: rgba(75, 85, 99, 0.4);
+    }
+
+    /* Search input focus styles */
+    #search-input:focus {
       outline: none;
     }
-    
-    /* SIMPLIFIED: Visited bookmark styling - Minimal approach */
-    .bookmark-card.visited {
-      /* No background or border changes - keeping it minimal */
-    }
-    
-    /* SIMPLIFIED: Text remains the same in both light and dark mode */
-    .bookmark-card.visited h3 a,
-    .bookmark-card.visited p,
-    .bookmark-card.visited .flex span {
-      /* No color changes - keeping original text colors */
-    }
-    
-    /* Position relative for the checkmark container */
-    .bookmark-card {
-      position: relative;
-    }
-
-    /* UPDATED: Moved checkmark to bottom of card */
-    .bookmark-card::before {
-      content: "";
-      position: absolute;
-      bottom: 10px;  
-      right: 8px;
-      width: 18px;
-      height: 18px;
-      border-radius: 50%;
-      background-color: transparent;
-      opacity: 0;
-      transform: scale(0);
-      transition: all 0.3s ease;
-      z-index: 1;
-    }
-    
-    /* UPDATED: Added small visited text indicator beneath checkmark */
-    .bookmark-card.visited::after {
-      content: "";
-      position: absolute;
-      bottom: 10px;
-      right: 30px;
-      font-size: 10px;
-      color: #6b7280; /* Gray-500 */
-      opacity: 0.7;
-    }
-    
-    /* Dark mode text indicator */
-    @media (prefers-color-scheme: dark) {
-      .bookmark-card.visited::after {
-        color: #9ca3af; /* Gray-400 */
-      }
-    }
-    
-    /* SIMPLIFIED: Visited card checkmark - Light Theme */
-    .bookmark-card.visited::before {
-      content: "✓";
-      background-color: #e5e7eb; /* Gray-200 - very subtle */
-      color: #4b5563; /* Gray-600 - subtle text */
-      font-size: 12px;
-      line-height: 18px;
-      text-align: center;
-      opacity: 0.9;
-      transform: scale(1);
-      box-shadow: none; /* No shadow for minimal look */
-    }
-    
-    /* SIMPLIFIED: Visited card checkmark - Dark Theme */
-    @media (prefers-color-scheme: dark) {
-      .bookmark-card.visited::before {
-        background-color: #2a2a2a;
-        color: #f0f0f0;
-        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
-      }
-      
-      .bookmark-card.visited::after {
-        color: #cccccc;
-      }
-    }
-    
-    /* Animation for just visited cards - keep subtle animation */
-    .bookmark-card.just-visited::before {
-      animation: simple-pop 0.3s ease-out forwards;
-    }
-    
-    /* SIMPLIFIED: Simplified pop animation */
-    @keyframes simple-pop {
-      0% {
-        transform: scale(0);
-        opacity: 0;
-      }
-      100% {
-        transform: scale(1);
-        opacity: 0.9;
-      }
-    }
-    
-    /* SIMPLIFIED: Remove card highlight animation */
-    .bookmark-card.just-visited {
-      /* No animation */
-    }
-    
-    /* SIMPLIFIED: Remove SVG extras */
-    .checkmark-svg {
-      display: none;
-    }
-    
-    /* Add consistent hover effects like in navigation */
-    .bookmark-card {
-      transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
-    }
-    
-    .bookmark-card:hover {
-      transform: translateY(-1px);
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
-    }
-    
-    :global(.dark) .bookmark-card:hover {
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    }
-    
-    /* Make category chips have navigation-like interactions */
-    .category-chip {
-      position: relative;
-      overflow: hidden;
-      z-index: 1;
-    }
-    
-    .category-chip::before {
-      content: '';
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      width: 0;
-      height: 0;
-      background: rgba(0, 0, 0, 0.05);
-      border-radius: 50%;
-      transform: translate(-50%, -50%);
-      transition: width 0.4s ease, height 0.4s ease;
-      z-index: -1;
-      pointer-events: none;
-    }
-    
-    @media (prefers-color-scheme: dark) {
-      .category-chip::before {
-        background: rgba(255, 255, 255, 0.05);
-      }
-    }
-    
-    .category-chip:hover::before {
-      width: 120%;
-      height: 120%;
-    }
-    
-    /* Match the input field styling to the navigation */
-    #search-input {
-      transition: border-color 0.2s ease, box-shadow 0.2s ease;
-      background-color: #ffffff !important; /* Force white background in light mode */
-    }
-    
-    #search-input:focus {
-      box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.05);
-      border-color: #aaaaaa;
-      background-color: #ffffff !important; /* Maintain white background when focused */
-    }
-    
-    @media (prefers-color-scheme: dark) {
-      #search-input {
-        background-color: #1a1a1a !important;
-        border-color: #333333;
-      }
-      
-      #search-input:focus {
-        box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.1);
-        border-color: #555555;
-        background-color: #1a1a1a !important;
-      }
-    }
-
-    /* Style for active sort option */
-    .active-sort-button {
-      position: relative;
-    }
-    
-    .active-sort-button::after {
-      content: "";
-      position: absolute;
-      left: 0;
-      right: 0;
-      bottom: -2px;
-      height: 2px;
-      background-color: #4b5563;
-      border-radius: 1px;
-    }
-    
-    :global(.dark) .active-sort-button::after {
-      background-color: #9ca3af;
-    }
   </style>
-</Layout>
 
-<script>
-  // Add an additional script to detect system theme changes
-  document.addEventListener('DOMContentLoaded', () => {
-    // Check if the browser supports theme detection
-    if (window.matchMedia) {
-      const darkModeMediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // DOM Elements
+      const bookmarkCards = document.querySelectorAll('.bookmark-card');
+      const searchInput = document.getElementById('search-input');
+      const categoryButtons = document.querySelectorAll('.category-chip');
+      const sortNewestButton = document.getElementById('sort-newest');
+      const sortOldestButton = document.getElementById('sort-oldest');
+      const noResultsElement = document.getElementById('no-results');
+      const bookmarksContainer = document.getElementById('bookmarks-container');
       
-      // Add change listener
-      darkModeMediaQuery.addEventListener('change', (e) => {
-        // Refresh visited states to ensure correct theme styling
-        const visitedCards = document.querySelectorAll('.bookmark-card.visited');
-        visitedCards.forEach(card => {
-          // Toggle and re-add class to refresh styles
-          card.classList.remove('visited');
-          setTimeout(() => {
-            card.classList.add('visited');
-          }, 10);
+      // State
+      let activeCategory = 'all';
+      let sortDirection = 'newest';
+      let searchQuery = '';
+      
+      // Initialize active category
+      categoryButtons.forEach(button => {
+        if (button.dataset.category === 'all') {
+          button.classList.add('active');
+        }
+        
+        button.addEventListener('click', () => {
+          // Remove active class from all category buttons
+          categoryButtons.forEach(b => b.classList.remove('active'));
+          
+          // Add active class to clicked button
+          button.classList.add('active');
+          
+          // Update active category
+          activeCategory = button.dataset.category;
+          
+          // Apply filters
+          applyFilters();
         });
       });
-    }
-  });
-</script>
+      
+      // Initialize sort buttons
+      sortNewestButton.classList.add('active-sort-button');
+      
+      sortNewestButton.addEventListener('click', () => {
+        sortDirection = 'newest';
+        sortNewestButton.classList.add('active-sort-button');
+        sortOldestButton.classList.remove('active-sort-button');
+        applyFilters();
+      });
+      
+      sortOldestButton.addEventListener('click', () => {
+        sortDirection = 'oldest';
+        sortOldestButton.classList.add('active-sort-button');
+        sortNewestButton.classList.remove('active-sort-button');
+        applyFilters();
+      });
+      
+      // Search functionality
+      searchInput.addEventListener('input', (e) => {
+        searchQuery = e.target.value.toLowerCase();
+        applyFilters();
+      });
+      
+      // Apply filters function
+      function applyFilters() {
+        let visibleCount = 0;
+        
+        // Get all bookmark cards and store in array for sorting
+        const cardsArray = Array.from(bookmarkCards);
+        
+        // Sort cards based on sort direction
+        cardsArray.sort((a, b) => {
+          const dateA = a.dataset.date;
+          const dateB = b.dataset.date;
+          
+          if (sortDirection === 'newest') {
+            return dateB.localeCompare(dateA);
+          } else {
+            return dateA.localeCompare(dateB);
+          }
+        });
+        
+        // Apply the sort order
+        cardsArray.forEach(card => {
+          const cardParent = card.parentNode;
+          cardParent.appendChild(card);
+        });
+        
+        // Apply category and search filters
+        bookmarkCards.forEach(card => {
+          const categories = card.dataset.categories.toLowerCase().split(' ');
+          const url = card.dataset.url.toLowerCase();
+          const title = card.querySelector('a').textContent.toLowerCase();
+          const description = card.querySelectorAll('td')[1]?.textContent.toLowerCase() || '';
+          
+          const matchesCategory = activeCategory === 'all' || categories.includes(activeCategory);
+          const matchesSearch = searchQuery === '' || 
+                                title.includes(searchQuery) || 
+                                description.includes(searchQuery) || 
+                                url.includes(searchQuery);
+          
+          if (matchesCategory && matchesSearch) {
+            card.style.display = '';
+            visibleCount++;
+          } else {
+            card.style.display = 'none';
+          }
+        });
+        
+        // Show/hide no results message
+        if (visibleCount === 0) {
+          noResultsElement.style.display = 'block';
+          bookmarksContainer.style.display = 'none';
+        } else {
+          noResultsElement.style.display = 'none';
+          bookmarksContainer.style.display = 'block';
+        }
+      }
+      
+      // Initialize with default filters
+      applyFilters();
+    });
+  </script>
+</Layout>
