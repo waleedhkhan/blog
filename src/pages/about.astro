@@ -1,82 +1,488 @@
 ---
-import { Icon } from "astro-icon/components";
 import Layout from "@/components/astro/layout/Layout.astro";
-import AppLink from "@/components/astro/ui/AppLink.astro";
+import { Icon } from "astro-icon/components";
 
-const title = "About";
-const description =
-  "Technology leader, consultant, and digital product specialist with experience across Europe.";
+const title = "About — Waleed Hussain";
+const description = "Software engineer and technology leader with over 15 years of experience";
+
+// Skills data structure - consolidated into fewer categories
+const skills = [
+  {
+    category: "Core Technology",
+    items: ["Python", "JavaScript", "PHP", "SQL", "AWS", "Docker", "Kubernetes"]
+  },
+  {
+    category: "Web & E-Commerce",
+    items: ["NextJS", "Laravel", "Express", "Magento", "FastAPI", "GraphQL", "Vercel"]
+  },
+  {
+    category: "AI & Data",
+    items: ["PyTorch", "LLMs", "Kafka", "Data Warehousing", "Elastic Search", "Analytics"]
+  }
+];
+
+// Expanded skills (shown only when expanded)
+const expandedSkills = {
+  "Programming Languages": ["Python", "JavaScript", "PHP", "Shell", "Go", "SQL", "TypeScript"],
+  "Frameworks": ["Laravel", "NextJS", "FastAPI", "Magento", "Express", "Spring", "Astro"],
+  "AI & ML": ["PyTorch", "Hugging Face", "LangChain", "LLMs", "Vector DBs", "TensorFlow", "OpenAI API"],
+  "Modern Development": ["Vercel", "Supabase", "Prisma", "Cloudflare Workers", "GraphQL", "Tailwind", "tRPC"],
+  "Infrastructure": ["Docker", "Kubernetes", "CI/CD", "Github Actions", "Ansible", "Terraform"],
+  "Cloud & AWS": ["ECS", "EKS", "S3", "Lambda", "RDS", "SQS", "Glue & Athena", "CloudFront"],
+  "Data & Analytics": ["Data Lake", "Warehousing", "Airflow", "Metabase", "Kafka", "Snowplow", "Elastic Search"]
+};
+
+// Timeline/experience data from CV
+const experiences = [
+  {
+    period: "2020 — Present",
+    role: "CEO",
+    company: "Comparado GmbH — preis.de",
+    location: "Berlin, Germany",
+    stack: "Java, Springboot, Kafka, MongoDB, MySQL, Elastic Search, AWS Datalake, Python, NextJS",
+    description: "Comparado GmbH, the company behind Preis.de, was founded in 2005 in Lüneburg by Tobias Ossig-Lach and Philipp Schrader. Acquired by idealo Internet GmbH in 2013, it has been managed by Alice Spilka and an amazing team of 60, achieving profitable operations. I was brought on as Co-CEO in August 2020 to address growth challenges, focusing on scaling the product alongside Alice during the peak of the COVID-19 pandemic to ensure operational stability and continued expansion. However, significant changes in Google's algorithms in early 2024 combined with tough market conditions resulted in a major drop in organic traffic for many small and mid-sized aggregators, including, idealo travel, ladenzeile and Preis.de. Consequently, the decision was made to close Preis.de in fall 2024. Today, Comparado GmbH continues working closely with idealo founders and managment to explore new opportunities in future business."
+  },
+  {
+    period: "2018 — 2020",
+    role: "Accelerator Builder for Global E-Commerce",
+    company: "Trotec GmbH",
+    location: "Berlin & Heinsberg, Germany",
+    stack: "Magento 2, Elastic Search, Akeneo PIM, Metabase, Microservices",
+    description: "Spearheaded the modernization of Trotec's outdated shop system, overseeing its relaunch into 20 international markets. Established and led a specialist team in Berlin to a swift and successful platform launch within a year, doubling the conversion rate."
+  },
+  {
+    period: "2016 — 2018",
+    role: "CTO",
+    company: "Dr. Förster AG",
+    location: "Berlin, Germany",
+    stack: "LAMP, Python, Laravel, Magento, ODOO ERP, AWS, Optimizely, Tableau, Optivo",
+    description: "Refined the company's technical strategy to match business objectives. Key achievement was the digital transformation of a two-decade-old manufacturing infrastructure. Oversaw engineering initiatives across various teams and led development teams in Berlin."
+  },
+  {
+    period: "2015 — 2016",
+    role: "Career Break",
+    company: "Sabbatical & Consulting",
+    location: "Berlin, Germany",
+    stack: "Advisory, Mentoring, Technology Evaluation",
+    description: "Took a strategic career break to focus on professional development, technology research, and selective consulting opportunities. Advised early-stage startups on technical architecture and scaling strategies while exploring emerging technologies and industry trends."
+  },
+  {
+    period: "2012 — 2015",
+    role: "Co-Founder & CTO",
+    company: "23 Digital Concepts GmbH",
+    location: "Vienna, Austria",
+    stack: "LAMP, Java, Apache Kafka",
+    description: "Co-founded a specialized e-commerce software development agency, creating Enterprise Service Bus (ESBs) and ERP connectors. Expanded B2B customer portfolio to over 200 within 18 months, built and managed a team of 25 engineers. Achieved successful exit via acquisition."
+  },
+  {
+    period: "2012 — 2013",
+    role: "Head of E-Commerce",
+    company: "P&P Medien GmbH Werbeagentur",
+    location: "Innsbruck, Austria",
+    stack: "LAMP, Opencart, Magento Enterprise, Drupal",
+    description: "Initiated and developed a specialized in-house e-commerce department for an advertising agency, crafting customized online shops utilizing Magento and other e-commerce technologies."
+  },
+  {
+    period: "2010 — 2012",
+    role: "Engineering Manager",
+    company: "Vipsportnahrung GmbH",
+    location: "Vienna, Austria",
+    stack: "LAMP, Magento, XT:Commerce, OpenERP, POS",
+    description: "Oversaw the transition of e-commerce platform from XT:Commerce to Magento, enhancing online and in-store retail capabilities. Implemented comprehensive inventory management with OpenERP."
+  },
+  {
+    period: "2008 — 2010",
+    role: "Software Engineer",
+    company: "Blickvang GmbH",
+    location: "Vienna, Austria",
+    stack: "LAMP, Magento",
+    description: "Maintained and enhanced the existing online store, developed bespoke extensions, and optimized Magento templates. Active contributor to the Magento open source project."
+  }
+];
+
+// Education data
+const education = [
+  {
+    period: "2011",
+    degree: "Bachelor of Business Administration (BBA)",
+    institution: "Vienna International University"
+  },
+  {
+    period: "2007",
+    degree: "Technical College Graduate",
+    institution: "HTL Vienna"
+  },
+  {
+    period: "2020",
+    degree: "Corporate Entrepreneurship Training",
+    institution: "Columbia Business School"
+  },
+  {
+    period: "2009",
+    degree: "Software Engineering Certification",
+    institution: "WIFI Wien"
+  },
+  {
+    period: "2007",
+    degree: "Software Engineering Internship",
+    institution: "IBM Vienna"
+  }
+];
+
+// Social links
+const socialLinks = [
+  { name: "LinkedIn", icon: "lucide:linkedin", url: "https://linkedin.com/in/waleedhk/" },
+  { name: "Website", icon: "lucide:globe", url: "https://waleed.de" },
+  { name: "Email", icon: "lucide:mail", url: "mailto:info@waleed.de" }
+];
+
+// Languages
+const languages = [
+  { language: "German", level: "C2 (Proficient)" },
+  { language: "English", level: "C2 (Proficient)" },
+  { language: "Urdu", level: "Native" },
+  { language: "Hindi", level: "Native" }
+];
+
+// Hobbies
+const hobbies = ["Cricket", "Playing Guitar", "Hiking", "Camping"];
 ---
 
-<Layout title={title} description={description} og="og-about">
-  <section class=":uno: grid grid-cols-12 gap-4 md:gap-6">
-    <h1
-      class=":uno: col-start-1 col-end-13 md:col-end-4 text-2xl text-heading tracking-tight font-semibold transition-colors"
-    >
-      About
-    </h1>
-
-    <div
-      class=":uno: col-start-1 col-end-13 md:col-start-5 leading-[1.75] space-y-5"
-    >
-      <div class=":uno: flex items-center gap-5 mb-3">
+<Layout title={title} description={description}>
+  <section class="about-container max-w-4xl mx-auto space-y-12 pb-16 px-4">
+    <!-- Header with image and intro -->
+    <div class="grid grid-cols-1 md:grid-cols-[1fr_2fr] gap-8 items-center">
+      <div class="aspect-square w-full max-w-[240px] mx-auto md:mx-0 overflow-hidden rounded-lg relative image-container">
+        <!-- Use Cloudinary image URL -->
         <img 
-          class=":uno: h-20 w-20 rounded-full object-cover" 
           src="https://res.cloudinary.com/dm9gvqa1t/image/upload/t_Square/v1737252681/waleed.de/bn9y9x71i1gznmlrpe7n.jpg" 
-          alt="Waleed Khan portrait photo"
+          alt="Profile photo of Waleed Hussain" 
+          class="w-full h-full object-cover transition-transform hover:scale-[1.03] image-hover"
+          width={240}
+          height={240}
         />
-        <div>
-          <p class=":uno: text-lg mb-1">
-            I'm Waleed, a technology & business leader building digital products for organizations across Europe.
-          </p>
-          <div class=":uno: flex gap-3">
-            <a href="https://www.linkedin.com/in/waleedhk/" class=":uno: text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">
-              <Icon name="lucide:linkedin" class=":uno: w-5 h-5" />
-              <span class=":uno: sr-only">LinkedIn</span>
-            </a>
-            <a href="mailto:info@waleed.de" class=":uno: text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">
-              <Icon name="lucide:mail" class=":uno: w-5 h-5" />
-              <span class=":uno: sr-only">Email</span>
-            </a>
-          </div>
-        </div>
+        <!-- Fallback will be handled by CSS instead of inline script -->
       </div>
       
-      <p>
-        Professionally, I have held technology & business leadership positions serving a variety of industries across Europe. As an independent consultant, I have been working directly with organisations to build clear, coherent and scalable digital products. My work is recognized by several large organizations, including eBay, PayPal and Adobe, among others.
-      </p>
+      <div class="space-y-4">
+        <h1 class="font-semibold text-3xl md:text-4xl tracking-tight text-heading">
+          Waleed Hussain
+        </h1>
+        
+        <p class="text-lg leading-relaxed text-gray-700 dark:text-gray-300">
+          With over 15 years of expertise in software engineering, I have dedicated a decade to
+          leadership roles spanning startups to mature scale-ups. I possess a demonstrated
+          history of transforming initial concept sketches into scalable, dependable products
+          with agility and efficiency.
+        </p>
+        
+        <!-- CTA section -->
+        <div class="mt-6 mb-2">
+          <a 
+            href="mailto:info@waleed.de"
+            class="inline-block px-5 py-2 text-xs font-medium rounded-sm bg-gray-900 text-white dark:bg-white dark:text-gray-900 hover:translate-y-[-2px] transition-transform"
+          >
+            Let's connect
+          </a>
+        </div>
+        
+        <!-- Replaced social icons with minimal text links that match site style -->
+        <div class="flex flex-wrap gap-4 text-xs font-medium text-content pt-2">
+         
+        </div>
+      </div>
+    </div>
 
-      <p>
-        In recent years I've become more and more interested in the methods of leading teams and how to work smarter. Today I work with businesses to help them make a meaningful impact within their industry. I bring a critical eye to the development process, and advocate renewal over wholesale reinvention.
-      </p>
+    <!-- Expertise section -->
+    <div class="space-y-5">
+      <h2 class="text-2xl font-medium text-heading">Expertise</h2>
       
-      <hr class=":uno: border-t border-gray-200 dark:border-gray-800 my-6" />
+      <div class="prose prose-lg dark:prose-invert">
+        <p>
+          I am a seasoned software engineer at heart with extensive experience in developing e-commerce
+          solutions using open source technologies. Recently, I have shifted to a product-centric approach.
+          Since 2018, I have been forming and managing agile, high-achieving teams, empowering them
+          with independence while providing mentorship in a dynamic and supportive workplace. I also step
+          in to contribute directly whenever necessary.
+        </p>
+      </div>
+    </div>
+
+    <!-- Skills section - Consolidated version -->
+    <div class="space-y-5">
+      <h2 class="text-2xl font-medium text-heading">Technical Skills</h2>
       
-      <h2 class=":uno: text-xl font-semibold mb-3">Background</h2>
- 
-      <p>
-        I was born in 1988 in Karachi, a city of 20+ million people in Pakistan. I spent most of my early childhood with my family in Karachi and in the early 2000s we permanently settled in Vienna, Austria.
-      </p>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        {skills.map(skillGroup => (
+          <div class="skill-card p-4 bg-surface rounded-lg">
+            <h3 class="font-medium text-sm text-heading mb-3 lowercase">{skillGroup.category}</h3>
+            <div class="flex flex-wrap gap-1.5">
+              {skillGroup.items.map(skill => (
+                <span class="text-xs px-2 py-0.5 rounded bg-pressurized text-content">
+                  {skill}
+                </span>
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+      
+      <!-- Show more/less toggle -->
+      <div class="text-center mt-4">
+        <button id="skills-toggle" class="text-xs px-4 py-1.5 rounded-full bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">
+          Show all technologies
+        </button>
+      </div>
+      
+      <!-- Expanded skills (hidden by default) -->
+      <div id="expanded-skills" class="hidden mt-6 space-y-6">
+        <h3 class="text-lg font-medium text-heading">Detailed Technical Expertise</h3>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {Object.entries(expandedSkills).map(([category, items]) => (
+            <div class="skill-card p-4 bg-surface rounded-lg">
+              <h4 class="font-medium text-sm text-heading mb-3 lowercase">{category}</h4>
+              <div class="flex flex-wrap gap-1.5">
+                {items.map(skill => (
+                  <span class="text-xs px-2 py-0.5 rounded bg-pressurized text-content">
+                    {skill}
+                  </span>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
 
-      <p>
-        In 2005, I got my first gig to build a large web portfolio for a film production company. They needed a backend to manage a large video library and showcase it on their website. As the only developer, I used Joomla as a content management system and had to learn it fast while improving my programming & product development skills.
-      </p>
+    <!-- Work/experience timeline -->
+    <div class="space-y-5">
+      <h2 class="text-2xl font-medium text-heading">Professional Experience</h2>
+      
+      <div class="space-y-8">
+        {experiences.map((exp, i) => (
+          <div class="timeline-item p-4 bg-white dark:bg-gray-800/30 rounded-lg border border-gray-100 dark:border-gray-700">
+            <div class="grid grid-cols-1 md:grid-cols-[1fr_3fr] gap-4">
+              <div>
+                <div class="text-sm font-mono text-gray-500 dark:text-gray-400 mb-1">{exp.period}</div>
+                <div class="text-base font-medium text-gray-900 dark:text-gray-100 mb-1">{exp.role}</div>
+                <div class="text-sm text-gray-600 dark:text-gray-400 mb-2">{exp.company}</div>
+                <div class="text-xs text-gray-500 dark:text-gray-500">{exp.location}</div>
+              </div>
+              
+              <div class="space-y-3">
+                <div class="text-xs font-mono p-2 bg-gray-50 dark:bg-gray-800 rounded border border-gray-100 dark:border-gray-700 text-gray-600 dark:text-gray-400 overflow-x-auto">
+                  {exp.stack}
+                </div>
+                <p class="text-sm text-gray-700 dark:text-gray-300">{exp.description}</p>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
 
-      <p>
-        Dealing with a large open-source codebase like Joomla was a pain. But at the same time, it gave me a lot of insights on how to navigate around complexity and focus on the outcome without knowing every single bit about the system.
-      </p>
+    <!-- Education section -->
+    <div class="space-y-5">
+      <h2 class="text-2xl font-medium text-heading">Education</h2>
+      
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        {education.map((edu) => (
+          <div class="p-3 bg-white dark:bg-gray-800/30 rounded-lg border border-gray-100 dark:border-gray-700">
+            <div class="text-xs font-mono text-gray-500 dark:text-gray-400 mb-1">{edu.period}</div>
+            <div class="text-base font-medium text-gray-900 dark:text-gray-100">{edu.degree}</div>
+            <div class="text-sm text-gray-600 dark:text-gray-400">{edu.institution}</div>
+          </div>
+        ))}
+      </div>
+    </div>
 
-      <p>
-        In April 2008, I started experimenting with open source project called Magento and it changed everything. It was one of the most sophisticated and over-engineered shop system built to date.
+    <!-- Contact section -->
+    <div class="bg-gray-50 dark:bg-gray-800/50 p-6 rounded-xl space-y-4">
+      <h2 class="text-xl font-medium text-heading">Get in Touch</h2>
+      <p class="text-gray-700 dark:text-gray-300">
+        I'm always open to discussing new projects, creative ideas, or opportunities to be part of your vision.
       </p>
-
-      <p>
-        To be honest, it was painful to learn and operate Magento in the beta phase. But it solved tons of business problems in e-commerce. Within a few years, most e-commerce companies in Europe started adopting it and all sudden I was getting a lot of projects.
-      </p>
-
-      <p>
-        I was building shops, marketplaces, pos-systems, data warehouses, and ERP connectors. I got to learn a lot in a short period and it also enabled me to travel around Europe to work on some amazing projects and meet tons of wonderful people excited about building their new startups or scaling their current online businesses.
-      </p>
+      <div class="flex flex-wrap gap-4 pt-2">
+        <a 
+          href="mailto:info@waleed.de" 
+          class="inline-flex items-center gap-2 py-2 px-4 rounded-md bg-gray-800 dark:bg-gray-100 text-white dark:text-gray-900 text-sm font-medium hover:opacity-90 transition-opacity"
+        >
+          <Icon name="lucide:mail" class="w-4 h-4" /> 
+          Email Me
+        </a>
+        <a 
+          href="https://linkedin.com/in/waleedhk/" 
+          target="_blank" 
+          rel="noopener noreferrer"
+          class="inline-flex items-center gap-2 py-2 px-4 rounded-md bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-100 text-sm font-medium hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
+        >
+          <Icon name="lucide:linkedin" class="w-4 h-4" /> 
+          Connect on LinkedIn
+        </a>
+      </div>
     </div>
   </section>
 </Layout>
+
+<style>
+  /* Animation classes for skill cards */
+  .skill-card {
+    backface-visibility: hidden;
+  }
+  
+  /* Enhance hover states with subtle transitions */
+  .social-link, .skill-card, a {
+    transition: all 0.2s ease-in-out;
+  }
+  
+  /* Improved image container styling */
+  .image-container img {
+    transition: transform 0.3s ease;
+  }
+  
+  /* Dark/light mode transitions */
+  @media (prefers-color-scheme: dark) {
+    .image-hover:hover {
+      transform: scale(1.03);
+    }
+  }
+  
+  /* Bauhaus-inspired styling */
+  .image-container {
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 8px 20px -8px rgba(0, 0, 0, 0.2);
+  }
+  
+  .dark .image-container {
+    box-shadow: 0 8px 20px -8px rgba(0, 0, 0, 0.5);
+  }
+  
+  .image-container::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    pointer-events: none;
+  }
+  
+  .dark .image-container::after {
+    border-color: rgba(255, 255, 255, 0.1);
+  }
+  
+  /* Timeline styling */
+  .timeline-item {
+    position: relative;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  
+  .timeline-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+  }
+  
+  .dark .timeline-item:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 768px) {
+    .about-container {
+      padding: 0 1rem;
+    }
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    // Intersection Observer for fade-in sections
+    const sections = document.querySelectorAll('section, .fade-in');
+    const observerOptions = {
+      root: null,
+      rootMargin: '0px',
+      threshold: 0.1
+    };
+    
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('opacity-100');
+          entry.target.classList.remove('opacity-0', 'translate-y-4');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, observerOptions);
+    
+    sections.forEach(section => {
+      section.classList.add('transition-all', 'duration-700', 'opacity-0', 'translate-y-4');
+      observer.observe(section);
+    });
+    
+    // Skills toggle functionality
+    const skillsToggle = document.getElementById('skills-toggle');
+    const expandedSkills = document.getElementById('expanded-skills');
+    
+    if (skillsToggle && expandedSkills) {
+      skillsToggle.addEventListener('click', () => {
+        const isExpanded = expandedSkills.classList.contains('hidden');
+        
+        if (isExpanded) {
+          expandedSkills.classList.remove('hidden');
+          skillsToggle.textContent = 'Show less';
+          skillsToggle.classList.add('bg-gray-200', 'dark:bg-gray-700');
+          
+          // Add animation for expanded skills with CSS classes
+          const skillCards = expandedSkills.querySelectorAll('.skill-card');
+          skillCards.forEach((card, i) => {
+            // Add animation classes
+            card.classList.add('opacity-0', 'translate-y-2');
+            
+            // Use setTimeout for staggered animation
+            setTimeout(() => {
+              card.classList.add('transition-all', 'duration-300');
+              card.classList.remove('opacity-0', 'translate-y-2');
+            }, i * 50);
+          });
+        } else {
+          expandedSkills.classList.add('hidden');
+          skillsToggle.textContent = 'Show all technologies';
+          skillsToggle.classList.remove('bg-gray-200', 'dark:bg-gray-700');
+        }
+      });
+    }
+  });
+</script>
+
+<style is:global>
+  /* Animation classes */
+  .opacity-0 {
+    opacity: 0;
+  }
+  
+  .fadeIn {
+    animation: fadeIn 0.6s ease forwards;
+  }
+  
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  /* Ensure prose content looks good */
+  .prose p {
+    margin-bottom: 1em;
+  }
+  
+  .prose a {
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 2px;
+  }
+</style>
