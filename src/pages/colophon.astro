@@ -23,7 +23,7 @@ const description =
 <Layout title={title} description={description} og="og-colophon">
   <section class=":uno: grid grid-cols-12 gap-4 mb-12">
     <div class=":uno: col-start-1 col-end-13 md:col-end-4 mb-8 md:mb-0">
-      <h1 class=":uno: text-2xl text-heading font-semibold tracking-tight transition-colors">
+      <h1 class="text-3xl font-semibold text-gray-900 dark:text-gray-300">
         Colophon
       </h1>
 
@@ -31,19 +31,21 @@ const description =
         class="mt-2 md:mt-4 space-y-0 space-x-4 md:space-y-2 md:space-x-0 flex md:flex-col"
       >
         <p
-          class=":uno: flex items-center space-x-2 font-mono transition-colors hover:text-heading focus:text-heading"
+          class=":uno: flex items-center space-x-2 font-mono text-gray-700 dark:text-gray-400 transition-colors hover:text-gray-900 dark:hover:text-gray-300 focus:text-gray-900 dark:focus:text-gray-300"
         >
           <Icon name="simple-icons:github" class=":uno: w-4 h-auto" />
 
           <AppLink
             href={`https://github.com/waleedhkhan/blog/commits/main/`}
-            class="text-xs">waleedhkhan/blog</AppLink
+            class="text-xs text-gray-700 dark:text-gray-400"
           >
+            waleedhkhan/blog
+          </AppLink>
         </p>
       </div>
     </div>
     <div class=":uno: col-start-1 md:col-start-5 col-end-13 space-y-4">
-      <p>
+      <p class="text-gray-700 dark:text-gray-400">
         This page details the architecture, technologies, and design principles behind this website. It serves as both documentation and a tribute to the tools that make this site possible.
       </p>
     </div>
@@ -51,21 +53,21 @@ const description =
 
   <section class=":uno: grid grid-cols-12 gap-4 mb-12">
     <h2
-      class=":uno: col-start-1 col-end-13 md:col-end-4 text-heading font-semibold transition-colors"
+      class=":uno: col-start-1 col-end-13 md:col-end-4 text-gray-900 dark:text-gray-300 font-semibold transition-colors"
     >
       Architecture
     </h2>
 
     <div class=":uno: col-start-1 md:col-start-5 col-end-13 space-y-4">
-      <p>
-        This website follows the <strong>islands architecture</strong> pattern, combining static site generation with dynamic islands of interactivity. Content is primarily static for optimal performance, with interactive components selectively hydrated only when necessary.
+      <p class="text-gray-700 dark:text-gray-400">
+        This website follows the <strong class="text-gray-900 dark:text-gray-300">islands architecture</strong> pattern, combining static site generation with dynamic islands of interactivity. Content is primarily static for optimal performance, with interactive components selectively hydrated only when necessary.
       </p>
 
-      <p>
+      <p class="text-gray-700 dark:text-gray-400">
         The site is built with <TextLink href="https://astro.build/">Astro</TextLink>, a modern framework for building faster websites with less client-side JavaScript. It uses server-side rendering with a content collection pattern for blog posts.
       </p>
 
-      <p>
+      <p class="text-gray-700 dark:text-gray-400">
         Hosted on <TextLink href="https://pages.cloudflare.com/">Cloudflare Pages</TextLink> with 100% renewable energy, the site leverages edge functions for dynamic content while maintaining near-instant load times.
       </p>
     </div>
@@ -73,34 +75,34 @@ const description =
 
   <section class=":uno: grid grid-cols-12 gap-4 mb-12">
     <h2
-      class=":uno: col-start-1 col-end-13 md:col-end-4 text-heading font-semibold transition-colors"
+      class=":uno: col-start-1 col-end-13 md:col-end-4 text-gray-900 dark:text-gray-300 font-semibold transition-colors"
     >
       Core Technologies
     </h2>
 
     <div class=":uno: col-start-1 md:col-start-5 col-end-13 space-y-4">
-      <ul class=":uno: space-y-4">
+      <ul class=":uno: space-y-4 text-gray-700 dark:text-gray-400">
         <li>
-          <strong>Astro</strong> — Main framework for static site generation with dynamic islands
+          <strong class="text-gray-900 dark:text-gray-300">Astro</strong> — Main framework for static site generation with dynamic islands
         </li>
         <li>
-          <strong>JavaScript with JSDoc</strong> — Type-safe JavaScript without TypeScript
+          <strong class="text-gray-900 dark:text-gray-300">JavaScript with JSDoc</strong> — Type-safe JavaScript without TypeScript
         </li>
         <li>
-          <strong>TailwindCSS & UnoCSS</strong> — Utility-first CSS frameworks for styling
+          <strong class="text-gray-900 dark:text-gray-300">TailwindCSS & UnoCSS</strong> — Utility-first CSS frameworks for styling
         </li>
         <li>
-          <strong>Vue</strong> — Used for interactive components and islands
+          <strong class="text-gray-900 dark:text-gray-300">Vue</strong> — Used for interactive components and islands
         </li>
         <li>
-          <strong>MDX</strong> — Extended Markdown for writing blog posts with embedded components
+          <strong class="text-gray-900 dark:text-gray-300">MDX</strong> — Extended Markdown for writing blog posts with embedded components
         </li>
         <li>
-          <strong>Swiper</strong> — For image carousels and sliders
+          <strong class="text-gray-900 dark:text-gray-300">Swiper</strong> — For image carousels and sliders
         </li>
       </ul>
 
-      <p>
+      <p class="text-gray-700 dark:text-gray-400">
         The site integrates with the <TextLink href="https://www.last.fm/api">LastFM API</TextLink> to display recently played tracks, combining static assets with dynamic components for an optimal user experience.
       </p>
     </div>
@@ -108,13 +110,13 @@ const description =
 
   <section class=":uno: grid grid-cols-12 gap-4 mb-12">
     <h2
-      class=":uno: col-start-1 col-end-13 md:col-end-4 text-heading font-semibold transition-colors"
+      class=":uno: col-start-1 col-end-13 md:col-end-4 text-gray-900 dark:text-gray-300 font-semibold transition-colors"
     >
       Changelog
     </h2>
 
     <div class=":uno: col-start-1 md:col-start-5 col-end-13">
-      <p class=":uno: mb-6">
+      <p class=":uno: mb-6 text-gray-700 dark:text-gray-400">
         This section automatically displays the latest changes to the website from the GitHub commit history. Commits are categorized by type for easier navigation.
       </p>
       
@@ -124,31 +126,31 @@ const description =
 
   <section class=":uno: grid grid-cols-12 gap-4 mb-12">
     <h2
-      class=":uno: col-start-1 col-end-13 md:col-end-4 text-heading font-semibold transition-colors"
+      class=":uno: col-start-1 col-end-13 md:col-end-4 text-gray-900 dark:text-gray-300 font-semibold transition-colors"
     >
       Design Principles
     </h2>
 
     <div class=":uno: col-start-1 md:col-start-5 col-end-13 space-y-4">
-      <p>
+      <p class="text-gray-700 dark:text-gray-400">
         The design follows Bauhaus minimalist principles with influences from Berlin brutalist architecture, focusing on:
       </p>
 
-      <ul class=":uno: space-y-2 list-disc pl-5">
+      <ul class=":uno: space-y-2 list-disc pl-5 text-gray-700 dark:text-gray-400">
         <li>
-          <strong>Performance First</strong> — Optimized for speed and efficiency, with a focus on core web vitals.
+          <strong class="text-gray-900 dark:text-gray-300">Performance First</strong> — Optimized for speed and efficiency, with a focus on core web vitals.
         </li>
         <li>
-          <strong>Simplicity</strong> — Minimalistic design that avoids unnecessary complexity.
+          <strong class="text-gray-900 dark:text-gray-300">Simplicity</strong> — Minimalistic design that avoids unnecessary complexity.
         </li>
         <li>
-          <strong>Responsive Design</strong> — Works well on various devices and screen sizes.
+          <strong class="text-gray-900 dark:text-gray-300">Responsive Design</strong> — Works well on various devices and screen sizes.
         </li>
         <li>
-          <strong>Accessibility</strong> — Designed to be accessible to all users, including those with disabilities.
+          <strong class="text-gray-900 dark:text-gray-300">Accessibility</strong> — Designed to be accessible to all users, including those with disabilities.
         </li>
         <li>
-          <strong>Content First</strong> — Prioritizes content and user experience over design elements.
+          <strong class="text-gray-900 dark:text-gray-300">Content First</strong> — Prioritizes content and user experience over design elements.
         </li>
       </ul>
     </div>
@@ -156,21 +158,21 @@ const description =
 
   <section class=":uno: grid grid-cols-12 gap-4 mb-12">
     <h2
-      class=":uno: col-start-1 col-end-13 md:col-end-4 text-heading font-semibold transition-colors"
+      class=":uno: col-start-1 col-end-13 md:col-end-4 text-gray-900 dark:text-gray-300 font-semibold transition-colors"
     >
       Typography
     </h2>
 
     <div class=":uno: col-start-1 md:col-start-5 col-end-13 space-y-4">
-      <p>
+      <p class="text-gray-700 dark:text-gray-400">
         Two carefully selected typefaces are used throughout the site:
       </p>
 
-      <p>
+      <p class="text-gray-700 dark:text-gray-400">
         <TextLink href="https://rsms.me/inter/">Inter</TextLink> — A neo-grotesque sans-serif designed as a versatile typeface for user interfaces. Used for body copy and headings.
       </p>
 
-      <p>
+      <p class="text-gray-700 dark:text-gray-400">
         <TextLink href="https://www.jetbrains.com/lp/mono/">JetBrains Mono</TextLink> — A monospaced font created by JetBrains and distributed under the SIL Font License. Used in code blocks and miscellaneous accents.
       </p>
     </div>
@@ -178,21 +180,21 @@ const description =
 
   <section class=":uno: grid grid-cols-12 gap-4 mb-12">
     <h2
-      class=":uno: col-start-1 col-end-13 md:col-end-4 text-heading font-semibold transition-colors"
+      class=":uno: col-start-1 col-end-13 md:col-end-4 text-gray-900 dark:text-gray-300 font-semibold transition-colors"
     >
       Visual Elements
     </h2>
 
     <div class=":uno: col-start-1 md:col-start-5 col-end-13 space-y-4">
-      <p>
+      <p class="text-gray-700 dark:text-gray-400">
         Colors are extracted from <TextLink href="https://www.untitledui.com/">Untitled UI</TextLink> design system and <TextLink href="https://tailwindcss.com/docs/customizing-colors">TailwindCSS</TextLink> color system with personal modifications.
       </p>
 
-      <p>
+      <p class="text-gray-700 dark:text-gray-400">
         Icons are handpicked from <TextLink href="https://lucide.dev/">Lucide</TextLink> for UI elements and <TextLink href="https://simpleicons.org/">Simple Icons</TextLink> for brand icons, served via <TextLink href="https://iconify.design/">Iconify</TextLink>.
       </p>
 
-      <p>
+      <p class="text-gray-700 dark:text-gray-400">
         Diagrams are created with <TextLink href="https://miro.com/">Miro</TextLink> and <TextLink href="https://mermaid.js.org/">Mermaid</TextLink>, while images in posts are sourced with proper attribution.
       </p>
     </div>
@@ -200,28 +202,28 @@ const description =
 
   <section class=":uno: grid grid-cols-12 gap-4 mb-12">
     <h2
-      class=":uno: col-start-1 col-end-13 md:col-end-4 text-heading font-semibold transition-colors"
+      class=":uno: col-start-1 col-end-13 md:col-end-4 text-gray-900 dark:text-gray-300 font-semibold transition-colors"
     >
       Inspirations
     </h2>
 
     <div class=":uno: col-start-1 md:col-start-5 col-end-13 space-y-4">
-      <p>
+      <p class="text-gray-700 dark:text-gray-400">
         This website's design is influenced by multiple sources. Below is a list of inspirations in no particular order:
       </p>
 
-      <ul class=":uno: grid grid-cols-1 sm:grid-cols-2 gap-y-2 gap-x-4">
+      <ul class=":uno: grid grid-cols-1 sm:grid-cols-2 gap-y-2 gap-x-4 text-gray-700 dark:text-gray-400">
         {
           inspirations.map((inspiration) => (
             <li>
               <AppLink
                 href={inspiration.href}
-                class=":uno: group text-heading/85 hover:text-heading focus:text-heading transition-colors inline-flex items-center font-medium space-x-1"
+                class=":uno: group text-gray-900 dark:text-gray-300 hover:text-gray-900 dark:hover:text-gray-300 focus:text-gray-900 dark:focus:text-gray-300 transition-colors inline-flex items-center font-medium space-x-1"
               >
                 <span>{inspiration.name}</span>
                 <Icon
                   name="lucide:arrow-up-right"
-                  class=":uno: w-4 h-auto text-heading/50 group-hover:text-heading group-focus:text-heading transition-all group-hover:rotate-45 group-focus:rotate-45"
+                  class=":uno: w-4 h-auto text-gray-700 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-gray-300 group-focus:text-gray-900 dark:group-focus:text-gray-300 transition-all group-hover:rotate-45 group-focus:rotate-45"
                 />
               </AppLink>
             </li>
@@ -233,13 +235,13 @@ const description =
 
   <section class=":uno: grid grid-cols-12 gap-4">
     <h2
-      class=":uno: col-start-1 col-end-13 md:col-end-4 text-heading font-semibold transition-colors"
+      class=":uno: col-start-1 col-end-13 md:col-end-4 text-gray-900 dark:text-gray-300 font-semibold transition-colors"
     >
       Open Source
     </h2>
 
     <div class=":uno: col-start-1 md:col-start-5 col-end-13 space-y-4">
-      <p>
+      <p class="text-gray-700 dark:text-gray-400">
         This website is open-sourced and can be found on <TextLink href="https://github.com/waleedhkhan/blog.git">GitHub</TextLink>. If you find a bug, feel free to create an <TextLink href="https://github.com/waleedhkhan/blog/issues">issue</TextLink>.
       </p>
     </div>

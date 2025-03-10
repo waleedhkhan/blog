@@ -104,10 +104,31 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
       toggleTheme(theme);
     </script>
 
+    <style is:global>
+      :root {
+        --text-primary: #171717;
+        --text-secondary: #404040;
+        --text-muted: #6b7280;
+        --heading: #171717;
+        --accent: #2563eb;
+        --accent-hover: #1d4ed8;
+        --accent-foreground: #ffffff;
+      }
+
+      .dark {
+        --text-primary: #e5e5e5;
+        --text-secondary: #a3a3a3;
+        --text-muted: #9ca3af;
+        --heading: #f5f5f5;
+        --accent: #3b82f6;
+        --accent-hover: #60a5fa;
+        --accent-foreground: #ffffff;
+      }
+    </style>
  
   </head>
   <body
-    class=":uno: bg-background transition-colors text-content flex flex-col font-sans min-h-screen mx-auto antialiased"
+    class=":uno: bg-neutral-200 dark:bg-neutral-900 transition-colors text-gray-800 dark:text-gray-300 flex flex-col font-sans min-h-screen mx-auto antialiased"
   >
     <Navigation posts={posts} />
 

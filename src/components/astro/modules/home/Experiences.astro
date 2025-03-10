@@ -68,7 +68,7 @@ const experiences = [
   {
     experiences.map((exp) => (
       <li class=":uno: items-center grid gap-x-4 md:grid-cols-[10ch_1fr_max-content] grid-cols-[1fr_max-content]">
-        <p class=":uno: flex items-center space-x-2 order-1 md:order-0 ml-auto">
+        <p class=":uno: flex items-center space-x-2 order-1 md:order-0 ml-auto text-gray-700 dark:text-gray-500">
           {exp.duration.toLowerCase() === 'current' && (
             <Pulse class=":uno: -mt-[2.5px]" />
           )}
@@ -77,12 +77,12 @@ const experiences = [
 
         <AppLink
           href={exp.link}
-          class=":uno: font-medium text-heading/85 transition-colors hover:text-heading focus:text-heading inline-flex items-center space-x-2 text-balance w-fit"
+          class=":uno: font-medium text-gray-900 dark:text-gray-300 transition-colors hover:text-gray-800 dark:hover:text-gray-200 focus:text-gray-800 dark:focus:text-gray-200 inline-flex items-center space-x-2 text-balance w-fit"
         >
           {exp.name}
         </AppLink>
 
-        <p class="text-sm md:text-base leading-[1.75] order-2 md:order-0">{exp.title}</p>
+        <p class="text-sm md:text-base leading-[1.75] order-2 md:order-0 text-gray-700 dark:text-gray-500">{exp.title}</p>
       </li>
     ))
   }

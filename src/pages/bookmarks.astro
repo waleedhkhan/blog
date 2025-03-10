@@ -128,8 +128,8 @@ const uniqueCategories = Array.from(allCategories).sort();
 <Layout title={title} description={description}>
   <section class="space-y-6">
     <div class="space-y-3 text-center">
-      <h1 class="font-semibold text-2xl tracking-tight text-heading">Bookmarks</h1>
-      <p class="text-base leading-relaxed">{description}</p>
+      <h1 class="font-semibold text-3xl tracking-tight text-gray-900 dark:text-gray-300">Bookmarks</h1>
+      <p class="text-gray-700 dark:text-gray-400 text-base leading-relaxed">{description}</p>
     </div>
 
     <!-- Clean search section with minimalist input -->
@@ -140,7 +140,7 @@ const uniqueCategories = Array.from(allCategories).sort();
           id="search-input" 
           placeholder="Search bookmarks..."
           aria-label="Search bookmarks" 
-          class="w-full px-3 py-2 text-sm border-b border-gray-200 dark:border-gray-700 bg-transparent focus:outline-none focus:border-gray-400 dark:focus:border-gray-500 transition-all"
+          class="w-full px-3 py-2 text-sm border-b border-neutral-200 dark:border-neutral-700 bg-neutral-100 dark:bg-neutral-800 focus:outline-none focus:border-neutral-400 dark:focus:border-neutral-500 transition-all"
         />
         <svg xmlns="http://www.w3.org/2000/svg" class="absolute right-2 top-2 h-4 w-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
@@ -151,14 +151,14 @@ const uniqueCategories = Array.from(allCategories).sort();
     <!-- Simple category filter -->
     <div class="flex flex-wrap gap-1.5 mb-6 justify-center">
       <button 
-        class="category-chip text-xs px-2.5 py-0.5 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 transition-colors" 
+        class="category-chip text-xs px-4 py-1.5 rounded-full bg-neutral-100 dark:bg-neutral-800 text-gray-600 dark:text-gray-500 border border-neutral-200 dark:border-neutral-700 transition-colors hover:bg-neutral-200 dark:hover:bg-neutral-700" 
         data-category="all"
       >
         all
       </button>
       {uniqueCategories.map(category => (
         <button 
-          class="category-chip text-xs px-2.5 py-0.5 bg-gray-50 dark:bg-gray-800/70 text-gray-600 dark:text-gray-400 transition-colors" 
+          class="category-chip text-xs px-4 py-1.5 rounded-full bg-neutral-50 dark:bg-neutral-700 text-gray-600 dark:text-gray-500 border border-neutral-300 dark:border-neutral-700 transition-colors hover:bg-neutral-200 dark:hover:bg-neutral-600" 
           data-category={category}
         >
           {category.toLowerCase()}
@@ -190,11 +190,11 @@ const uniqueCategories = Array.from(allCategories).sort();
     <div id="bookmarks-container" class="w-full overflow-x-auto pb-8 max-w-4xl mx-auto">
       <table class="min-w-full text-left">
         <thead>
-          <tr class="border-b border-gray-200 dark:border-gray-700">
-            <th class="py-3 px-3 text-xs font-medium text-gray-500 dark:text-gray-400">NAME</th>
-            <th class="py-3 px-3 text-xs font-medium text-gray-500 dark:text-gray-400 hidden md:table-cell">DESCRIPTION</th>
-            <th class="py-3 px-3 text-xs font-medium text-gray-500 dark:text-gray-400 hidden sm:table-cell">CATEGORY</th>
-            <th class="py-3 px-3 text-xs font-medium text-gray-500 dark:text-gray-400 hidden sm:table-cell">ADDED</th>
+          <tr class="border-b border-neutral-200 dark:border-neutral-700">
+            <th class="py-4 px-4 text-sm font-medium tracking-wide text-gray-500 dark:text-gray-400">NAME</th>
+            <th class="py-4 px-4 text-sm font-medium tracking-wide text-gray-500 dark:text-gray-400 hidden md:table-cell">DESCRIPTION</th>
+            <th class="py-4 px-4 text-sm font-medium tracking-wide text-gray-500 dark:text-gray-400 hidden sm:table-cell">CATEGORY</th>
+            <th class="py-4 px-4 text-sm font-medium tracking-wide text-gray-500 dark:text-gray-400 hidden sm:table-cell">ADDED</th>
           </tr>
         </thead>
         <tbody>
@@ -203,36 +203,36 @@ const uniqueCategories = Array.from(allCategories).sort();
               data-categories={bookmark.processedCategories.join(' ')}
               data-url={bookmark.url}
               data-date={bookmark.date || ""}
-              class="bookmark-card border-b border-gray-100 dark:border-gray-800/80 hover:bg-gray-50/50 dark:hover:bg-gray-800/30 transition-colors"
+              class="bookmark-card border-b border-neutral-100 dark:border-neutral-800 hover:bg-neutral-50/50 dark:hover:bg-neutral-700/30 transition-colors"
             >
-              <td class="py-3 px-3">
+              <td class="py-4 px-4">
                 <a
                   href={bookmark.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  class="bookmark-link text-sm font-medium text-gray-800 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 transition-colors flex items-center gap-1.5"
+                  class="bookmark-link text-base font-medium text-gray-800 dark:text-gray-500 hover:text-blue-600 dark:hover:text-blue-400 transition-colors flex items-center gap-2"
                   title={bookmark.url}
                   data-url={bookmark.url}
                 >
                   {bookmark.name.toLowerCase()}
-                  <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
                   </svg>
                 </a>
               </td>
-              <td class="py-3 px-3 text-xs text-gray-600 dark:text-gray-400 hidden md:table-cell max-w-md">
+              <td class="py-4 px-4 text-sm leading-relaxed text-gray-600 dark:text-gray-500 hidden md:table-cell max-w-md">
                 {bookmark.description || "No description available"}
               </td>
-              <td class="py-3 px-3 hidden sm:table-cell">
-                <div class="flex flex-wrap gap-1">
+              <td class="py-4 px-4 hidden sm:table-cell">
+                <div class="flex flex-wrap gap-1.5">
                   {bookmark.processedCategories.map(category => (
-                    <span class="text-[10px] px-1.5 py-0.5 bg-gray-100/80 dark:bg-gray-800/80 text-gray-600 dark:text-gray-400">
+                    <span class="text-xs px-2 py-0.5 rounded bg-neutral-50 dark:bg-neutral-700 text-gray-600 dark:text-gray-500 border border-neutral-300 dark:border-neutral-700">
                       {category.toLowerCase()}
                     </span>
                   ))}
                 </div>
               </td>
-              <td class="py-3 px-3 text-xs text-gray-400 dark:text-gray-500 hidden sm:table-cell">
+              <td class="py-4 px-4 text-xs font-mono text-gray-400 dark:text-gray-500 hidden sm:table-cell">
                 {bookmark.formattedDate}
               </td>
             </tr>
@@ -264,11 +264,15 @@ const uniqueCategories = Array.from(allCategories).sort();
     .category-chip.active {
       background-color: #e5e7eb;
       color: #111827;
+      font-weight: 500;
+      border-color: #d1d5db;
     }
     
     .dark .category-chip.active {
-      background-color: #374151;
-      color: #f9fafb;
+      background-color: #404040;
+      color: #9ca3af;
+      font-weight: 500;
+      border-color: #525252;
     }
 
     /* Active sort button */
@@ -278,7 +282,7 @@ const uniqueCategories = Array.from(allCategories).sort();
     }
     
     .dark .active-sort-button {
-      color: #f9fafb;
+      color: #9ca3af;
     }
     
     /* Custom scrollbar for table */
@@ -331,6 +335,12 @@ const uniqueCategories = Array.from(allCategories).sort();
     .dark .bookmark-link:visited:hover,
     .dark .bookmark-link.previously-visited:hover {
       color: var(--accent, #60a5fa);
+    }
+    
+    /* Add focus styles for better accessibility */
+    .category-chip:focus {
+      outline: 2px solid #3b82f6;
+      outline-offset: 2px;
     }
   </style>
 
