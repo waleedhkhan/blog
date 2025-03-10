@@ -3,8 +3,7 @@
     "strictNullChecks": true,
     "types": [
       "vite/client",
-      "astro/client",
-      "node"
+      "astro/client"
     ],
     "baseUrl": ".",
     "paths": {

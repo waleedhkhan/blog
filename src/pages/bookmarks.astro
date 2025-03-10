@@ -32,6 +32,7 @@ interface ProcessedBookmark extends BaseBookmark {
   dateTimestamp: number;
   processedCategories: string[];
   category: string | string[];
+  status?: string;
 }
 
 // Process categories - handle both string and array formats
@@ -347,13 +348,13 @@ const uniqueCategories = Array.from(allCategories).sort();
   <script>
     document.addEventListener('DOMContentLoaded', () => {
       // DOM Elements
-      const bookmarkCards = document.querySelectorAll('.bookmark-card');
-      const searchInput = document.getElementById('search-input');
-      const categoryButtons = document.querySelectorAll('.category-chip');
-      const sortNewestButton = document.getElementById('sort-newest');
-      const sortOldestButton = document.getElementById('sort-oldest');
-      const noResultsElement = document.getElementById('no-results');
-      const bookmarksContainer = document.getElementById('bookmarks-container');
+      const bookmarkCards = document.querySelectorAll<HTMLElement>('.bookmark-card');
+      const searchInput = document.getElementById('search-input') as HTMLInputElement;
+      const categoryButtons = document.querySelectorAll<HTMLElement>('.category-chip');
+      const sortNewestButton = document.getElementById('sort-newest') as HTMLElement;
+      const sortOldestButton = document.getElementById('sort-oldest') as HTMLElement;
+      const noResultsElement = document.getElementById('no-results') as HTMLElement;
+      const bookmarksContainer = document.getElementById('bookmarks-container') as HTMLElement;
       
       // State
       let activeCategory = 'all';
@@ -362,7 +363,7 @@ const uniqueCategories = Array.from(allCategories).sort();
       
       // Initialize active category
       categoryButtons.forEach(button => {
-        if (button.dataset.category === 'all') {
+        if ((button as HTMLElement & {dataset: {category: string}}).dataset.category === 'all') {
           button.classList.add('active');
         }
         
@@ -374,7 +375,7 @@ const uniqueCategories = Array.from(allCategories).sort();
           button.classList.add('active');
           
           // Update active category
-          activeCategory = button.dataset.category;
+          activeCategory = (button as HTMLElement & {dataset: {category: string}}).dataset.category;
           
           // Apply filters
           applyFilters();
@@ -382,27 +383,38 @@ const uniqueCategories = Array.from(allCategories).sort();
       });
       
       // Initialize sort buttons
-      sortNewestButton.classList.add('active-sort-button');
-      
-      sortNewestButton.addEventListener('click', () => {
-        sortDirection = 'newest';
+      if (sortNewestButton) {
         sortNewestButton.classList.add('active-sort-button');
-        sortOldestButton.classList.remove('active-sort-button');
-        applyFilters();
-      });
+        
+        sortNewestButton.addEventListener('click', () => {
+          sortDirection = 'newest';
+          if (sortNewestButton && sortOldestButton) {
+            sortNewestButton.classList.add('active-sort-button');
+            sortOldestButton.classList.remove('active-sort-button');
+          }
+          applyFilters();
+        });
+      }
       
-      sortOldestButton.addEventListener('click', () => {
-        sortDirection = 'oldest';
-        sortOldestButton.classList.add('active-sort-button');
-        sortNewestButton.classList.remove('active-sort-button');
-        applyFilters();
-      });
+      if (sortOldestButton) {
+        sortOldestButton.addEventListener('click', () => {
+          sortDirection = 'oldest';
+          if (sortOldestButton && sortNewestButton) {
+            sortOldestButton.classList.add('active-sort-button');
+            sortNewestButton.classList.remove('active-sort-button');
+          }
+          applyFilters();
+        });
+      }
       
       // Search functionality
-      searchInput.addEventListener('input', (e) => {
-        searchQuery = e.target.value.toLowerCase();
-        applyFilters();
-      });
+      if (searchInput) {
+        searchInput.addEventListener('input', (e) => {
+          const target = e.target as HTMLInputElement;
+          searchQuery = target.value.toLowerCase();
+          applyFilters();
+        });
+      }
       
       // Apply filters function
       function applyFilters() {
@@ -413,8 +425,8 @@ const uniqueCategories = Array.from(allCategories).sort();
         
         // Sort cards based on sort direction
         cardsArray.sort((a, b) => {
-          const dateA = a.dataset.date;
-          const dateB = b.dataset.date;
+          const dateA = (a as HTMLElement & {dataset: {date: string}}).dataset.date || '';
+          const dateB = (b as HTMLElement & {dataset: {date: string}}).dataset.date || '';
           
           if (sortDirection === 'newest') {
             return dateB.localeCompare(dateA);
@@ -426,15 +438,26 @@ const uniqueCategories = Array.from(allCategories).sort();
         // Apply the sort order
         cardsArray.forEach(card => {
           const cardParent = card.parentNode;
-          cardParent.appendChild(card);
+          if (cardParent) {
+            cardParent.appendChild(card);
+          }
         });
         
         // Apply category and search filters
         bookmarkCards.forEach(card => {
-          const categories = card.dataset.categories.toLowerCase().split(' ');
-          const url = card.dataset.url.toLowerCase();
-          const title = card.querySelector('a').textContent.toLowerCase();
-          const description = card.querySelectorAll('td')[1]?.textContent.toLowerCase() || '';
+          const typedCard = card as HTMLElement & {
+            dataset: {
+              categories: string;
+              url: string;
+            }
+          };
+          
+          const categories = typedCard.dataset.categories.toLowerCase().split(' ');
+          const url = typedCard.dataset.url.toLowerCase();
+          const titleElement = card.querySelector('a');
+          const title = titleElement ? titleElement.textContent?.toLowerCase() || '' : '';
+          const descriptionElement = card.querySelectorAll('td')[1];
+          const description = descriptionElement ? descriptionElement.textContent?.toLowerCase() || '' : '';
           
           const matchesCategory = activeCategory === 'all' || categories.includes(activeCategory);
           const matchesSearch = searchQuery === '' || 
@@ -443,20 +466,24 @@ const uniqueCategories = Array.from(allCategories).sort();
                                 url.includes(searchQuery);
           
           if (matchesCategory && matchesSearch) {
-            card.style.display = '';
+            typedCard.style.display = '';
             visibleCount++;
           } else {
-            card.style.display = 'none';
+            typedCard.style.display = 'none';
           }
         });
         
         // Show/hide no results message
         if (visibleCount === 0) {
-          noResultsElement.style.display = 'block';
-          bookmarksContainer.style.display = 'none';
+          if (noResultsElement && bookmarksContainer) {
+            noResultsElement.style.display = 'block';
+            bookmarksContainer.style.display = 'none';
+          }
         } else {
-          noResultsElement.style.display = 'none';
-          bookmarksContainer.style.display = 'block';
+          if (noResultsElement && bookmarksContainer) {
+            noResultsElement.style.display = 'none';
+            bookmarksContainer.style.display = 'block';
+          }
         }
       }
       
