@@ -23,10 +23,13 @@ type Bookmark = StringCategoryBookmark | ArrayCategoryBookmark;
 
 // Extended bookmark with processed properties
 interface ProcessedBookmark extends BaseBookmark {
+  id?: string;
   category: string | string[];
   formattedDate: string;
   dateTimestamp: number;
   processedCategories: string[];
+  timestamp?: string;
+  status?: string;
 }
 
 // Format date function
@@ -144,7 +147,7 @@ const recentBookmarks = processedBookmarks.slice(0, 4);
   
   <div class=":uno: flex justify-end">
     <AppLink
-      class=":uno: mt-8 inline-flex items-center justify-center w-auto h-auto px-3 py-2 rounded-sm bauhaus-button bg-gray-100 dark:bg-stone-900 hover:bg-gray-200 dark:hover:bg-stone-800 transition-all duration-200 group relative text-sm"
+      class=":uno: mt-8 inline-flex items-center justify-center w-auto h-auto px-3 py-2 rounded-sm bauhaus-button bg-trnasparent dark:bg-stone-900 hover:bg-gray-200 dark:hover:bg-stone-800 transition-all duration-200 group relative text-sm"
       href="/bookmarks"
       aria-label="See all bookmarks"
     >
