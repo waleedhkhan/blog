@@ -180,6 +180,8 @@ const hobbies = ["Cricket", "Playing Guitar", "Hiking", "Camping"];
           class="w-full h-full object-cover transition-transform hover:scale-[1.03] image-hover"
           width={240}
           height={240}
+          loading="eager"
+          fetchpriority="high"
         />
         <!-- Fallback will be handled by CSS instead of inline script -->
       </div>
@@ -303,7 +305,7 @@ const hobbies = ["Cricket", "Playing Guitar", "Hiking", "Camping"];
     </div>
 
     <!-- Advisory Roles section - with reduced prominence -->
-    <div class="space-y-5" transition:animate="fade">
+    <div class="space-y-5">
       <h2 class="text-xl font-medium text-gray-800 dark:text-gray-400">Advisory Roles</h2>
       
       <div class="space-y-6">
@@ -373,37 +375,38 @@ const hobbies = ["Cricket", "Playing Guitar", "Hiking", "Camping"];
 </Layout>
 
 <style>
-  /* Animation classes for skill cards */
+  /* Animation classes for skill cards - optimized for performance */
   .skill-card {
     backface-visibility: hidden;
   }
   
-  /* Enhance hover states with subtle transitions */
-  .social-link, .skill-card, a {
-    transition: all 0.2s ease-in-out;
+  /* Enhance hover states with specific transitions instead of 'all' */
+  .social-link {
+    transition: opacity 0.2s ease-in-out, transform 0.2s ease-in-out;
   }
   
-  /* Improved image container styling */
+  .skill-card {
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+  }
+  
+  a:not(.social-link):not(.skill-card) {
+    transition: color 0.2s ease-in-out;
+  }
+  
+  /* Improved image container styling - optimized */
   .image-container img {
     transition: transform 0.3s ease;
   }
   
-  /* Dark/light mode transitions */
-  @media (prefers-color-scheme: dark) {
-    .image-hover:hover {
-      transform: scale(1.03);
-    }
-  }
-  
-  /* Bauhaus-inspired styling */
+  /* Bauhaus-inspired styling - simplified for performance */
   .image-container {
     position: relative;
     overflow: hidden;
-    box-shadow: 0 8px 20px -8px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 4px 10px -4px rgba(0, 0, 0, 0.2);
   }
   
   .dark .image-container {
-    box-shadow: 0 8px 20px -8px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 4px 10px -4px rgba(0, 0, 0, 0.5);
   }
   
   .image-container::after {
@@ -418,25 +421,28 @@ const hobbies = ["Cricket", "Playing Guitar", "Hiking", "Camping"];
     border-color: rgba(255, 255, 255, 0.1);
   }
   
-  /* Timeline styling */
+  /* Timeline styling - optimized */
   .timeline-item {
     position: relative;
     transition: transform 0.2s ease, box-shadow 0.2s ease;
   }
   
-  .timeline-item:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px -2px rgba(0, 0, 0, 0.05);
+  /* Apply hover effects only on non-touch devices */
+  @media (hover: hover) {
+    .timeline-item:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px -2px rgba(0, 0, 0, 0.05);
+    }
+    
+    .dark .timeline-item:hover {
+      box-shadow: 0 4px 12px -2px rgba(0, 0, 0, 0.2);
+    }
   }
   
-  .dark .timeline-item:hover {
-    box-shadow: 0 4px 12px -2px rgba(0, 0, 0, 0.2);
-  }
-  
-  /* Advisory roles styling - more subtle */
+  /* Advisory roles styling - more subtle and optimized */
   .advisory-item {
     position: relative;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    transition: box-shadow 0.2s ease;
     border-left: 1px solid #e5e7eb;
   }
   
@@ -444,13 +450,15 @@ const hobbies = ["Cricket", "Playing Guitar", "Hiking", "Camping"];
     border-left: 1px solid #404040;
   }
   
-  .advisory-item:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px -2px rgba(0, 0, 0, 0.05);
-  }
-  
-  .dark .advisory-item:hover {
-    box-shadow: 0 4px 12px -2px rgba(0, 0, 0, 0.2);
+  /* Apply hover effects only on non-touch devices */
+  @media (hover: hover) {
+    .advisory-item:hover {
+      box-shadow: 0 4px 12px -2px rgba(0, 0, 0, 0.05);
+    }
+    
+    .dark .advisory-item:hover {
+      box-shadow: 0 4px 12px -2px rgba(0, 0, 0, 0.2);
+    }
   }
   
   /* Remove the gradient effect for a more subtle look */
@@ -463,35 +471,30 @@ const hobbies = ["Cricket", "Playing Guitar", "Hiking", "Camping"];
     .about-container {
       padding: 0 1rem;
     }
+    
+    /* Optimize rendering on mobile */
+    .skill-card, .advisory-item, .timeline-item {
+      /* Reduce animations on mobile for better performance */
+      transition: none;
+      transform: none !important;
+      box-shadow: none !important;
+    }
+    
+    /* Improve paint performance */
+    .image-container {
+      box-shadow: 0 2px 8px -2px rgba(0, 0, 0, 0.15);
+    }
+    
+    .dark .image-container {
+      box-shadow: 0 2px 8px -2px rgba(0, 0, 0, 0.3);
+    }
   }
 </style>
 
 <script>
+  // Defer non-critical animations and interactions
   document.addEventListener('DOMContentLoaded', () => {
-    // Intersection Observer for fade-in sections
-    const sections = document.querySelectorAll('section, .fade-in');
-    const observerOptions = {
-      root: null,
-      rootMargin: '0px',
-      threshold: 0.1
-    };
-    
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('opacity-100');
-          entry.target.classList.remove('opacity-0', 'translate-y-4');
-          observer.unobserve(entry.target);
-        }
-      });
-    }, observerOptions);
-    
-    sections.forEach(section => {
-      section.classList.add('transition-all', 'duration-700', 'opacity-0', 'translate-y-4');
-      observer.observe(section);
-    });
-    
-    // Skills toggle functionality
+    // Skills toggle functionality - simplified and optimized
     const skillsToggle = document.getElementById('skills-toggle');
     const expandedSkills = document.getElementById('expanded-skills');
     
@@ -503,19 +506,6 @@ const hobbies = ["Cricket", "Playing Guitar", "Hiking", "Camping"];
           expandedSkills.classList.remove('hidden');
           skillsToggle.textContent = 'Show less';
           skillsToggle.classList.add('bg-gray-50', 'dark:bg-neutral-700');
-          
-          // Add animation for expanded skills with CSS classes
-          const skillCards = expandedSkills.querySelectorAll('.skill-card');
-          skillCards.forEach((card, i) => {
-            // Add animation classes
-            card.classList.add('opacity-0', 'translate-y-2');
-            
-            // Use setTimeout for staggered animation
-            setTimeout(() => {
-              card.classList.add('transition-all', 'duration-300');
-              card.classList.remove('opacity-0', 'translate-y-2');
-            }, i * 50);
-          });
         } else {
           expandedSkills.classList.add('hidden');
           skillsToggle.textContent = 'Show all technologies';
@@ -527,27 +517,7 @@ const hobbies = ["Cricket", "Playing Guitar", "Hiking", "Camping"];
 </script>
 
 <style is:global>
-  /* Animation classes */
-  .opacity-0 {
-    opacity: 0;
-  }
-  
-  .fadeIn {
-    animation: fadeIn 0.6s ease forwards;
-  }
-  
-  @keyframes fadeIn {
-    from {
-      opacity: 0;
-      transform: translateY(10px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-  
-  /* Ensure prose content looks good */
+  /* Ensure prose content looks good - keeping only essential styles */
   .prose p {
     margin-bottom: 1em;
   }
