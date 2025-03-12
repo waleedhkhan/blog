@@ -100,6 +100,26 @@ const experiences = [
   }
 ];
 
+// Advisory roles data
+const advisoryRoles = [
+  {
+    period: "2025 — Present",
+    role: "Advisor & Fractional CPTO",
+    company: "Elephant HR",
+    location: "Berlin, Germany",
+    focus: "AI & Product Strategy",
+    description: "Providing strategic guidance on AI integration and product development."
+  },
+  {
+    period: "2018 — Present",
+    role: "Advisor & Fractional CPTO",
+    company: "Ory Berlin",
+    location: "Berlin, Germany",
+    focus: "AI & Product Strategy",
+    description: "Providing strategic guidance on AI integration and product development."
+  }
+];
+
 // Education data
 const education = [
   {
@@ -214,11 +234,11 @@ const hobbies = ["Cricket", "Playing Guitar", "Hiking", "Camping"];
       
       <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
         {skills.map(skillGroup => (
-          <div class="skill-card p-4 bg-neutral-100 dark:bg-neutral-800 rounded-lg text-gray-900 dark:text-gray-300 border border-gray-200 dark:border-gray-800">
+          <div class="skill-card p-4 bg-white dark:bg-neutral-800 rounded-lg text-gray-900 dark:text-gray-300 border border-gray-200 dark:border-gray-800">
             <h3 class="font-medium text-sm text-gray-900 dark:text-gray-300 mb-3 lowercase">{skillGroup.category}</h3>
             <div class="flex flex-wrap gap-1.5">
               {skillGroup.items.map(skill => (
-                <span class="text-xs px-2 py-0.5 rounded bg-neutral-50 dark:bg-neutral-700 text-gray-800 dark:text-gray-400 border border-gray-300 dark:border-gray-800">
+                <span class="text-xs px-2 py-0.5 rounded bg-white dark:bg-neutral-700 text-gray-800 dark:text-gray-400 border border-gray-300 dark:border-gray-800">
                   {skill}
                 </span>
               ))}
@@ -229,7 +249,7 @@ const hobbies = ["Cricket", "Playing Guitar", "Hiking", "Camping"];
       
       <!-- Show more/less toggle -->
       <div class="text-center mt-4">
-        <button id="skills-toggle" class="text-xs px-4 py-1.5 rounded-full bg-neutral-100 dark:bg-neutral-800 text-gray-800 dark:text-gray-400 hover:bg-neutral-200 dark:hover:bg-neutral-700 transition-colors border border-gray-200 dark:border-gray-800">
+        <button id="skills-toggle" class="text-xs px-4 py-1.5 rounded-full bg-white dark:bg-neutral-800 text-gray-800 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-neutral-600 transition-colors border border-gray-600 dark:border-gray-800">
           Show all technologies
         </button>
       </div>
@@ -240,11 +260,11 @@ const hobbies = ["Cricket", "Playing Guitar", "Hiking", "Camping"];
         
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
           {Object.entries(expandedSkills).map(([category, items]) => (
-            <div class="skill-card p-4 bg-neutral-100 dark:bg-neutral-800 rounded-lg text-gray-900 dark:text-gray-300 border border-gray-200 dark:border-gray-800">
+            <div class="skill-card p-4 bg-white dark:bg-neutral-800 rounded-lg text-gray-900 dark:text-gray-300 border border-gray-200 dark:border-gray-800">
               <h4 class="font-medium text-sm text-gray-900 dark:text-gray-300 mb-3 lowercase">{category}</h4>
               <div class="flex flex-wrap gap-1.5">
                 {items.map(skill => (
-                  <span class="text-xs px-2 py-0.5 rounded bg-neutral-50 dark:bg-neutral-700 text-gray-800 dark:text-gray-400 border border-gray-300 dark:border-gray-800">
+                  <span class="text-xs px-2 py-0.5 rounded bg-white dark:bg-neutral-700 text-gray-800 dark:text-gray-400 border border-gray-300 dark:border-gray-800">
                     {skill}
                   </span>
                 ))}
@@ -261,7 +281,7 @@ const hobbies = ["Cricket", "Playing Guitar", "Hiking", "Camping"];
       
       <div class="space-y-8">
         {experiences.map((exp, i) => (
-          <div class="timeline-item p-4 bg-neutral-100 dark:bg-neutral-800 rounded-lg text-gray-900 dark:text-gray-300 border border-gray-200 dark:border-gray-800">
+          <div class="timeline-item p-4 bg-white dark:bg-neutral-800 rounded-lg text-gray-900 dark:text-gray-300 border border-gray-200 dark:border-gray-800">
             <div class="grid grid-cols-1 md:grid-cols-[1fr_3fr] gap-4">
               <div>
                 <div class="text-sm font-mono text-gray-600 dark:text-gray-400 mb-1">{exp.period}</div>
@@ -271,10 +291,37 @@ const hobbies = ["Cricket", "Playing Guitar", "Hiking", "Camping"];
               </div>
               
               <div class="space-y-3">
-                <div class="text-xs font-mono p-2 bg-neutral-50 dark:bg-neutral-700 rounded text-gray-800 dark:text-gray-400 overflow-x-auto border border-gray-300 dark:border-gray-800">
+                <div class="text-xs font-mono p-2 bg-white dark:bg-neutral-700 rounded text-gray-800 dark:text-gray-400 overflow-x-auto border border-gray-300 dark:border-gray-800">
                   {exp.stack}
                 </div>
                 <p class="text-sm text-gray-700 dark:text-gray-400">{exp.description}</p>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <!-- Advisory Roles section - with reduced prominence -->
+    <div class="space-y-5" transition:animate="fade">
+      <h2 class="text-xl font-medium text-gray-800 dark:text-gray-400">Advisory Roles</h2>
+      
+      <div class="space-y-6">
+        {advisoryRoles.map((role, i) => (
+          <div class="advisory-item p-4 bg-white dark:bg-neutral-800 rounded-lg text-gray-900 dark:text-gray-300 border border-gray-200 dark:border-gray-800">
+            <div class="grid grid-cols-1 md:grid-cols-[1fr_3fr] gap-4">
+              <div>
+                <div class="text-sm font-mono text-gray-600 dark:text-gray-400 mb-1">{role.period}</div>
+                <div class="text-base font-medium text-gray-900 dark:text-gray-300 mb-1">{role.role}</div>
+                <div class="text-sm text-gray-700 dark:text-gray-400 mb-2">{role.company}</div>
+                <div class="text-xs text-gray-600 dark:text-gray-400">{role.location}</div>
+              </div>
+              
+              <div class="space-y-3">
+                <div class="text-xs font-mono p-2 bg-white dark:bg-neutral-700 rounded text-gray-800 dark:text-gray-400 overflow-x-auto border border-gray-300 dark:border-gray-800">
+                  {role.focus}
+                </div>
+                <p class="text-sm text-gray-700 dark:text-gray-400">{role.description}</p>
               </div>
             </div>
           </div>
@@ -288,7 +335,7 @@ const hobbies = ["Cricket", "Playing Guitar", "Hiking", "Camping"];
       
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
         {education.map((edu) => (
-          <div class="p-3 bg-neutral-100 dark:bg-neutral-800 rounded-lg text-gray-900 dark:text-gray-300 border border-gray-200 dark:border-gray-800">
+          <div class="p-3 bg-white dark:bg-neutral-800 rounded-lg text-gray-900 dark:text-gray-300 border border-gray-200 dark:border-gray-800">
             <div class="text-xs font-mono text-gray-600 dark:text-gray-400 mb-1">{edu.period}</div>
             <div class="text-base font-medium text-gray-900 dark:text-gray-300">{edu.degree}</div>
             <div class="text-sm text-gray-700 dark:text-gray-400">{edu.institution}</div>
@@ -298,7 +345,7 @@ const hobbies = ["Cricket", "Playing Guitar", "Hiking", "Camping"];
     </div>
 
     <!-- Contact section -->
-    <div class="bg-neutral-100 dark:bg-neutral-800 p-6 rounded-xl space-y-4 text-gray-900 dark:text-gray-300 border border-gray-200 dark:border-gray-800">
+    <div class="bg-white dark:bg-neutral-800 p-6 rounded-xl space-y-4 text-gray-900 dark:text-gray-300 border border-gray-200 dark:border-gray-800">
       <h2 class="text-xl font-medium text-gray-900 dark:text-gray-300">Get in Touch</h2>
       <p class="text-gray-800 dark:text-gray-400">
         I'm always open to discussing new projects, creative ideas, or opportunities to be part of your vision.
@@ -315,7 +362,7 @@ const hobbies = ["Cricket", "Playing Guitar", "Hiking", "Camping"];
           href="https://linkedin.com/in/waleedhk/" 
           target="_blank" 
           rel="noopener noreferrer"
-          class="inline-flex items-center gap-2 py-2 px-4 rounded-md bg-neutral-50 dark:bg-neutral-700 text-gray-800 dark:text-gray-400 hover:bg-neutral-200 dark:hover:bg-neutral-600 transition-colors border border-gray-300 dark:border-gray-800 font-medium"
+          class="inline-flex items-center gap-2 py-2 px-4 rounded-md bg-white dark:bg-neutral-700 text-gray-800 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-neutral-600 transition-colors border border-gray-300 dark:border-gray-800 font-medium"
         >
           <Icon name="lucide:linkedin" class="w-4 h-4" /> 
           Connect on LinkedIn
@@ -379,11 +426,36 @@ const hobbies = ["Cricket", "Playing Guitar", "Hiking", "Camping"];
   
   .timeline-item:hover {
     transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 4px 12px -2px rgba(0, 0, 0, 0.05);
   }
   
   .dark .timeline-item:hover {
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 4px 12px -2px rgba(0, 0, 0, 0.2);
+  }
+  
+  /* Advisory roles styling - more subtle */
+  .advisory-item {
+    position: relative;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    border-left: 1px solid #e5e7eb;
+  }
+  
+  .dark .advisory-item {
+    border-left: 1px solid #404040;
+  }
+  
+  .advisory-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px -2px rgba(0, 0, 0, 0.05);
+  }
+  
+  .dark .advisory-item:hover {
+    box-shadow: 0 4px 12px -2px rgba(0, 0, 0, 0.2);
+  }
+  
+  /* Remove the gradient effect for a more subtle look */
+  .advisory-item::before {
+    display: none;
   }
   
   /* Responsive adjustments */
@@ -430,7 +502,7 @@ const hobbies = ["Cricket", "Playing Guitar", "Hiking", "Camping"];
         if (isExpanded) {
           expandedSkills.classList.remove('hidden');
           skillsToggle.textContent = 'Show less';
-          skillsToggle.classList.add('bg-neutral-200', 'dark:bg-neutral-700');
+          skillsToggle.classList.add('bg-gray-50', 'dark:bg-neutral-700');
           
           // Add animation for expanded skills with CSS classes
           const skillCards = expandedSkills.querySelectorAll('.skill-card');
@@ -447,7 +519,7 @@ const hobbies = ["Cricket", "Playing Guitar", "Hiking", "Camping"];
         } else {
           expandedSkills.classList.add('hidden');
           skillsToggle.textContent = 'Show all technologies';
-          skillsToggle.classList.remove('bg-neutral-200', 'dark:bg-neutral-700');
+          skillsToggle.classList.remove('bg-gray-50', 'dark:bg-neutral-700');
         }
       });
     }
