@@ -3059,6 +3059,62 @@
       "date": "2022-09-27",
       "timestamp": "2022-09-27T09:56:16.963Z",
       "status": "active"
+    },
+    {
+      "id": "308f19b1-e0e5-4f96-8f59-1c9e3d8fe0c6",
+      "name": "same.dev",
+      "url": "https://same.dev/",
+      "category": "ai",
+      "description": "Content from same.dev",
+      "timestamp": "2025-03-13T14:02:00.452Z"
+    },
+    {
+      "id": "aaa747d3-c7da-44c4-bf89-052e25f44f90",
+      "name": "VanceAI",
+      "url": "https://vanceai.com/",
+      "category": "ai",
+      "description": "VanceAI offers AI enhancing, upscaling, sharpening, denoising, background removal & generation, etc., to boost productivity and creativity in photo processing.",
+      "timestamp": "2025-03-13T14:03:00.320Z"
+    },
+    {
+      "id": "dd1cb912-f493-455a-b4df-2d6f655c5299",
+      "name": "Cline - AI Autonomous Coding Agent for VS Code",
+      "url": "https://cline.bot/",
+      "category": "ai",
+      "description": "Cline is an open-source AI coding assistant with dual Plan/Act modes, terminal execution, and Model Context Protocol (MCP) for VS Code. Alternative to GitHub Copilot with extensible tools and real-time debugging.",
+      "timestamp": "2025-03-13T14:04:14.927Z"
+    },
+    {
+      "id": "0fa4add2-44da-4a17-857c-d0558ac9ce19",
+      "name": "Mirage - The first UGC Foundation Model",
+      "url": "https://www.captions.ai/mirage",
+      "category": "ai",
+      "description": "Use the world’s first AI model built for generating for A-roll, talking videos, UGC content, and more, built entirely in-house at Captions.",
+      "timestamp": "2025-03-13T14:06:15.735Z"
+    },
+    {
+      "id": "00f66df0-5806-46d4-a34f-9a70441f7e92",
+      "name": "v0.dev",
+      "url": "https://v0.dev/",
+      "category": "ai",
+      "description": "New generative UI tool by Vercel",
+      "timestamp": "2025-03-13T14:07:24.547Z"
+    },
+    {
+      "id": "c2cb25b7-7c78-4c48-b8ca-95e7c339062b",
+      "name": "brand.ai | your brand OS",
+      "url": "https://brand.ai/",
+      "category": "ai",
+      "description": "Brand.ai is an AI platform that analyzes business data, market trends, and cultural shifts to inform brand and creative strategy throughout the lifecycle of a brand. ",
+      "timestamp": "2025-03-13T14:09:44.625Z"
+    },
+    {
+      "id": "2350211f-8b3e-4391-89af-ccf6957edef7",
+      "name": "1 dataset. 100 visualizations.",
+      "url": "https://100.datavizproject.com/",
+      "category": "ai",
+      "description": "100 visualizations from one simple dataset",
+      "timestamp": "2025-03-13T14:46:07.044Z"
     }
   ]
 }

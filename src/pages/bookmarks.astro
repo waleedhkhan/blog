@@ -80,6 +80,8 @@ let processedBookmarks = bookmarksData.bookmarks.map((bookmark, index) => {
   // Format the date if it exists
   if (processed.date) {
     processed.formattedDate = formatDate(processed.date);
+  } else if (processed.timestamp) {
+    processed.formattedDate = formatDate(processed.timestamp);
   } else {
     processed.formattedDate = "";
   }
@@ -203,7 +205,7 @@ const uniqueCategories = Array.from(allCategories).sort();
             <tr 
               data-categories={bookmark.processedCategories.join(' ')}
               data-url={bookmark.url}
-              data-date={bookmark.date || ""}
+              data-date={bookmark.dateTimestamp.toString()}
               class="bookmark-card border-b border-neutral-100 dark:border-neutral-800 hover:bg-gray-50/50 dark:hover:bg-neutral-700/30 transition-colors"
             >
               <td class="py-4 px-4">
@@ -425,13 +427,13 @@ const uniqueCategories = Array.from(allCategories).sort();
         
         // Sort cards based on sort direction
         cardsArray.sort((a, b) => {
-          const dateA = (a as HTMLElement & {dataset: {date: string}}).dataset.date || '';
-          const dateB = (b as HTMLElement & {dataset: {date: string}}).dataset.date || '';
+          const dateA = parseInt((a as HTMLElement & {dataset: {date: string}}).dataset.date || '0');
+          const dateB = parseInt((b as HTMLElement & {dataset: {date: string}}).dataset.date || '0');
           
           if (sortDirection === 'newest') {
-            return dateB.localeCompare(dateA);
+            return dateB - dateA;
           } else {
-            return dateA.localeCompare(dateB);
+            return dateA - dateB;
           }
         });
         
