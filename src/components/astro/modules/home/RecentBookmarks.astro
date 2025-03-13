@@ -9,6 +9,7 @@ interface BaseBookmark {
   url: string;
   description: string;
   date?: string;
+  timestamp?: string;
 }
 
 interface StringCategoryBookmark extends BaseBookmark {
@@ -47,10 +48,20 @@ function formatDate(dateString: string | undefined): string {
 }
 
 // Convert string to date for sorting
-function dateToTimestamp(dateString: string | undefined): number {
-  if (!dateString) return 0; // No date means oldest
-  const date = new Date(dateString);
-  return isNaN(date.getTime()) ? 0 : date.getTime();
+function dateToTimestamp(dateString: string | undefined, timestampString: string | undefined): number {
+  // First check if timestamp exists (most precise)
+  if (timestampString) {
+    const timestamp = new Date(timestampString);
+    return isNaN(timestamp.getTime()) ? 0 : timestamp.getTime();
+  }
+  
+  // Fall back to date if timestamp isn't available
+  if (dateString) {
+    const date = new Date(dateString);
+    return isNaN(date.getTime()) ? 0 : date.getTime();
+  }
+  
+  return 0; // No date means oldest
 }
 
 // Process bookmarks
@@ -61,11 +72,14 @@ let processedBookmarks = bookmarksData.bookmarks.map((bookmark) => {
   // Format the date if it exists
   if (processed.date) {
     processed.formattedDate = formatDate(processed.date);
-    processed.dateTimestamp = dateToTimestamp(processed.date);
+  } else if (processed.timestamp) {
+    processed.formattedDate = formatDate(processed.timestamp);
   } else {
     processed.formattedDate = "";
-    processed.dateTimestamp = 0;
   }
+  
+  // Get timestamp for sorting (using timestamp field first if available, then date field)
+  processed.dateTimestamp = dateToTimestamp(processed.date, processed.timestamp);
   
   // Process categories
   let categories: string[] = [];
