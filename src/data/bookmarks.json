@@ -3115,6 +3115,14 @@
       "category": "ai",
       "description": "100 visualizations from one simple dataset",
       "timestamp": "2025-03-13T14:46:07.044Z"
+    },
+    {
+      "id": "4245eb8d-9dd1-42f3-b5c2-8edbdaae624b",
+      "name": "modern product development",
+      "url": "https://www.hyperact.co.uk/blog/product-development-blueprint",
+      "category": "articles",
+      "description": "A blueprint for companies feeling the growing pains of scaling up or those dissatisfied with the impact of their product development efforts.",
+      "timestamp": "2025-03-14T00:21:22.198Z"
     }
   ]
 }
