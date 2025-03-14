@@ -21,7 +21,7 @@ export const Template = (props: OGProps, imageBuffer: Buffer) => html`
     <div style="display: flex; align-items: center; justify-content: space-between; font-weight: 500; font-size: 20px;">
       <div style="display: flex; color: #535862;">
         <time style="display: flex; margin-right: 8px;">
-          ${new Date(props.publishedAt).toLocaleString('en-GB', {
+          ${new Date(props.publishedAt).toLocaleString('en-US', {
             year: 'numeric',
             month: 'long',
             day: 'numeric',

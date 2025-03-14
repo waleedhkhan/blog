@@ -40,6 +40,7 @@ export function formatDate(date: string | Date, options: Intl.DateTimeFormatOpti
     year: 'numeric',
     month: 'long',
     day: 'numeric',
+    timeZone: 'UTC',
   };
   
   const mergedOptions: Intl.DateTimeFormatOptions = { ...defaultOptions, ...options };

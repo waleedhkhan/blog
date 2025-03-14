@@ -48,7 +48,7 @@ sortedCategories.slice(1).forEach(category => {
 });
 
 // Category colors - limited, minimal palette aligned with Bauhaus principles
-const categoryColors: Record<string, { bg: string, text: string }> = {
+const categoryColors: Record<string, { bg: string, text: string, special?: boolean }> = {
   "uncategorized": { bg: "bg-neutral-200 dark:bg-neutral-700", text: "text-neutral-800 dark:text-neutral-200" },
   "article": { bg: "bg-blue-200 dark:bg-blue-800", text: "text-blue-800 dark:text-blue-200" },
   "articles": { bg: "bg-blue-200 dark:bg-blue-800", text: "text-blue-800 dark:text-blue-200" },
@@ -57,7 +57,8 @@ const categoryColors: Record<string, { bg: string, text: string }> = {
   "development": { bg: "bg-emerald-200 dark:bg-emerald-800", text: "text-emerald-800 dark:text-emerald-200" },
   "productivity": { bg: "bg-purple-200 dark:bg-purple-800", text: "text-purple-800 dark:text-purple-200" },
   "books": { bg: "bg-orange-200 dark:bg-orange-800", text: "text-orange-800 dark:text-orange-200" },
-  "videos": { bg: "bg-indigo-200 dark:bg-indigo-800", text: "text-indigo-800 dark:text-indigo-200" }
+  "videos": { bg: "bg-indigo-200 dark:bg-indigo-800", text: "text-indigo-800 dark:text-indigo-200" },
+  "ai": { bg: "ai-gradient", text: "text-white dark:text-white", special: true }
 };
 
 // Get color for a category, with fallback to uncategorized
@@ -75,7 +76,7 @@ function formatDate(dateString: string | undefined): string {
   
   return new Intl.DateTimeFormat('en-US', { 
     year: 'numeric', 
-    month: 'short', 
+    month: 'long', 
     day: 'numeric' 
   }).format(date);
 }
@@ -110,12 +111,8 @@ let processedBookmarks = bookmarksData.bookmarks.map((bookmark, index) => {
   let formattedDate = "No date";
   if (dateTimestamp > 0) {
     try {
-      // Format as "Mar 14, 2025" or similar
-      formattedDate = date.toLocaleDateString('en-US', { 
-        month: 'short', 
-        day: 'numeric', 
-        year: 'numeric' 
-      });
+      // Format as "March 13, 2016" or similar
+      formattedDate = formatDate(date.toISOString());
     } catch (e) {
       console.error("Error formatting date:", e);
     }
@@ -177,7 +174,7 @@ processedBookmarks.forEach((bookmark, index) => {
           <div class="flex flex-wrap gap-2 categories-container">
             {sortedCategories.map(category => (
               <button 
-                class={`category-chip ${category === 'all' ? 'bg-gray-800 text-white dark:bg-white dark:text-gray-900' : 'bg-gray-100 text-gray-800 dark:bg-neutral-800 dark:text-gray-200'} px-3 py-1.5 text-xs rounded-full hover:bg-gray-200 dark:hover:bg-neutral-700 transition-colors`} 
+                class={`category-chip ${category === 'all' ? 'bg-gray-800 text-white dark:bg-white dark:text-gray-900' : 'bg-gray-100 text-gray-800 dark:bg-neutral-800 dark:text-gray-200'} px-3 py-1.5 text-xs rounded-full hover:bg-gray-200 dark:hover:bg-neutral-700 transition-colors ${category === 'ai' ? 'ai-tag' : ''}`} 
                 data-category={category}
                 type="button"
                 onclick={`setCategory(this, '${category}')`}
@@ -239,11 +236,15 @@ processedBookmarks.forEach((bookmark, index) => {
               <!-- Footer with categories and date -->
               <div class="flex items-center justify-between text-xs">
                 <div class="flex flex-wrap gap-1.5 mt-1 flex-1 min-w-0">
-                  {bookmark.processedCategories.map(category => (
-                    <span class={`px-2 py-0.5 text-xs font-medium rounded ${getCategoryColor(category).bg} ${getCategoryColor(category).text} whitespace-nowrap`}>
-                      {category.toLowerCase()}
-                    </span>
-                  ))}
+                  {bookmark.processedCategories.map(category => {
+                    const colorInfo = getCategoryColor(category);
+                    const isSpecial = colorInfo.special;
+                    return (
+                      <span class={`px-2 py-0.5 text-xs font-medium rounded ${isSpecial ? 'ai-tag' : `${colorInfo.bg} ${colorInfo.text}`} whitespace-nowrap`}>
+                        {category.toLowerCase()}
+                      </span>
+                    );
+                  })}
                 </div>
                 
                 <div class="flex-shrink-0 ml-2">
@@ -310,6 +311,37 @@ processedBookmarks.forEach((bookmark, index) => {
   .dark .bookmark-link:visited::before {
     background-color: #818cf8; /* indigo-400 */
   }
+  
+  /* Special AI tag styling */
+  .ai-tag,
+  button.category-chip.ai-tag {
+    background: linear-gradient(90deg, #991b1b, #b91c1c, #ef4444, #b91c1c, #991b1b) !important;
+    background-size: 200% 100% !important;
+    color: white !important;
+    position: relative;
+    animation: gradient-shift 3s ease infinite;
+    box-shadow: 0 0 8px rgba(220, 38, 38, 0.5);
+    transition: all 0.3s ease;
+    border: none;
+  }
+  
+  .ai-tag:hover,
+  button.category-chip.ai-tag:hover {
+    box-shadow: 0 0 12px rgba(220, 38, 38, 0.8);
+    background: linear-gradient(90deg, #991b1b, #b91c1c, #ef4444, #b91c1c, #991b1b) !important;
+  }
+  
+  @keyframes gradient-shift {
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
+  }
 </style>
 
 <script is:inline>
@@ -317,25 +349,36 @@ processedBookmarks.forEach((bookmark, index) => {
   let activeCategory = 'all';
   
   // Global filter functions
-  function setCategory(button, category) {
-    // Set active category
+  function setCategory(element, category) {
+    // Update active category
     activeCategory = category;
     
-    // Update UI
-    document.querySelectorAll('.category-chip').forEach(btn => {
-      btn.classList.remove('bg-gray-800', 'text-white', 'dark:bg-white', 'dark:text-gray-900');
-      btn.classList.add('bg-gray-100', 'text-gray-800', 'dark:bg-neutral-800', 'dark:text-gray-200');
+    // Reset all category chips
+    document.querySelectorAll('.category-chip').forEach(chip => {
+      if (chip.dataset.category === 'all') {
+        chip.className = 'category-chip bg-gray-100 text-gray-800 dark:bg-neutral-800 dark:text-gray-200 px-3 py-1.5 text-xs rounded-full hover:bg-gray-200 dark:hover:bg-neutral-700 transition-colors';
+      } else if (chip.dataset.category === 'ai') {
+        chip.className = 'category-chip ai-tag px-3 py-1.5 text-xs rounded-full transition-colors';
+      } else {
+        chip.className = 'category-chip bg-gray-100 text-gray-800 dark:bg-neutral-800 dark:text-gray-200 px-3 py-1.5 text-xs rounded-full hover:bg-gray-200 dark:hover:bg-neutral-700 transition-colors';
+      }
     });
     
-    button.classList.remove('bg-gray-100', 'text-gray-800', 'dark:bg-neutral-800', 'dark:text-gray-200');
-    button.classList.add('bg-gray-800', 'text-white', 'dark:bg-white', 'dark:text-gray-900');
+    // Set active category chip
+    if (category === 'all') {
+      element.className = 'category-chip bg-gray-800 text-white dark:bg-white dark:text-gray-900 px-3 py-1.5 text-xs rounded-full hover:bg-gray-700 dark:hover:bg-gray-200 transition-colors';
+    } else if (category === 'ai') {
+      element.className = 'category-chip ai-tag px-3 py-1.5 text-xs rounded-full transition-colors';
+    } else {
+      element.className = 'category-chip bg-gray-800 text-white dark:bg-white dark:text-gray-900 px-3 py-1.5 text-xs rounded-full hover:bg-gray-700 dark:hover:bg-gray-200 transition-colors';
+    }
     
-    // Apply filter
-    filterBookmarks();
+    // Filter bookmarks
+    filterBookmarks(category);
   }
   
   // Filter bookmarks
-  function filterBookmarks() {
+  function filterBookmarks(category) {
     const searchInput = document.getElementById('search-input');
     const searchTerm = searchInput ? searchInput.value.toLowerCase() : '';
     const bookmarkCards = document.querySelectorAll('.bookmark-card');
@@ -349,7 +392,7 @@ processedBookmarks.forEach((bookmark, index) => {
       const description = descriptionElement ? descriptionElement.textContent?.toLowerCase() || '' : '';
       
       // Category filter
-      const matchesCategory = activeCategory === 'all' || categories.includes(activeCategory);
+      const matchesCategory = category === 'all' || categories.includes(category);
       
       // Search filter
       const matchesSearch = !searchTerm || 
@@ -391,7 +434,7 @@ processedBookmarks.forEach((bookmark, index) => {
     // Initialize search input
     const searchInput = document.getElementById('search-input');
     if (searchInput) {
-      searchInput.addEventListener('input', filterBookmarks);
+      searchInput.addEventListener('input', () => filterBookmarks(activeCategory));
     }
   });
 </script>

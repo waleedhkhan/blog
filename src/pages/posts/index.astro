@@ -47,9 +47,9 @@ const description =
                 </div>
 
                 <time class="flex-shrink-0 leading-[1.75]">
-                  {new Date(post.data.publishedAt).toLocaleString("en-GB", {
-                    year: "2-digit",
-                    month: "short",
+                  {new Date(post.data.publishedAt).toLocaleString("en-US", {
+                    year: "numeric",
+                    month: "long",
                     day: "numeric",
                   })}
                 </time>
