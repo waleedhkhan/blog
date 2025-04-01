@@ -3120,9 +3120,17 @@
       "id": "4245eb8d-9dd1-42f3-b5c2-8edbdaae624b",
       "name": "modern product development",
       "url": "https://www.hyperact.co.uk/blog/product-development-blueprint",
-      "category": "articles",
+      "category": "engineering",
       "description": "A blueprint for companies feeling the growing pains of scaling up or those dissatisfied with the impact of their product development efforts.",
       "timestamp": "2025-03-14T00:21:22.198Z"
+    },
+    {
+      "id": "31154f70-010f-4fa7-b24a-8092f9ffca62",
+      "name": "AI Blindspots | AI Blindspots",
+      "url": "https://ezyang.github.io/ai-blindspots/",
+      "category": "ai",
+      "description": "Blindspots in LLMs I've noticed while AI coding. Sonnet family emphasis.",
+      "timestamp": "2025-03-19T21:55:22.990Z"
     }
   ]
 }
