@@ -1,0 +1,66 @@
+---
+title: "Context for LLMs: A Graph-Based Approach"
+subtitle: "~70% reduction in average prompt token count"
+date: 2025-04-06
+publishedAt: 2025-04-06T13:47:11+02:00
+description: "Using symbolic graph representations and semantic overlays to optimize LLM context delivery."
+tags:
+  - AI
+  - LLMs
+---
+
+Over the past year, we’ve seen a proliferation of efforts aimed at integrating large language models (LLMs) into software engineering workflows, from code generation to refactoring, documentation, and bug detection. However, one of the persistent challenges remains context handling: how to efficiently ground a model in a large, interconnected codebase without exceeding token limits or introducing ambiguity.
+
+In this post, I outline a system we’ve developed that leverages symbolic graph representations of source code, a semantic overlay, and a Model Control Plane (MCP) to serve code context to an LLM dynamically. This architecture yields substantial benefits: up to 70% reduction in token consumption, while simultaneously improving accuracy and reducing hallucinations to near zero.
+
+## The Central Premise
+
+Source code is not flat text. It is a rich, hierarchical, and referential system of symbols (functions, types, variables, modules) connected via an intricate web of relationships. Flattening this into plain token sequences for LLM consumption strips away the very structure that enables understanding.
+
+Instead, we construct a symbol graph from the codebase, encoding relationships such as:
+
+- Function calls
+- Variable bindings
+- Module imports
+- Type hierarchies
+- Scope boundaries
+
+This graph is stored in a queryable graph database, allowing us to reconstruct semantically meaningful neighborhoods of the codebase on demand.
+
+## Architecture Overview
+
+The system is composed of three main layers:
+
+1.  **Code Symbolization & Graph Ingestion**
+
+    Using custom parsers and AST walkers, we process the entire codebase and extract a complete symbol graph. Each node represents a symbol (function, class, variable), and each edge represents a relationship (calls, uses, inherits, etc.).
+
+2.  **Semantic Overlay**
+
+    To augment symbolic reasoning with flexibility, we generate vector embeddings of all symbol definitions, comments, and usages. These are indexed for semantic similarity search, enabling hybrid retrieval mechanisms that combine symbolic accuracy with linguistic nuance.
+
+3.  **Model Control Plane (MCP)**
+
+    The MCP acts as an intelligent gatekeeper. Given a user prompt, it identifies the minimum necessary code context by querying both the graph and the semantic index. Only the most relevant slices: structured, connected, and highly focused, are fed into the LLM.
+
+This allows us to keep prompt sizes minimal while maintaining maximal grounding.
+
+## Why This Matters
+
+The next generation of developer tools will not merely interface with LLMs—they will orchestrate them.
+
+Treating LLMs as stateless text generators in a vacuum is no longer viable for serious software engineering use cases. Instead, we must build layered systems that handle:
+
+- Memory (persistent structure and state)
+- Attention (dynamic, query-based context delivery)
+- Control (adaptive decision-making on context inclusion)
+
+This architecture is an early step in that direction. It’s extensible, language-agnostic, and adaptable to a wide range of code comprehension tasks.
+
+## Looking Ahead
+
+There’s room to grow, e.g., integrating test coverage data, runtime traces, or commit history into the graph. But even in its current state, this system offers a glimpse into what structured intelligence for LLMs could look like in the context of code.
+
+I’m excited to continue refining it - and even more excited to see how others push these ideas forward.
+
+If you’re working on structured code intelligence, language model grounding, or MCP orchestration - let’s connect.
