@@ -20,6 +20,9 @@ MODIFIED_FILES=$(git status --porcelain | awk '{print $2}')
 # Generate commit message based on changed files
 COMMIT_MESSAGE=""
 
+
+
+
 # Check for specific file patterns
 if echo "$MODIFIED_FILES" | grep -q "src/pages"; then
   PAGE_CHANGES=$(echo "$MODIFIED_FILES" | grep "src/pages" | grep -v "index.astro" | sed 's/.*\/\([^\/]*\)\..*/\1/' | sort | uniq | tr '\n' ', ' | sed 's/,$//')

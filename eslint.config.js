@@ -15,6 +15,7 @@ export default [
     plugins: {
       vue,
     },
+
     languageOptions: {
       parser: vueParser,
       parserOptions: {
