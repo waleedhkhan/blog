@@ -24,4 +24,5 @@ export function TableOfContentsWrapper({
       {children}
     </div>
   );
+
 }
