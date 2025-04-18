@@ -1,0 +1,66 @@
+/* 
+ * Micro-interactions CSS
+ * Following Bauhaus minimal design principles
+ */
+
+/* Subtle hover effect for links */
+a:not([class*="no-hover"]):hover {
+  transform: translateY(-1px);
+  transition: transform 0.2s ease-out;
+}
+
+/* Scroll progress indicator */
+.scroll-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 0%;
+  height: 2px;
+  background-color: oklch(var(--accent));
+  opacity: 0.5;
+  z-index: 1000;
+  transform-origin: left;
+  transition: opacity 0.3s ease, width 0.1s ease-out;
+}
+
+/* Focus states for interactive elements */
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+[tabindex]:not([tabindex="-1"]):focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px oklch(var(--accent) / 0.3);
+}
+
+/* Image reveal animation */
+img:not([loading="eager"]) {
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+img:not([loading="eager"]).revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Bookmark hover effect */
+.bookmark-card:hover {
+  background-color: oklch(var(--surface) / 0.5);
+  transition: background-color 0.2s ease;
+}
+
+/* Subtle page transitions */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 0.3s;
+}
+
+/* Custom cursor for interactive elements */
+@media (pointer: fine) {
+  a, button, select, input[type="submit"], input[type="button"] {
+    cursor: pointer;
+  }
+}
