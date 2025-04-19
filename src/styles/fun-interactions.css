@@ -1,0 +1,257 @@
+/* 
+ * Interactive micro-interactions CSS
+ * FUN AND PLAYFUL!
+ */
+
+/* Link hover effects */
+a:not(.no-hover) {
+  position: relative;
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+a:not(.no-hover):hover {
+  text-shadow: 0 0 5px rgba(42, 47, 79, 0.3);
+  letter-spacing: 0.02em;
+  transform: translateY(-2px);
+}
+
+a:not(.no-hover)::before {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background-color: var(--accent, #2A2F4F);
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+a:not(.no-hover):hover::before {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+
+/* Bouncy button effects */
+button {
+  transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), 
+              box-shadow 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+button:active {
+  transform: scale(0.95);
+  transition: transform 0.1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+/* Focus states */
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+[tabindex]:not([tabindex="-1"]):focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px var(--accent, rgba(42, 47, 79, 0.5));
+  animation: focus-pulse 2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+@keyframes focus-pulse {
+  0% { box-shadow: 0 0 0 3px rgba(42, 47, 79, 0.5); }
+  50% { box-shadow: 0 0 0 6px rgba(42, 47, 79, 0.3); }
+  100% { box-shadow: 0 0 0 3px rgba(42, 47, 79, 0.5); }
+}
+
+/* Bookmark card animations */
+.bookmark-card {
+  transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1), 
+              box-shadow 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+              background-color 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  will-change: transform, box-shadow;
+}
+
+.bookmark-card:hover {
+  transform: translateY(-5px) scale(1.02);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+  background-color: var(--surface, rgba(245, 245, 245, 0.8));
+}
+
+.dark .bookmark-card:hover {
+  background-color: var(--surface, rgba(30, 30, 30, 0.8));
+}
+
+/* Interactive headings */
+h1, h2, h3 {
+  transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1),
+              text-shadow 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  will-change: transform;
+}
+
+h1:hover, h2:hover, h3:hover {
+  transform: scale(1.05);
+  text-shadow: 0 0 10px var(--accent, rgba(42, 47, 79, 0.3));
+}
+
+/* Interactive image effects */
+img:not(.logo) {
+  transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1), 
+              filter 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  will-change: transform, filter;
+}
+
+img:not(.logo):hover {
+  transform: perspective(1000px) rotateX(5deg) rotateY(-5deg) scale(1.05);
+  filter: saturate(1.2) brightness(1.05);
+}
+
+/* Cursor dot */
+.cursor-dot {
+  position: fixed;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: var(--accent, #2A2F4F);
+  pointer-events: none;
+  z-index: 9999;
+  transform: translate3d(-50%, -50%, 0);
+  backface-visibility: hidden;
+  transition: background-color 0.15s ease-out;
+  mix-blend-mode: difference;
+  will-change: transform, background-color;
+}
+
+.cursor-trail-dot {
+  position: fixed;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9998;
+  transform: translate3d(-50%, -50%, 0);
+  backface-visibility: hidden;
+  transition: opacity 0.15s ease-out;
+  will-change: transform, opacity;
+}
+
+/* Keyboard shortcuts modal */
+.shortcuts-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+}
+
+.shortcuts-content {
+  background-color: var(--background, white);
+  border-radius: 8px;
+  padding: 20px;
+  max-width: 500px;
+  width: 90%;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  transform: scale(0.9);
+  transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+  will-change: transform;
+}
+
+.shortcuts-modal[style*="opacity: 1"] .shortcuts-content {
+  transform: scale(1);
+}
+
+/* Interactive character effects */
+.char {
+  display: inline-block;
+  transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), 
+              color 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  will-change: transform, color;
+}
+
+.char:hover {
+  transform: translateY(-5px) scale(1.2);
+  color: var(--accent, currentColor);
+}
+
+/* Wobble animation for characters */
+@keyframes wobble {
+  0% { transform: translateY(0) scale(1) rotate(0); }
+  20% { transform: translateY(-5px) scale(1.2) rotate(-5deg); }
+  40% { transform: translateY(-5px) scale(1.2) rotate(5deg); }
+  60% { transform: translateY(-5px) scale(1.2) rotate(-5deg); }
+  80% { transform: translateY(-5px) scale(1.2) rotate(5deg); }
+  100% { transform: translateY(0) scale(1) rotate(0); }
+}
+
+/* Shake animation for elements */
+.shake {
+  animation: shake 0.5s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+  transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
+
+@keyframes shake {
+  10%, 90% { transform: translate3d(-1px, 0, 0); }
+  20%, 80% { transform: translate3d(2px, 0, 0); }
+  30%, 50%, 70% { transform: translate3d(-4px, 0, 0); }
+  40%, 60% { transform: translate3d(4px, 0, 0); }
+}
+
+/* Zoom effect for images */
+img.zoomed {
+  cursor: zoom-out;
+  transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+  will-change: transform;
+}
+
+/* Copy notification */
+.copy-notification {
+  animation: slide-up 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+  will-change: transform, opacity;
+}
+
+@keyframes slide-up {
+  0% { transform: translateY(20px); opacity: 0; }
+  100% { transform: translateY(0); opacity: 1; }
+}
+
+/* Smooth page transitions */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 0.5s;
+  animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Cursor blob */
+.cursor-blob {
+  position: fixed;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background-color: rgba(42, 47, 79, 0.3);
+  transform: translate3d(-50%, -50%, 0);
+  backface-visibility: hidden;
+  transition: width 0.15s ease-out, height 0.15s ease-out, background-color 0.15s ease-out;
+  will-change: transform, width, height;
+  pointer-events: none;
+  z-index: 9997;
+}
+
+/* Parallax sections */
+.parallax {
+  transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
+  will-change: transform;
+}
