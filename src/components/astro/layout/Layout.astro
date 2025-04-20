@@ -2,8 +2,6 @@
 import "@/assets/styles/global.css";
 import "@/assets/styles/toggle.css";
 import "@/styles/bauhaus.css";
-import "@/styles/micro-interactions.css";
-import "@/styles/fun-interactions.css";
 import { getCollection } from "astro:content";
 import Footer from "@/components/astro/layout/Footer.astro";
 import Navigation from "./Navigation.astro";
@@ -144,7 +142,5 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
       <Footer />
     </div>
 
-    <script src="../../../scripts/fun-interactions.js"></script>
-    <script src="../../../scripts/micro-interactions.js"></script>
   </body>
 </html>
