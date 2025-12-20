@@ -5,6 +5,9 @@
  */
 import { getRecentTracksWithNowPlaying } from '../../../lib/spotify';
 
+// Disable prerendering for this API route (server-side only)
+export const prerender = false;
+
 export async function GET({ request }) {
   const url = new URL(request.url);
   const limit = parseInt(url.searchParams.get('limit') || '6', 10);
