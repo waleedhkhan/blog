@@ -29,11 +29,14 @@ export async function getAccessToken() {
     throw new Error('Missing Spotify credentials. Check your .env file.');
   }
 
+  // Use btoa() for base64 encoding (works in Cloudflare Workers, unlike Buffer)
+  const credentials = btoa(`${CLIENT_ID}:${CLIENT_SECRET}`);
+
   const response = await fetch(TOKEN_ENDPOINT, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded',
-      'Authorization': 'Basic ' + Buffer.from(`${CLIENT_ID}:${CLIENT_SECRET}`).toString('base64'),
+      'Authorization': 'Basic ' + credentials,
     },
     body: new URLSearchParams({
       grant_type: 'refresh_token',
