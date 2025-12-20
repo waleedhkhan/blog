@@ -103,7 +103,8 @@ export async function getRecentlyPlayed(limit = 6) {
     const token = await getAccessToken();
 
     const url = new URL(RECENTLY_PLAYED_ENDPOINT);
-    url.searchParams.set('limit', limit.toString());
+    // Fetch more to account for duplicates being filtered out
+    url.searchParams.set('limit', Math.min(limit * 3, 50).toString());
 
     const response = await fetch(url.toString(), {
       headers: {
@@ -118,13 +119,23 @@ export async function getRecentlyPlayed(limit = 6) {
 
     const data = await response.json();
 
-    return data.items.map(item => ({
+    // Map tracks and remove duplicates (same song played multiple times)
+    const tracks = data.items.map(item => ({
       name: item.track.name,
       artist: item.track.artists.map(a => a.name).join(', '),
       url: item.track.external_urls.spotify,
       image: item.track.album.images[1]?.url || item.track.album.images[0]?.url || '',
       playedAt: item.played_at,
     }));
+
+    // Deduplicate by track name + artist, then limit to requested count
+    const seen = new Set();
+    return tracks.filter(track => {
+      const key = `${track.name}|${track.artist}`;
+      if (seen.has(key)) return false;
+      seen.add(key);
+      return true;
+    }).slice(0, limit);
   } catch (error) {
     console.error('Error fetching recently played:', error);
     return [];
