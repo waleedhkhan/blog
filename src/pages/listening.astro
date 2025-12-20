@@ -30,16 +30,20 @@ const description = "My Spotify listening habits and recently played tracks";
 <style>
   .listening-page {
     position: relative;
+    min-height: 100vh;
   }
 
   .visualizer-container {
     position: absolute;
     top: 0;
     left: 0;
-    width: 100%;
-    height: 400px;
+    right: 0;
+    bottom: 0;
+    width: 100vw;
+    margin-left: calc(-50vw + 50%);
     z-index: 0;
     overflow: hidden;
+    pointer-events: none;
   }
 
   section {
