@@ -125,8 +125,8 @@ function initThree() {
     uniforms: {
       uTime: { value: 0 },
       uIntensity: { value: 0 },
-      uColor1: { value: new THREE.Color('#1DB954') }, // Spotify green
-      uColor2: { value: new THREE.Color('#191414') }, // Spotify dark
+      uColor1: { value: new THREE.Color('#2A2F4F') }, // Site accent
+      uColor2: { value: new THREE.Color('#000000') }, // Dark
     },
     transparent: true,
   });
@@ -283,6 +283,10 @@ onUnmounted(() => {
 .dark .now-playing-widget .track-artist {
   color: #ffffff !important;
 }
+
+.dark .now-playing-widget .equalizer span {
+  background: #9ca3af !important;
+}
 </style>
 
 <style scoped>
@@ -415,7 +419,7 @@ onUnmounted(() => {
 
 .equalizer span {
   width: 3px;
-  background: #1DB954;
+  background: #2A2F4F;
   border-radius: 1px;
   animation: equalizer 0.6s ease-in-out infinite;
 }

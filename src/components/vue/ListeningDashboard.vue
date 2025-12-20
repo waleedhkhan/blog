@@ -226,19 +226,20 @@ onMounted(fetchStats);
 
 <style scoped>
 .dashboard {
-  --spotify: #1DB954;
+  --accent: #2A2F4F;
   --card-bg: #fff;
-  --card-border: #f0f0f0;
-  --text-primary: #0d0d0d;
-  --text-secondary: #666;
-  --text-muted: #999;
+  --card-border: #eee;
+  --text-primary: #000;
+  --text-secondary: #555;
+  --text-muted: #888;
 }
 
 .dark .dashboard {
-  --card-bg: #181818;
-  --card-border: #282828;
+  --accent: #9ca3af;
+  --card-bg: #111;
+  --card-border: #222;
   --text-primary: #fff;
-  --text-secondary: #a0a0a0;
+  --text-secondary: #aaa;
   --text-muted: #666;
 }
 
@@ -267,8 +268,8 @@ onMounted(fetchStats);
 }
 
 .pill.active {
-  background: var(--spotify);
-  color: #000;
+  background: var(--accent);
+  color: #fff;
 }
 
 /* Loading */
@@ -282,7 +283,7 @@ onMounted(fetchStats);
   width: 40px;
   height: 40px;
   border: 3px solid var(--card-border);
-  border-top-color: var(--spotify);
+  border-top-color: var(--accent);
   border-radius: 50%;
   animation: spin 0.8s linear infinite;
 }
@@ -301,8 +302,8 @@ onMounted(fetchStats);
 .retry {
   margin-top: 16px;
   padding: 10px 24px;
-  background: var(--spotify);
-  color: #000;
+  background: var(--accent);
+  color: #fff;
   border: none;
   border-radius: 50px;
   font-weight: 600;
@@ -356,7 +357,7 @@ onMounted(fetchStats);
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 1px;
-  color: var(--spotify);
+  color: var(--accent);
 }
 
 .hero-art {
@@ -437,11 +438,16 @@ onMounted(fetchStats);
 }
 
 .bento-card.accent {
-  background: var(--spotify);
+  background: var(--accent);
 }
 
 .bento-card.accent .bento-value,
 .bento-card.accent .bento-label {
+  color: #fff;
+}
+
+.dark .bento-card.accent .bento-value,
+.dark .bento-card.accent .bento-label {
   color: #000;
 }
 
@@ -616,7 +622,7 @@ onMounted(fetchStats);
 }
 
 .history-item:hover .history-name {
-  color: var(--spotify);
+  color: var(--accent);
 }
 
 .history-art {
