@@ -63,6 +63,7 @@
     "@fontsource/inter": "^5.2.8",
     "@iconify/vue": "^5.0.0",
     "@raycast/api": "^1.104.1",
+    "@types/three": "^0.182.0",
     "@vueuse/core": "^14.1.0",
     "astro-analytics": "^2.7.0",
     "astro-icon": "^1.1.5",
@@ -70,7 +71,8 @@
     "canvas-confetti": "^1.9.4",
     "class-variance-authority": "^0.7.1",
     "radix-vue": "^1.9.17",
-    "remark-sectionize": "^2.1.0"
+    "remark-sectionize": "^2.1.0",
+    "three": "^0.182.0"
   },
   "packageManager": "pnpm@9.0.2",
   "pnpm": {
