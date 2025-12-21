@@ -195,15 +195,11 @@ async function fetchNowPlaying() {
       const trackChanged = currentTrack.value && currentTrack.value.url !== playing.url;
 
       if (isFirstLoad) {
-        // First load - show widget then trigger glitch
+        // First load - just show widget, no glitch
         currentTrack.value = playing;
         isVisible.value = true;
         await nextTick();
         updateCanvasSize();
-        // Small delay to ensure widget is rendered before glitch
-        setTimeout(() => {
-          triggerGlitch();
-        }, 50);
       } else if (trackChanged) {
         // Track change - trigger glitch and update in the middle
         triggerGlitch();
