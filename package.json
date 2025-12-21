@@ -70,7 +70,6 @@
     "astro-umami-analytics": "^0.1.0",
     "canvas-confetti": "^1.9.4",
     "class-variance-authority": "^0.7.1",
-    "motion": "^12.23.26",
     "radix-vue": "^1.9.17",
     "remark-sectionize": "^2.1.0",
     "three": "^0.182.0"
