@@ -5,32 +5,13 @@ import { Icon } from "astro-icon/components";
 const title = "About — Waleed Hussain";
 const description = "Software engineer and technology leader with over 15 years of experience";
 
-// Skills data structure - consolidated into fewer categories
+// Skills data - simple key-value pairs
 const skills = [
-  {
-    category: "Core Technology",
-    items: ["Python", "JavaScript", "PHP", "SQL", "AWS", "Docker", "Kubernetes"]
-  },
-  {
-    category: "Web & E-Commerce",
-    items: ["NextJS", "Laravel", "Express", "Magento", "FastAPI", "GraphQL", "Vercel"]
-  },
-  {
-    category: "AI & Data",
-    items: ["PyTorch", "LLMs", "Kafka", "Data Warehousing", "Elastic Search", "Analytics"]
-  }
+  { label: "Languages", value: "Python, JavaScript, TypeScript, PHP, Go, SQL" },
+  { label: "Frameworks", value: "NextJS, Laravel, FastAPI, Express, Spring, Astro" },
+  { label: "Infrastructure", value: "AWS, Docker, Kubernetes, Terraform, CI/CD" },
+  { label: "Data & AI", value: "PyTorch, LLMs, Kafka, Elasticsearch, Data Warehousing" },
 ];
-
-// Expanded skills (shown only when expanded)
-const expandedSkills = {
-  "Programming Languages": ["Python", "JavaScript", "PHP", "Shell", "Go", "SQL", "TypeScript"],
-  "Frameworks": ["Laravel", "NextJS", "FastAPI", "Magento", "Express", "Spring", "Astro"],
-  "AI & ML": ["PyTorch", "Hugging Face", "LangChain", "LLMs", "Vector DBs", "TensorFlow", "OpenAI API"],
-  "Modern Development": ["Vercel", "Supabase", "Prisma", "Cloudflare Workers", "GraphQL", "Tailwind", "tRPC"],
-  "Infrastructure": ["Docker", "Kubernetes", "CI/CD", "Github Actions", "Ansible", "Terraform"],
-  "Cloud & AWS": ["ECS", "EKS", "S3", "Lambda", "RDS", "SQS", "Glue & Athena", "CloudFront"],
-  "Data & Analytics": ["Data Lake", "Warehousing", "Airflow", "Metabase", "Kafka", "Snowplow", "Elastic Search"]
-};
 
 // Timeline/experience data from CV
 const experiences = [
@@ -210,50 +191,17 @@ const hobbies = ["Cricket", "Playing Guitar", "Hiking", "Camping"];
       </div>
     </div>
 
-    <!-- Skills section - Consolidated version -->
+    <!-- Skills section - Minimal version -->
     <div class="space-y-5">
       <h2 class="text-2xl font-medium text-gray-900 dark:text-gray-300">Technical Skills</h2>
-      
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-        {skills.map(skillGroup => (
-          <div class="skill-card p-4 bg-white dark:bg-neutral-800 rounded-lg text-gray-900 dark:text-gray-300 border border-gray-200 dark:border-gray-800">
-            <h3 class="font-medium text-sm text-gray-900 dark:text-gray-300 mb-3 lowercase">{skillGroup.category}</h3>
-            <div class="flex flex-wrap gap-1.5">
-              {skillGroup.items.map(skill => (
-                <span class="text-xs px-2 py-0.5 rounded bg-white dark:bg-neutral-700 text-gray-800 dark:text-gray-400 border border-gray-300 dark:border-gray-800">
-                  {skill}
-                </span>
-              ))}
-            </div>
+
+      <div class="skills-grid">
+        {skills.map(skill => (
+          <div class="skill-item">
+            <span class="skill-label">{skill.label}</span>
+            <span class="skill-value">{skill.value}</span>
           </div>
         ))}
-      </div>
-      
-      <!-- Show more/less toggle -->
-      <div class="text-center mt-4">
-        <button id="skills-toggle" class="text-xs px-4 py-1.5 rounded-full bg-white dark:bg-neutral-800 text-gray-800 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-neutral-600 transition-colors border border-gray-600 dark:border-gray-800">
-          Show all technologies
-        </button>
-      </div>
-      
-      <!-- Expanded skills (hidden by default) -->
-      <div id="expanded-skills" class="hidden mt-6 space-y-6">
-        <h3 class="text-lg font-medium text-gray-900 dark:text-gray-300">Detailed Technical Expertise</h3>
-        
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {Object.entries(expandedSkills).map(([category, items]) => (
-            <div class="skill-card p-4 bg-white dark:bg-neutral-800 rounded-lg text-gray-900 dark:text-gray-300 border border-gray-200 dark:border-gray-800">
-              <h4 class="font-medium text-sm text-gray-900 dark:text-gray-300 mb-3 lowercase">{category}</h4>
-              <div class="flex flex-wrap gap-1.5">
-                {items.map(skill => (
-                  <span class="text-xs px-2 py-0.5 rounded bg-white dark:bg-neutral-700 text-gray-800 dark:text-gray-400 border border-gray-300 dark:border-gray-800">
-                    {skill}
-                  </span>
-                ))}
-              </div>
-            </div>
-          ))}
-        </div>
       </div>
     </div>
 
@@ -328,18 +276,51 @@ const hobbies = ["Cricket", "Playing Guitar", "Hiking", "Camping"];
 </Layout>
 
 <style>
-  /* Animation classes for skill cards - optimized for performance */
-  .skill-card {
-    backface-visibility: hidden;
+  /* Skills grid - minimal design */
+  .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem 2rem;
   }
-  
+
+  .skill-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.375rem;
+  }
+
+  .skill-label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #9ca3af;
+  }
+
+  :global(html.dark) .skill-label {
+    color: #d4d4d4;
+  }
+
+  .skill-value {
+    font-size: 0.9375rem;
+    line-height: 1.5;
+    color: #1f2937;
+  }
+
+  :global(html.dark) .skill-value {
+    color: #ffffff;
+  }
+
+  @media (max-width: 640px) {
+    .skills-grid {
+      grid-template-columns: 1fr;
+      gap: 1.25rem;
+    }
+  }
+
   /* Enhance hover states with specific transitions instead of 'all' */
   .social-link {
     transition: opacity 0.2s ease-in-out, transform 0.2s ease-in-out;
-  }
-  
-  .skill-card {
-    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
   }
   
   a:not(.social-link):not(.skill-card) {
@@ -426,7 +407,7 @@ const hobbies = ["Cricket", "Playing Guitar", "Hiking", "Camping"];
     }
     
     /* Optimize rendering on mobile */
-    .skill-card, .advisory-item, .timeline-item {
+    .advisory-item, .timeline-item {
       /* Reduce animations on mobile for better performance */
       transition: none;
       transform: none !important;
@@ -444,30 +425,6 @@ const hobbies = ["Cricket", "Playing Guitar", "Hiking", "Camping"];
   }
 </style>
 
-<script>
-  // Defer non-critical animations and interactions
-  document.addEventListener('DOMContentLoaded', () => {
-    // Skills toggle functionality - simplified and optimized
-    const skillsToggle = document.getElementById('skills-toggle');
-    const expandedSkills = document.getElementById('expanded-skills');
-    
-    if (skillsToggle && expandedSkills) {
-      skillsToggle.addEventListener('click', () => {
-        const isExpanded = expandedSkills.classList.contains('hidden');
-        
-        if (isExpanded) {
-          expandedSkills.classList.remove('hidden');
-          skillsToggle.textContent = 'Show less';
-          skillsToggle.classList.add('bg-gray-50', 'dark:bg-neutral-700');
-        } else {
-          expandedSkills.classList.add('hidden');
-          skillsToggle.textContent = 'Show all technologies';
-          skillsToggle.classList.remove('bg-gray-50', 'dark:bg-neutral-700');
-        }
-      });
-    }
-  });
-</script>
 
 <style is:global>
   /* Ensure prose content looks good - keeping only essential styles */
