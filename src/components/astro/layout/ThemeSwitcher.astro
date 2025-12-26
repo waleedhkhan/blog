@@ -12,15 +12,27 @@ import { Icon } from "astro-icon/components";
   <Icon name="lucide:moon" class="w-5 h-5 moon-icon" />
 </button>
 
-<script>
-  const themeToggle = document.getElementById('theme-toggle');
-  
-  if (themeToggle) {
-    themeToggle.addEventListener('click', () => {
-      const isDarkMode = document.documentElement.classList.toggle('dark');
-      localStorage.setItem('theme', isDarkMode ? 'dark' : 'light');
-    });
+<script is:inline>
+  function setupThemeToggle() {
+    const themeToggle = document.getElementById('theme-toggle');
+
+    if (themeToggle) {
+      // Remove existing listener to prevent duplicates
+      themeToggle.replaceWith(themeToggle.cloneNode(true));
+      const newToggle = document.getElementById('theme-toggle');
+
+      newToggle.addEventListener('click', () => {
+        const isDarkMode = document.documentElement.classList.toggle('dark');
+        localStorage.setItem('theme', isDarkMode ? 'dark' : 'light');
+      });
+    }
   }
+
+  // Setup on initial load
+  setupThemeToggle();
+
+  // Re-setup after view transitions
+  document.addEventListener('astro:after-swap', setupThemeToggle);
 </script>
 
 <style>

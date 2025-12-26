@@ -1,7 +1,6 @@
 ---
 import { Icon } from "astro-icon/components";
 import NavigationItem from "@/components/vue/NavigationItem.vue";
-import CommandMenu from "@/components/vue/CommandMenu.vue";
 import ThemeSwitcher from "./ThemeSwitcher.astro";
 
 interface Props {
@@ -9,103 +8,104 @@ interface Props {
 }
 
 const links = [
-  {
-    href: "/",
-    label: "Home",
-    icon: "lucide:home",
-  },
-  {
-    href: "/posts",
-    label: "Blog",
-    icon: "lucide:newspaper",
-  },
-  {
-    href: "/about",
-    label: "About",
-    icon: "lucide:user",
-  },
-  {
-    href: "/bookmarks",
-    label: "Bookmarks",
-    icon: "lucide:bookmark",
-  },
-  {
-    href: "/listening",
-    label: "Listening",
-    icon: "lucide:headphones",
-  },
+  { href: "/", label: "Home", icon: "lucide:home" },
+  { href: "/posts", label: "Blog", icon: "lucide:newspaper" },
+  { href: "/about", label: "About", icon: "lucide:user" },
+  { href: "/bookmarks", label: "Bookmarks", icon: "lucide:bookmark" },
+  { href: "/listening", label: "Listening", icon: "lucide:headphones" },
 ];
 
 const currentPath = Astro.url.pathname;
 const { posts } = Astro.props;
 ---
 
-<nav class="flat-nav fixed bottom-8 left-1/2 -translate-x-1/2 z-50 px-6 py-3 rounded-sm flex items-center backdrop-blur-md">
-  {
-    links.map((link, idx) => (
+<nav class="nav-container">
+  <div class="nav-bar">
+    {links.map((link) => (
       <NavigationItem
-        label={link.label.toLowerCase()}
-        className={`nav-item bauhaus-focus-ring ${currentPath.match(`${link.href}/.?`) || currentPath === link.href ? "active-link" : ""}`.trim()}
+        label={link.label}
+        className={currentPath === link.href || (link.href !== "/" && currentPath.startsWith(link.href)) ? "active-link" : ""}
         href={link.href}
         client:load
       >
-        <Icon name={link.icon} aria-label={link.label} class="h-auto w-4 nav-icon" />
+        <Icon name={link.icon} aria-label={link.label} class="nav-icon" />
       </NavigationItem>
-    ))
-  }
+    ))}
 
-  <div class="nav-divider mx-2"></div>
+    <div class="nav-divider"></div>
 
-  <ThemeSwitcher />
-
+    <ThemeSwitcher />
+  </div>
 </nav>
 
 <style>
-  .flat-nav {
-    --nav-bg: rgba(255, 255, 255, 0.85);
-    --nav-border: rgba(0, 0, 0, 0.08);
-    --nav-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
-    
-    background-color: var(--nav-bg);
-    border: 1px solid var(--nav-border);
-    box-shadow: var(--nav-shadow);
-    transition: all 0.3s ease;
-  }
-  
-  :global(.dark) .flat-nav {
-    --nav-bg: rgba(28, 28, 30, 0.85);
-    --nav-border: rgba(255, 255, 255, 0.08);
-    --nav-shadow: 0 2px 8px rgba(0, 0, 0, 0.16);
-  }
-  
-  .active-link {
-    position: relative;
-  }
-  
-  .active-link::after {
-    content: "";
-    position: absolute;
-    bottom: -0.5rem;
+  .nav-container {
+    position: fixed;
+    bottom: 24px;
     left: 50%;
     transform: translateX(-50%);
-    width: 4px;
-    height: 4px;
-    background-color: currentColor;
-    border-radius: 0;
+    z-index: 50;
   }
-  
-  :global(.nav-item) {
-    letter-spacing: -0.02em;
-    font-weight: 450;
-    text-transform: lowercase;
+
+  .nav-bar {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 8px;
+    border-radius: 16px;
+    transition: background 0.2s ease;
   }
-  
+
+  .nav-divider {
+    width: 1px;
+    height: 24px;
+    margin: 0 4px;
+  }
+
   :global(.nav-icon) {
-    stroke-width: 1.5px;
-    transition: transform 0.2s ease;
+    width: 18px;
+    height: 18px;
+    stroke-width: 1.75;
   }
-  
-  :global(.nav-item:hover .nav-icon) {
-    transform: translateY(-1px);
+
+  /* Mobile */
+  @media (max-width: 640px) {
+    .nav-container {
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    .nav-bar {
+      padding: 6px;
+      gap: 2px;
+    }
+
+    :global(.nav-icon) {
+      width: 16px;
+      height: 16px;
+    }
+  }
+</style>
+
+<style is:global>
+  /* Light mode */
+  .nav-bar {
+    background: #ffffff;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+  }
+
+  .nav-divider {
+    background: rgba(0, 0, 0, 0.1);
+  }
+
+  /* Dark mode */
+  html.dark .nav-bar {
+    background: #000000;
+    border-color: rgba(255, 255, 255, 0.1);
+  }
+
+  html.dark .nav-divider {
+    background: rgba(255, 255, 255, 0.15);
   }
 </style>

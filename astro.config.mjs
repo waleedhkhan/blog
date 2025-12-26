@@ -15,6 +15,11 @@ import { fileURLToPath } from 'node:url';
 export default defineConfig({
   site: "https://www.waleed.de",
 
+  // Disable dev toolbar
+  devToolbar: {
+    enabled: false,
+  },
+
   // Server configuration
   server: {
     port: 3000,
