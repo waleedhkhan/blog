@@ -54,7 +54,7 @@ const isPressed = ref(false);
 <style>
 /* Dark mode - non-scoped for proper cascading */
 .dark .nav-item {
-  color: #888888;
+  color: #606060;
 }
 
 .dark .nav-item:hover {
@@ -67,7 +67,6 @@ const isPressed = ref(false);
 }
 
 .dark .nav-item.active-link {
-  background-color: rgba(255, 255, 255, 0.1);
   color: #ffffff;
 }
 
@@ -95,7 +94,7 @@ const isPressed = ref(false);
   place-items: center;
   margin: 0 2px;
   border-radius: 12px;
-  color: #666666;
+  color: #a0a0a0;
   text-decoration: none;
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
@@ -135,7 +134,6 @@ const isPressed = ref(false);
 
 /* Active link */
 .nav-item.active-link {
-  background-color: rgba(0, 0, 0, 0.06);
   color: #1c1b19;
 }
 
@@ -191,10 +189,10 @@ const isPressed = ref(false);
 /* Mobile adjustments */
 @media (max-width: 640px) {
   .nav-item {
-    width: 40px;
-    height: 40px;
+    width: 46px;
+    height: 46px;
     margin: 0;
-    border-radius: 10px;
+    border-radius: 12px;
   }
 }
 
