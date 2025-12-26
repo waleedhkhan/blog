@@ -9,7 +9,6 @@ interface Track {
   image: string;
   duration: number;
   playedAt?: string;
-  popularity?: number;
 }
 
 interface Artist {
@@ -17,16 +16,13 @@ interface Artist {
   url: string;
   image: string;
   genres: string[];
-  popularity: number;
 }
 
 interface Stats {
   totalTracks: number;
   totalMinutes: number;
   uniqueArtists: number;
-  topRecentArtist: { name: string; count: number } | null;
   peakListeningHour: number;
-  avgTrackDuration: number;
 }
 
 interface SpotifyData {
@@ -34,7 +30,6 @@ interface SpotifyData {
   topTracks: Track[];
   recentTracks: Track[];
   stats: Stats | null;
-  timeRange: string;
 }
 
 const data = ref<SpotifyData | null>(null);
@@ -51,41 +46,31 @@ const timeRangeLabels: Record<string, string> = {
 async function fetchStats() {
   loading.value = true;
   error.value = null;
-
   try {
     const response = await fetch(`/api/spotify/stats?time_range=${timeRange.value}`);
     if (!response.ok) throw new Error('Failed to fetch');
     data.value = await response.json();
-  } catch (e) {
-    error.value = 'Failed to load listening data';
+  } catch {
+    error.value = 'Failed to load data';
   } finally {
     loading.value = false;
   }
 }
 
 function formatDuration(ms: number): string {
-  const minutes = Math.floor(ms / 60000);
-  const seconds = Math.floor((ms % 60000) / 1000);
-  return `${minutes}:${seconds.toString().padStart(2, '0')}`;
+  const m = Math.floor(ms / 60000);
+  const s = Math.floor((ms % 60000) / 1000);
+  return `${m}:${s.toString().padStart(2, '0')}`;
 }
 
 function formatTime(dateStr: string): string {
-  const date = new Date(dateStr);
-  const now = new Date();
-  const diffMs = now.getTime() - date.getTime();
-  const diffMins = Math.floor(diffMs / 60000);
-  const diffHours = Math.floor(diffMs / 3600000);
-  const diffDays = Math.floor(diffMs / 86400000);
-
-  if (diffMins < 60) return `${diffMins}m ago`;
-  if (diffHours < 24) return `${diffHours}h ago`;
-  return `${diffDays}d ago`;
-}
-
-function formatHour(hour: number): string {
-  const ampm = hour >= 12 ? 'PM' : 'AM';
-  const h = hour % 12 || 12;
-  return `${h}${ampm}`;
+  const diff = Date.now() - new Date(dateStr).getTime();
+  const mins = Math.floor(diff / 60000);
+  const hrs = Math.floor(diff / 3600000);
+  const days = Math.floor(diff / 86400000);
+  if (mins < 60) return `${mins}m ago`;
+  if (hrs < 24) return `${hrs}h ago`;
+  return `${days}d ago`;
 }
 
 function changeTimeRange(range: string) {
@@ -97,70 +82,54 @@ onMounted(fetchStats);
 </script>
 
 <template>
-  <div class="dashboard">
-    <!-- Time Range Pills -->
-    <div class="time-pills">
+  <div class="dashboard listening-dashboard">
+    <!-- Time Range -->
+    <div class="pills">
       <button
         v-for="(label, key) in timeRangeLabels"
         :key="key"
         :class="['pill', { active: timeRange === key }]"
         @click="changeTimeRange(key)"
-      >
-        {{ label }}
-      </button>
+      >{{ label }}</button>
     </div>
 
-    <!-- Loading -->
     <div v-if="loading" class="loading">
-      <div class="loader"></div>
+      <div class="spinner"></div>
     </div>
 
-    <!-- Error -->
-    <div v-else-if="error" class="error-state">
+    <div v-else-if="error" class="error">
       <p>{{ error }}</p>
-      <button @click="fetchStats" class="retry">Retry</button>
+      <button @click="fetchStats">Retry</button>
     </div>
 
-    <!-- Content -->
     <template v-else-if="data">
-      <!-- Hero: Currently/Recently Played -->
-      <div class="hero-card" v-if="data.recentTracks[0]">
-        <div class="hero-bg" :style="{ backgroundImage: `url(${data.recentTracks[0].image})` }"></div>
-        <div class="hero-content">
-          <span class="hero-label">Recently Played</span>
-          <img :src="data.recentTracks[0].image" :alt="data.recentTracks[0].name" class="hero-art" />
-          <div class="hero-info">
-            <h2 class="hero-title">{{ data.recentTracks[0].name }}</h2>
-            <p class="hero-artist">{{ data.recentTracks[0].artist }}</p>
-            <p class="hero-album">{{ data.recentTracks[0].album }}</p>
-          </div>
+      <!-- Top Tracks -->
+      <section v-if="data.topTracks.length" class="section">
+        <h2 class="section-title">Top Tracks</h2>
+        <div class="tracks">
+          <a
+            v-for="(track, i) in data.topTracks.slice(0, 10)"
+            :key="track.url"
+            :href="track.url"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="track"
+          >
+            <span class="num">{{ i + 1 }}</span>
+            <img :src="track.image" :alt="track.name" />
+            <div class="info">
+              <span class="name">{{ track.name }}</span>
+              <span class="artist">{{ track.artist }}</span>
+            </div>
+            <span class="duration">{{ formatDuration(track.duration) }}</span>
+          </a>
         </div>
-      </div>
+      </section>
 
-      <!-- Stats Bento Grid -->
-      <div class="bento-grid" v-if="data.stats">
-        <div class="bento-card accent">
-          <span class="bento-value">{{ data.stats.totalTracks }}</span>
-          <span class="bento-label">tracks played</span>
-        </div>
-        <div class="bento-card">
-          <span class="bento-value">{{ data.stats.totalMinutes }}</span>
-          <span class="bento-label">minutes listened</span>
-        </div>
-        <div class="bento-card">
-          <span class="bento-value">{{ data.stats.uniqueArtists }}</span>
-          <span class="bento-label">artists</span>
-        </div>
-        <div class="bento-card">
-          <span class="bento-value">{{ formatHour(data.stats.peakListeningHour) }}</span>
-          <span class="bento-label">peak hour</span>
-        </div>
-      </div>
-
-      <!-- Top Artists (if available) -->
+      <!-- Top Artists -->
       <section v-if="data.topArtists.length" class="section">
-        <h3 class="section-title">Top Artists</h3>
-        <div class="artists-grid">
+        <h2 class="section-title">Top Artists</h2>
+        <div class="artists">
           <a
             v-for="artist in data.topArtists.slice(0, 6)"
             :key="artist.url"
@@ -169,54 +138,30 @@ onMounted(fetchStats);
             rel="noopener noreferrer"
             class="artist-card"
           >
-            <img :src="artist.image" :alt="artist.name" class="artist-img" />
-            <div class="artist-name">{{ artist.name }}</div>
-            <div class="artist-genre">{{ artist.genres[0] || 'Artist' }}</div>
+            <img :src="artist.image" :alt="artist.name" />
+            <span class="name">{{ artist.name }}</span>
           </a>
         </div>
       </section>
 
-      <!-- Top Tracks (if available) -->
-      <section v-if="data.topTracks.length" class="section">
-        <h3 class="section-title">Top Tracks</h3>
-        <div class="tracks-list">
-          <a
-            v-for="(track, i) in data.topTracks.slice(0, 5)"
-            :key="track.url"
-            :href="track.url"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="track-row"
-          >
-            <span class="track-num">{{ i + 1 }}</span>
-            <img :src="track.image" :alt="track.name" class="track-art" />
-            <div class="track-info">
-              <div class="track-name">{{ track.name }}</div>
-              <div class="track-artist">{{ track.artist }}</div>
-            </div>
-            <span class="track-duration">{{ formatDuration(track.duration) }}</span>
-          </a>
-        </div>
-      </section>
-
-      <!-- Recent History -->
+      <!-- Recent -->
       <section class="section">
-        <h3 class="section-title">Listening History</h3>
-        <div class="history-list">
+        <h2 class="section-title">Recent</h2>
+        <div class="recent">
           <a
-            v-for="track in data.recentTracks"
+            v-for="track in data.recentTracks.slice(0, 10)"
             :key="track.playedAt"
             :href="track.url"
             target="_blank"
             rel="noopener noreferrer"
-            class="history-item"
+            class="recent-track"
           >
-            <img :src="track.image" :alt="track.name" class="history-art" />
-            <div class="history-info">
-              <div class="history-name">{{ track.name }}</div>
-              <div class="history-meta">{{ track.artist }} &middot; {{ track.album }}</div>
+            <img :src="track.image" :alt="track.name" />
+            <div class="info">
+              <span class="name">{{ track.name }}</span>
+              <span class="artist">{{ track.artist }}</span>
             </div>
-            <div class="history-time">{{ formatTime(track.playedAt!) }}</div>
+            <span class="time">{{ formatTime(track.playedAt!) }}</span>
           </a>
         </div>
       </section>
@@ -224,451 +169,266 @@ onMounted(fetchStats);
   </div>
 </template>
 
+<style>
+/* Dark mode - non-scoped for proper cascading */
+.dark .listening-dashboard {
+  --border: rgba(255, 255, 255, 0.08);
+  --hover: rgba(255, 255, 255, 0.04);
+}
+
+.dark .listening-dashboard .pill.active {
+  background: #ffffff;
+  border-color: #ffffff;
+  color: #000000;
+}
+</style>
+
 <style scoped>
 .dashboard {
-  --spotify: #1DB954;
-  --card-bg: #fff;
-  --card-border: #f0f0f0;
-  --text-primary: #0d0d0d;
-  --text-secondary: #666;
-  --text-muted: #999;
+  --text: var(--text-primary);
+  --muted: var(--text-secondary);
+  --border: rgba(0, 0, 0, 0.08);
+  --hover: rgba(0, 0, 0, 0.04);
 }
 
-.dark .dashboard {
-  --card-bg: #181818;
-  --card-border: #282828;
-  --text-primary: #fff;
-  --text-secondary: #a0a0a0;
-  --text-muted: #666;
-}
-
-/* Time Pills */
-.time-pills {
+.pills {
   display: flex;
-  gap: 8px;
-  margin-bottom: 32px;
+  gap: 6px;
+  margin-bottom: 2rem;
 }
 
 .pill {
-  padding: 10px 20px;
-  font-size: 14px;
+  padding: 6px 14px;
+  font-size: 13px;
   font-weight: 500;
-  border: none;
-  border-radius: 50px;
-  background: var(--card-bg);
-  color: var(--text-secondary);
+  border: 1px solid var(--border);
+  border-radius: 100px;
+  background: transparent;
+  color: var(--muted);
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all 0.15s ease;
 }
 
 .pill:hover {
-  color: var(--text-primary);
-  background: var(--card-border);
+  color: var(--text);
+  border-color: var(--text);
 }
 
 .pill.active {
-  background: var(--spotify);
-  color: #000;
+  background: #1c1b19;
+  border-color: #1c1b19;
+  color: #ffffff;
 }
 
-/* Loading */
 .loading {
   display: flex;
   justify-content: center;
-  padding: 80px 0;
+  padding: 4rem;
 }
 
-.loader {
-  width: 40px;
-  height: 40px;
-  border: 3px solid var(--card-border);
-  border-top-color: var(--spotify);
+.spinner {
+  width: 24px;
+  height: 24px;
+  border: 2px solid var(--border);
+  border-top-color: var(--text);
   border-radius: 50%;
-  animation: spin 0.8s linear infinite;
+  animation: spin 0.6s linear infinite;
 }
 
 @keyframes spin {
   to { transform: rotate(360deg); }
 }
 
-/* Error */
-.error-state {
+.error {
   text-align: center;
-  padding: 60px 20px;
-  color: var(--text-secondary);
+  padding: 3rem;
+  color: var(--muted);
 }
 
-.retry {
-  margin-top: 16px;
-  padding: 10px 24px;
-  background: var(--spotify);
-  color: #000;
+.error button {
+  margin-top: 1rem;
+  padding: 8px 20px;
+  background: var(--text);
+  color: var(--background);
   border: none;
-  border-radius: 50px;
-  font-weight: 600;
+  border-radius: 6px;
   cursor: pointer;
 }
 
-/* Hero Card */
-.hero-card {
-  position: relative;
-  border-radius: 24px;
-  overflow: hidden;
-  margin-bottom: 24px;
-  aspect-ratio: 2.5 / 1;
-  min-height: 200px;
-}
-
-.hero-bg {
-  position: absolute;
-  inset: 0;
-  background-size: cover;
-  background-position: center;
-  filter: blur(60px) saturate(1.5);
-  transform: scale(1.5);
-  opacity: 0.6;
-}
-
-.dark .hero-bg {
-  opacity: 0.4;
-}
-
-.hero-content {
-  position: relative;
-  z-index: 1;
-  display: flex;
-  align-items: center;
-  gap: 32px;
-  padding: 32px;
-  height: 100%;
-  background: linear-gradient(135deg, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0.7) 100%);
-}
-
-.dark .hero-content {
-  background: linear-gradient(135deg, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.5) 100%);
-}
-
-.hero-label {
-  position: absolute;
-  top: 20px;
-  left: 24px;
-  font-size: 11px;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  color: var(--spotify);
-}
-
-.hero-art {
-  width: 140px;
-  height: 140px;
-  border-radius: 12px;
-  box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-  flex-shrink: 0;
-}
-
-.hero-info {
-  flex: 1;
-}
-
-.hero-title {
-  font-size: 28px;
-  font-weight: 700;
-  color: var(--text-primary);
-  margin: 0 0 8px;
-  line-height: 1.2;
-}
-
-.hero-artist {
-  font-size: 18px;
-  color: var(--text-secondary);
-  margin: 0 0 4px;
-}
-
-.hero-album {
-  font-size: 14px;
-  color: var(--text-muted);
-  margin: 0;
-}
-
-@media (max-width: 640px) {
-  .hero-card {
-    aspect-ratio: auto;
-  }
-
-  .hero-content {
-    flex-direction: column;
-    text-align: center;
-    gap: 20px;
-    padding: 48px 24px 32px;
-  }
-
-  .hero-art {
-    width: 120px;
-    height: 120px;
-  }
-
-  .hero-title {
-    font-size: 22px;
-  }
-}
-
-/* Bento Grid */
-.bento-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 12px;
-  margin-bottom: 40px;
-}
-
-@media (max-width: 768px) {
-  .bento-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-.bento-card {
-  background: var(--card-bg);
-  border-radius: 16px;
-  padding: 24px;
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-
-.bento-card.accent {
-  background: var(--spotify);
-}
-
-.bento-card.accent .bento-value,
-.bento-card.accent .bento-label {
-  color: #000;
-}
-
-.bento-value {
-  font-size: 32px;
-  font-weight: 700;
-  color: var(--text-primary);
-  line-height: 1;
-}
-
-.bento-label {
-  font-size: 13px;
-  color: var(--text-muted);
-}
-
-/* Section */
 .section {
-  margin-bottom: 40px;
+  margin-bottom: 3rem;
 }
 
 .section-title {
-  font-size: 20px;
-  font-weight: 600;
-  color: var(--text-primary);
-  margin: 0 0 20px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin: 0 0 1rem;
 }
 
-/* Artists Grid */
-.artists-grid {
+/* Tracks */
+.tracks {
+  display: flex;
+  flex-direction: column;
+}
+
+.track {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 0;
+  text-decoration: none;
+  border-bottom: 1px solid var(--border);
+  transition: background 0.15s;
+}
+
+.track:last-child {
+  border-bottom: none;
+}
+
+.track:hover {
+  background: var(--hover);
+  margin: 0 -12px;
+  padding: 10px 12px;
+}
+
+.track .num {
+  width: 20px;
+  font-size: 13px;
+  color: var(--muted);
+  text-align: center;
+}
+
+.track img {
+  width: 40px;
+  height: 40px;
+  border-radius: 4px;
+  object-fit: cover;
+}
+
+.track .info {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.track .name {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.track .artist {
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.track .duration {
+  font-size: 12px;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Artists */
+.artists {
   display: grid;
   grid-template-columns: repeat(6, 1fr);
   gap: 16px;
 }
 
-@media (max-width: 900px) {
-  .artists-grid {
+@media (max-width: 768px) {
+  .artists {
     grid-template-columns: repeat(3, 1fr);
-  }
-}
-
-@media (max-width: 500px) {
-  .artists-grid {
-    grid-template-columns: repeat(2, 1fr);
   }
 }
 
 .artist-card {
   text-decoration: none;
   text-align: center;
-  padding: 16px;
-  border-radius: 12px;
-  background: var(--card-bg);
-  transition: all 0.2s ease;
 }
 
-.artist-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 12px 40px rgba(0,0,0,0.1);
-}
-
-.dark .artist-card:hover {
-  box-shadow: 0 12px 40px rgba(0,0,0,0.4);
-}
-
-.artist-img {
+.artist-card img {
   width: 100%;
   aspect-ratio: 1;
   border-radius: 50%;
   object-fit: cover;
-  margin-bottom: 12px;
+  margin-bottom: 8px;
 }
 
-.artist-name {
-  font-size: 14px;
-  font-weight: 600;
-  color: var(--text-primary);
+.artist-card .name {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text);
+  display: block;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
-.artist-genre {
-  font-size: 12px;
-  color: var(--text-muted);
-  margin-top: 2px;
-}
-
-/* Tracks List */
-.tracks-list {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-
-.track-row {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  padding: 12px 16px;
-  border-radius: 12px;
-  text-decoration: none;
-  transition: background 0.15s ease;
-}
-
-.track-row:hover {
-  background: var(--card-bg);
-}
-
-.track-num {
-  width: 24px;
-  font-size: 15px;
-  font-weight: 500;
-  color: var(--text-muted);
-  text-align: center;
-}
-
-.track-art {
-  width: 56px;
-  height: 56px;
-  border-radius: 8px;
-  object-fit: cover;
-}
-
-.track-info {
-  flex: 1;
-  min-width: 0;
-}
-
-.track-name {
-  font-size: 15px;
-  font-weight: 500;
-  color: var(--text-primary);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.track-artist {
-  font-size: 13px;
-  color: var(--text-muted);
-  margin-top: 2px;
-}
-
-.track-duration {
-  font-size: 13px;
-  color: var(--text-muted);
-  font-variant-numeric: tabular-nums;
-}
-
-/* History List */
-.history-list {
+/* Recent */
+.recent {
   display: flex;
   flex-direction: column;
 }
 
-.history-item {
+.recent-track {
   display: flex;
   align-items: center;
-  gap: 16px;
-  padding: 16px 0;
-  border-bottom: 1px solid var(--card-border);
+  gap: 12px;
+  padding: 10px 0;
   text-decoration: none;
-  transition: all 0.15s ease;
+  border-bottom: 1px solid var(--border);
+  transition: background 0.15s;
 }
 
-.history-item:last-child {
+.recent-track:last-child {
   border-bottom: none;
 }
 
-.history-item:hover {
-  padding-left: 8px;
+.recent-track:hover {
+  background: var(--hover);
+  margin: 0 -12px;
+  padding: 10px 12px;
 }
 
-.history-item:hover .history-name {
-  color: var(--spotify);
-}
-
-.history-art {
-  width: 64px;
-  height: 64px;
-  border-radius: 8px;
+.recent-track img {
+  width: 48px;
+  height: 48px;
+  border-radius: 4px;
   object-fit: cover;
-  flex-shrink: 0;
 }
 
-.history-info {
+.recent-track .info {
   flex: 1;
   min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
 }
 
-.history-name {
-  font-size: 16px;
-  font-weight: 500;
-  color: var(--text-primary);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  transition: color 0.15s ease;
-}
-
-.history-meta {
+.recent-track .name {
   font-size: 14px;
-  color: var(--text-muted);
-  margin-top: 4px;
+  font-weight: 500;
+  color: var(--text);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
-.history-time {
+.recent-track .artist {
   font-size: 13px;
-  color: var(--text-muted);
-  flex-shrink: 0;
+  color: var(--muted);
 }
 
-@media (max-width: 640px) {
-  .history-art {
-    width: 52px;
-    height: 52px;
-  }
-
-  .history-name {
-    font-size: 15px;
-  }
-
-  .history-meta {
-    font-size: 13px;
-  }
+.recent-track .time {
+  font-size: 12px;
+  color: var(--muted);
 }
 </style>
