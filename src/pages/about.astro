@@ -3,272 +3,78 @@ import Layout from "@/components/astro/layout/Layout.astro";
 import { Icon } from "astro-icon/components";
 
 const title = "About — Waleed Hussain";
-const description = "Software engineer and technology leader with over 15 years of experience";
-
-// Skills data - simple key-value pairs
-const skills = [
-  { label: "Languages", value: "Python, JavaScript, TypeScript, PHP, Go, SQL" },
-  { label: "Frameworks", value: "NextJS, Laravel, FastAPI, Express, Spring, Astro" },
-  { label: "Infrastructure", value: "AWS, Docker, Kubernetes, Terraform, CI/CD" },
-  { label: "Data & AI", value: "PyTorch, LLMs, Kafka, Elasticsearch, Data Warehousing" },
-];
-
-// Timeline/experience data from CV
-const experiences = [
-  {
-    period: "2020 — Present",
-    role: "CEO",
-    company: "Comparado GmbH — preis.de",
-    location: "Berlin, Germany",
-    stack: "Java, Springboot, Kafka, MongoDB, MySQL, Elastic Search, AWS Datalake, Python, NextJS",
-    description: "Transformed Preis.de into a profitable digital platform featuring over 500 million product listings. Directed engineering, product, and operations teams to transition to microservices, enhancing stability and deployment speed."
-  },
-  {
-    period: "2018 — 2020",
-    role: "Accelerator Builder for Global E-Commerce",
-    company: "Trotec GmbH",
-    location: "Berlin & Heinsberg, Germany",
-    stack: "Magento 2, Elastic Search, Akeneo PIM, Metabase, Microservices",
-    description: "Spearheaded the modernization of Trotec's outdated shop system, overseeing its relaunch into 20 international markets. Established and led a specialist team in Berlin to a swift and successful platform launch within a year, doubling the conversion rate."
-  },
-  {
-    period: "2016 — 2018",
-    role: "CTO",
-    company: "Dr. Förster AG",
-    location: "Berlin, Germany",
-    stack: "LAMP, Python, Laravel, Magento, ODOO ERP, AWS, Optimizely, Tableau, Optivo",
-    description: "Refined the company's technical strategy to match business objectives. Key achievement was the digital transformation of a two-decade-old manufacturing infrastructure. Oversaw engineering initiatives across various teams and led development teams in Berlin."
-  },
-  {
-    period: "2015 — 2016",
-    role: "Career Break",
-    company: "Sabbatical & Consulting",
-    location: "Berlin, Germany",
-    stack: "Advisory, Mentoring, Technology Evaluation",
-    description: "Took a strategic career break to focus on professional development, technology research, and selective consulting opportunities. Advised early-stage startups on technical architecture and scaling strategies while exploring emerging technologies and industry trends."
-  },
-  {
-    period: "2012 — 2015",
-    role: "Co-Founder & CTO",
-    company: "23 Digital Concepts GmbH",
-    location: "Vienna, Austria",
-    stack: "LAMP, Java, Apache Kafka",
-    description: "Co-founded a specialized e-commerce software development agency, creating Enterprise Service Bus (ESBs) and ERP connectors. Expanded B2B customer portfolio to over 200 within 18 months, built and managed a team of 25 engineers. Achieved successful exit via acquisition."
-  },
-  {
-    period: "2012 — 2013",
-    role: "Head of E-Commerce",
-    company: "P&P Medien GmbH Werbeagentur",
-    location: "Innsbruck, Austria",
-    stack: "LAMP, Opencart, Magento Enterprise, Drupal",
-    description: "Initiated and developed a specialized in-house e-commerce department for an advertising agency, crafting customized online shops utilizing Magento and other e-commerce technologies."
-  },
-  {
-    period: "2010 — 2012",
-    role: "Engineering Manager",
-    company: "Vipsportnahrung GmbH",
-    location: "Vienna, Austria",
-    stack: "LAMP, Magento, XT:Commerce, OpenERP, POS",
-    description: "Oversaw the transition of e-commerce platform from XT:Commerce to Magento, enhancing online and in-store retail capabilities. Implemented comprehensive inventory management with OpenERP."
-  },
-  {
-    period: "2008 — 2010",
-    role: "Software Engineer",
-    company: "Blickvang GmbH",
-    location: "Vienna, Austria",
-    stack: "LAMP, Magento",
-    description: "Maintained and enhanced the existing online store, developed bespoke extensions, and optimized Magento templates. Active contributor to the Magento open source project."
-  }
-];
-
-// Education data
-const education = [
-  {
-    period: "2011",
-    degree: "Bachelor of Business Administration (BBA)",
-    institution: "Vienna International University"
-  },
-  {
-    period: "2007",
-    degree: "Technical College Graduate",
-    institution: "HTL Vienna"
-  },
-  {
-    period: "2020",
-    degree: "Corporate Entrepreneurship Training",
-    institution: "Columbia Business School"
-  },
-  {
-    period: "2009",
-    degree: "Software Engineering Certification",
-    institution: "WIFI Wien"
-  },
-  {
-    period: "2007",
-    degree: "Software Engineering Internship",
-    institution: "IBM Vienna"
-  }
-];
-
-// Social links
-const socialLinks = [
-  { name: "LinkedIn", icon: "lucide:linkedin", url: "https://linkedin.com/in/waleedhk/" },
-  { name: "Website", icon: "lucide:globe", url: "https://waleed.de" },
-  { name: "Email", icon: "lucide:mail", url: "mailto:info@waleed.de" }
-];
-
-// Languages
-const languages = [
-  { language: "German", level: "C2 (Proficient)" },
-  { language: "English", level: "C2 (Proficient)" },
-  { language: "Urdu", level: "Native" },
-  { language: "Hindi", level: "Native" }
-];
-
-// Hobbies
-const hobbies = ["Cricket", "Playing Guitar", "Hiking", "Camping"];
+const description = "Software engineer in Berlin, building products that matter";
 ---
 
 <Layout title={title} description={description}>
-  <section class="about-container max-w-4xl mx-auto space-y-12 pb-16 px-4">
-    <!-- Header with image and intro -->
-    <div class="grid grid-cols-1 md:grid-cols-[1fr_2fr] gap-8 items-center">
-      <div class="aspect-square w-full max-w-[240px] mx-auto md:mx-0 overflow-hidden rounded-lg relative image-container">
-        <!-- Use Cloudinary image URL -->
-        <img 
-          src="https://res.cloudinary.com/dm9gvqa1t/image/upload/t_Square/v1737252681/waleed.de/bn9y9x71i1gznmlrpe7n.jpg" 
-          alt="Profile photo of Waleed Hussain" 
-          class="w-full h-full object-cover transition-transform hover:scale-[1.03] image-hover"
-          width={240}
-          height={240}
+  <section class="grid grid-cols-12 gap-4 mb-12">
+    <div class="col-start-1 col-end-13 md:col-end-5 mb-6 md:mb-0">
+      <div class="aspect-square w-full max-w-[200px] overflow-hidden rounded-lg image-container">
+        <img
+          src="https://res.cloudinary.com/dm9gvqa1t/image/upload/t_Square/v1737252681/waleed.de/bn9y9x71i1gznmlrpe7n.jpg"
+          alt="Waleed Hussain"
+          class="w-full h-full object-cover"
+          width={200}
+          height={200}
           loading="eager"
           fetchpriority="high"
         />
-        <!-- Fallback will be handled by CSS instead of inline script -->
-      </div>
-      
-      <div class="space-y-4">
-        <h1 class="font-semibold text-3xl md:text-4xl tracking-tight text-gray-900 dark:text-gray-300">
-          About
-        </h1>
-        
-        <p class="text-lg leading-relaxed text-gray-700 dark:text-gray-400">
-          With over 15 years of expertise in software engineering, I have dedicated a decade to
-          leadership roles spanning startups to mature scale-ups. I possess a demonstrated
-          history of transforming initial concept sketches into scalable, dependable products
-          with agility and efficiency.
-        </p>
-        
-        <!-- CTA section -->
-        <div class="mt-6 mb-2">
-          <a 
-            href="mailto:info@waleed.de"
-            class="inline-block px-5 py-2 text-xs font-medium rounded-sm bg-gray-900 text-white dark:bg-white dark:text-gray-800 hover:translate-y-[-2px] transition-transform"
-          >
-            Let's connect
-          </a>
-        </div>
-        
-        <!-- Replaced social icons with minimal text links that match site style -->
-        <div class="flex flex-wrap gap-4 text-xs font-medium text-content pt-2">
-         
-        </div>
       </div>
     </div>
 
-    <!-- Expertise section -->
-    <div class="space-y-5">
-      <h2 class="text-2xl font-medium text-gray-900 dark:text-gray-300">Expertise</h2>
-      
-      <div class="prose prose-lg dark:prose-invert">
-        <p class="text-gray-700 dark:text-gray-400">
-          I am a seasoned software engineer at heart with extensive experience in developing e-commerce
-          solutions using open source technologies. Recently, I have shifted to a product-centric approach.
-          Since 2018, I have been forming and managing agile, high-achieving teams, empowering them
-          with independence while providing mentorship in a dynamic and supportive workplace. I also step
-          in to contribute directly whenever necessary.
-        </p>
-      </div>
-    </div>
+    <div class="col-start-1 col-end-13 md:col-start-5 space-y-4">
+      <h1 class="font-normal text-lg tracking-tight text-gray-900 dark:text-gray-300">
+        about
+      </h1>
 
-    <!-- Skills section - Minimal version -->
-    <div class="space-y-5">
-      <h2 class="text-2xl font-medium text-gray-900 dark:text-gray-300">Technical Skills</h2>
-
-      <div class="skills-grid">
-        {skills.map(skill => (
-          <div class="skill-item">
-            <span class="skill-label">{skill.label}</span>
-            <span class="skill-value">{skill.value}</span>
-          </div>
-        ))}
-      </div>
-    </div>
-
-    <!-- Work/experience timeline -->
-    <div class="space-y-5">
-      <h2 class="text-2xl font-medium text-gray-900 dark:text-gray-300">Professional Experience</h2>
-      
-      <div class="space-y-8">
-        {experiences.map((exp, i) => (
-          <div class="timeline-item p-4 bg-white dark:bg-neutral-800 rounded-lg text-gray-900 dark:text-gray-300 border border-gray-200 dark:border-gray-800">
-            <div class="grid grid-cols-1 md:grid-cols-[1fr_3fr] gap-4">
-              <div>
-                <div class="text-sm font-mono text-gray-600 dark:text-gray-400 mb-1">{exp.period}</div>
-                <div class="text-base font-medium text-gray-900 dark:text-gray-300 mb-1">{exp.role}</div>
-                <div class="text-sm text-gray-700 dark:text-gray-400 mb-2">{exp.company}</div>
-                <div class="text-xs text-gray-600 dark:text-gray-400">{exp.location}</div>
-              </div>
-              
-              <div class="space-y-3">
-                <div class="text-xs font-mono p-2 bg-white dark:bg-neutral-700 rounded text-gray-800 dark:text-gray-400 overflow-x-auto border border-gray-300 dark:border-gray-800">
-                  {exp.stack}
-                </div>
-                <p class="text-sm text-gray-700 dark:text-gray-400">{exp.description}</p>
-              </div>
-            </div>
-          </div>
-        ))}
-      </div>
-    </div>
-
-    <!-- Education section -->
-    <div class="space-y-5">
-      <h2 class="text-2xl font-medium text-gray-900 dark:text-gray-300">Education</h2>
-      
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-        {education.map((edu) => (
-          <div class="p-3 bg-white dark:bg-neutral-800 rounded-lg text-gray-900 dark:text-gray-300 border border-gray-200 dark:border-gray-800">
-            <div class="text-xs font-mono text-gray-600 dark:text-gray-400 mb-1">{edu.period}</div>
-            <div class="text-base font-medium text-gray-900 dark:text-gray-300">{edu.degree}</div>
-            <div class="text-sm text-gray-700 dark:text-gray-400">{edu.institution}</div>
-          </div>
-        ))}
-      </div>
-    </div>
-
-    <!-- Contact section -->
-    <div class="bg-white dark:bg-neutral-800 p-6 rounded-xl space-y-4 text-gray-900 dark:text-gray-300 border border-gray-200 dark:border-gray-800">
-      <h2 class="text-xl font-medium text-gray-900 dark:text-gray-300">Get in Touch</h2>
-      <p class="text-gray-800 dark:text-gray-400">
-        I'm always open to discussing new projects, creative ideas, or opportunities to be part of your vision.
+      <p class="text-gray-700 dark:text-gray-400 leading-relaxed">
+        hi, i'm waleed. software engineer and entrepreneur based in berlin.
       </p>
-      <div class="flex flex-wrap gap-4 pt-2">
-        <a 
-          href="mailto:info@waleed.de" 
-          class="inline-flex items-center gap-2 py-2 px-4 rounded-md bg-neutral-700 dark:bg-neutral-700 text-white dark:text-gray-200 hover:bg-neutral-600 dark:hover:bg-neutral-600 transition-colors border border-gray-600 dark:border-gray-800 font-medium"
+
+      <p class="text-gray-700 dark:text-gray-400 leading-relaxed">
+        i grew up in vienna and studied computer science & business, but fell in love with building things on the internet early on. what started as tinkering with online shops turned into a career, and eventually, a calling.
+      </p>
+
+      <p class="text-gray-700 dark:text-gray-400 leading-relaxed">
+        berlin felt like the right place for someone who wanted to build things differently. less corporate, more experimental. it's been home ever since.
+      </p>
+
+      <p class="text-gray-700 dark:text-gray-400 leading-relaxed">
+        along the way, i co-founded a company, led engineering teams, and worked with everyone from scrappy startups to large corporations. my background is technical, but these days i think as much about product and people as i do about code.
+      </p>
+
+      <p class="text-gray-700 dark:text-gray-400 leading-relaxed">
+        i believe in simplicity over complexity, autonomy over control, and substance over hype.
+      </p>
+    </div>
+  </section>
+
+  <section class="grid grid-cols-12 gap-4">
+    <h2 class="col-start-1 col-end-13 md:col-end-5 font-normal text-lg tracking-tight text-gray-900 dark:text-gray-300">
+      get in touch
+    </h2>
+
+    <div class="col-start-1 col-end-13 md:col-start-5 space-y-4">
+      <p class="text-gray-700 dark:text-gray-400 leading-relaxed">
+        i'm always happy to chat about building products, e-commerce, or anything else that's interesting.
+      </p>
+
+      <div class="flex flex-wrap gap-6">
+        <a
+          href="mailto:info@waleed.de"
+          class="inline-flex items-center gap-1.5 text-gray-700 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-300 transition-colors"
         >
-          <Icon name="lucide:mail" class="w-4 h-4" /> 
-          Email Me
+          <Icon name="lucide:mail" class="w-4 h-4" />
+          <span class="underline underline-offset-4 decoration-gray-300 dark:decoration-gray-600">info@waleed.de</span>
         </a>
-        <a 
-          href="https://linkedin.com/in/waleedhk/" 
-          target="_blank" 
+        <a
+          href="https://linkedin.com/in/waleedhk/"
+          target="_blank"
           rel="noopener noreferrer"
-          class="inline-flex items-center gap-2 py-2 px-4 rounded-md bg-white dark:bg-neutral-700 text-gray-800 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-neutral-600 transition-colors border border-gray-300 dark:border-gray-800 font-medium"
+          class="inline-flex items-center gap-1.5 text-gray-700 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-300 transition-colors"
         >
-          <Icon name="lucide:linkedin" class="w-4 h-4" /> 
-          Connect on LinkedIn
+          <Icon name="lucide:linkedin" class="w-4 h-4" />
+          <span class="underline underline-offset-4 decoration-gray-300 dark:decoration-gray-600">linkedin</span>
         </a>
       </div>
     </div>
@@ -276,165 +82,25 @@ const hobbies = ["Cricket", "Playing Guitar", "Hiking", "Camping"];
 </Layout>
 
 <style>
-  /* Skills grid - minimal design */
-  .skills-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 1.5rem 2rem;
-  }
-
-  .skill-item {
-    display: flex;
-    flex-direction: column;
-    gap: 0.375rem;
-  }
-
-  .skill-label {
-    font-size: 0.75rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    color: #9ca3af;
-  }
-
-  :global(html.dark) .skill-label {
-    color: #d4d4d4;
-  }
-
-  .skill-value {
-    font-size: 0.9375rem;
-    line-height: 1.5;
-    color: #1f2937;
-  }
-
-  :global(html.dark) .skill-value {
-    color: #ffffff;
-  }
-
-  @media (max-width: 640px) {
-    .skills-grid {
-      grid-template-columns: 1fr;
-      gap: 1.25rem;
-    }
-  }
-
-  /* Enhance hover states with specific transitions instead of 'all' */
-  .social-link {
-    transition: opacity 0.2s ease-in-out, transform 0.2s ease-in-out;
-  }
-  
-  a:not(.social-link):not(.skill-card) {
-    transition: color 0.2s ease-in-out;
-  }
-  
-  /* Improved image container styling - optimized */
-  .image-container img {
-    transition: transform 0.3s ease;
-  }
-  
-  /* Bauhaus-inspired styling - simplified for performance */
   .image-container {
     position: relative;
-    overflow: hidden;
-    box-shadow: 0 4px 10px -4px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 4px 10px -4px rgba(0, 0, 0, 0.15);
   }
-  
+
   .dark .image-container {
-    box-shadow: 0 4px 10px -4px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 4px 10px -4px rgba(0, 0, 0, 0.4);
   }
-  
+
   .image-container::after {
     content: "";
     position: absolute;
     inset: 0;
     border: 1px solid rgba(0, 0, 0, 0.05);
+    border-radius: inherit;
     pointer-events: none;
   }
-  
+
   .dark .image-container::after {
     border-color: rgba(255, 255, 255, 0.1);
-  }
-  
-  /* Timeline styling - optimized */
-  .timeline-item {
-    position: relative;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-  }
-  
-  /* Apply hover effects only on non-touch devices */
-  @media (hover: hover) {
-    .timeline-item:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 4px 12px -2px rgba(0, 0, 0, 0.05);
-    }
-    
-    .dark .timeline-item:hover {
-      box-shadow: 0 4px 12px -2px rgba(0, 0, 0, 0.2);
-    }
-  }
-  
-  /* Advisory roles styling - more subtle and optimized */
-  .advisory-item {
-    position: relative;
-    transition: box-shadow 0.2s ease;
-    border-left: 1px solid #e5e7eb;
-  }
-  
-  .dark .advisory-item {
-    border-left: 1px solid #404040;
-  }
-  
-  /* Apply hover effects only on non-touch devices */
-  @media (hover: hover) {
-    .advisory-item:hover {
-      box-shadow: 0 4px 12px -2px rgba(0, 0, 0, 0.05);
-    }
-    
-    .dark .advisory-item:hover {
-      box-shadow: 0 4px 12px -2px rgba(0, 0, 0, 0.2);
-    }
-  }
-  
-  /* Remove the gradient effect for a more subtle look */
-  .advisory-item::before {
-    display: none;
-  }
-  
-  /* Responsive adjustments */
-  @media (max-width: 768px) {
-    .about-container {
-      padding: 0 1rem;
-    }
-    
-    /* Optimize rendering on mobile */
-    .advisory-item, .timeline-item {
-      /* Reduce animations on mobile for better performance */
-      transition: none;
-      transform: none !important;
-      box-shadow: none !important;
-    }
-    
-    /* Improve paint performance */
-    .image-container {
-      box-shadow: 0 2px 8px -2px rgba(0, 0, 0, 0.15);
-    }
-    
-    .dark .image-container {
-      box-shadow: 0 2px 8px -2px rgba(0, 0, 0, 0.3);
-    }
-  }
-</style>
-
-
-<style is:global>
-  /* Ensure prose content looks good - keeping only essential styles */
-  .prose p {
-    margin-bottom: 1em;
-  }
-  
-  .prose a {
-    text-decoration: underline;
-    text-decoration-thickness: 1px;
-    text-underline-offset: 2px;
   }
 </style>
