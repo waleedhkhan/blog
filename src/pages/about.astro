@@ -8,25 +8,13 @@ const description = "Software engineer in Berlin, building products that matter"
 
 <Layout title={title} description={description}>
   <section class="grid grid-cols-12 gap-4 mb-12">
-    <div class="col-start-1 col-end-13 md:col-end-5 mb-6 md:mb-0">
-      <div class="aspect-square w-full max-w-[200px] overflow-hidden rounded-lg image-container">
-        <img
-          src="https://res.cloudinary.com/dm9gvqa1t/image/upload/t_Square/v1737252681/waleed.de/bn9y9x71i1gznmlrpe7n.jpg"
-          alt="Waleed Hussain"
-          class="w-full h-full object-cover"
-          width={200}
-          height={200}
-          loading="eager"
-          fetchpriority="high"
-        />
-      </div>
-    </div>
-
-    <div class="col-start-1 col-end-13 md:col-start-5 space-y-4">
+    <div class="col-start-1 col-end-13 md:col-end-5">
       <h1 class="font-normal text-lg tracking-tight text-gray-900 dark:text-gray-300">
         about
       </h1>
+    </div>
 
+    <div class="col-start-1 col-end-13 md:col-start-5 space-y-4">
       <p class="text-gray-700 dark:text-gray-400 leading-relaxed">
         hi, i'm waleed. software engineer and entrepreneur based in berlin.
       </p>
@@ -81,26 +69,3 @@ const description = "Software engineer in Berlin, building products that matter"
   </section>
 </Layout>
 
-<style>
-  .image-container {
-    position: relative;
-    box-shadow: 0 4px 10px -4px rgba(0, 0, 0, 0.15);
-  }
-
-  .dark .image-container {
-    box-shadow: 0 4px 10px -4px rgba(0, 0, 0, 0.4);
-  }
-
-  .image-container::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    border: 1px solid rgba(0, 0, 0, 0.05);
-    border-radius: inherit;
-    pointer-events: none;
-  }
-
-  .dark .image-container::after {
-    border-color: rgba(255, 255, 255, 0.1);
-  }
-</style>

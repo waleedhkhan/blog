@@ -1,11 +1,8 @@
 ---
 import Layout from "@/components/astro/layout/Layout.astro";
 import Profile from "@/components/astro/modules/home/Profile.astro";
-import Experiences from "@/components/astro/modules/home/Experiences.astro";
 import Posts from "@/components/astro/modules/home/Posts.astro";
-import Customers from "@/components/astro/modules/home/Customers.astro";
 import RecentlyPlayed from "@/components/astro/modules/home/RecentlyPlayed.astro";
-import BookmarkFeed from "@/components/astro/modules/home/BookmarkFeed.astro";
 import RecentBookmarks from "@/components/astro/modules/home/RecentBookmarks.astro";
 import { Icon } from "astro-icon/components";
 import AppLink from "@/components/astro/ui/AppLink.astro";
@@ -73,30 +70,6 @@ const description =
       <div class=":uno: block md:hidden">
         <RecentBookmarks />
       </div>
-    </div>
-  </section>
-
-  <section class=":uno: grid grid-cols-12 gap-4 bauhaus-stack-lg">
-    <h2
-      class=":uno: col-start-1 col-end-13 md:col-start-1 md:col-end-5 font-normal text-lg tracking-tight text-gray-900 dark:text-gray-300 transition-colors bauhaus-title"
-    >
-      experience
-    </h2>
-
-    <div class="col-start-1 col-end-13 md:col-start-5 md:col-end-13 space-y-4 leading-[1.75]">
-      <Experiences />
-    </div>
-  </section>
-
-  <section class=":uno: grid grid-cols-12 gap-4 bauhaus-stack-lg">
-    <h2
-      class=":uno: col-start-1 col-end-13 md:col-start-1 md:col-end-5 font-normal text-lg tracking-tight text-gray-900 dark:text-gray-300 transition-colors bauhaus-title"
-    >
-      clients
-    </h2>
-
-    <div class="col-start-1 col-end-13 md:col-start-5 md:col-end-13 text-gray-800 dark:text-gray-400 space-y-4 leading-[1.75]">
-      <Customers />
     </div>
   </section>
 
