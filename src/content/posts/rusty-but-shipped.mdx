@@ -1,0 +1,34 @@
+---
+title: "Rusty but Shipped"
+subtitle: "Back to Building"
+publishedAt: 2026-01-22
+tags:
+  - ai
+  - aws
+  - claude
+  - building
+---
+
+import DescriptionList from "@/components/astro/modules/posts/html/DescriptionList.astro";
+import DescriptionTerm from "@/components/astro/modules/posts/html/DescriptionTerm.astro";
+import DescriptionItem from "@/components/astro/modules/posts/html/DescriptionItem.astro";
+
+I'll be honest: I hadn't written serious code in a while. My day-to-day had drifted into meetings, strategy docs, and architecture reviews. The kind of work where you talk _about_ code more than you write it. So when I needed to build an internal tool (a React frontend, Python backend, PostgreSQL database, all deployed on AWS with proper CI/CD), I felt that familiar anxiety. The ecosystem had moved on. New versions of everything. Half my muscle memory was outdated.
+
+Then I tried something different. I'd tried Claude Code past year, Anthropic's CLI tool for AI-assisted development. I decided to treat it as my pair programming partner, except this partner had infinite patience, perfect memory, and didn't judge me for forgetting how Docker builds work.
+
+I started with a rough plan. Not perfect, but enough to give direction: deploy this app to AWS with proper infrastructure, set up CI/CD on GitHub Actions. Claude Code took it from there. But here's what surprised me—it wasn't just executing commands blindly. It was _thinking_. When the Terraform state backend didn't exist, it created the S3 bucket and DynamoDB table first. When Docker images failed on ECS with "exec format error," it diagnosed the ARM64 vs AMD64 architecture mismatch and rebuilt with the correct platform flag. When the GitHub Actions workflow failed because there were no tests, it configured vitest to pass gracefully.
+
+Some moments genuinely made me smile. At one point, I asked it to create an IAM user for GitHub Actions. AWS Organization policies blocked the request. Without missing a beat, it pivoted: "IAM user creation is blocked by organization policy. Let me set up GitHub Actions OIDC instead—more secure, no long-lived credentials." It then created the OIDC trust relationship, IAM role, and updated all the workflow files to use role-based authentication. Better security than I originally planned, and I didn't have to ask for it.
+
+The CI pipeline kept failing at first. ESLint errors. Empty TypeScript interfaces. A `require()` statement in a TypeScript config file. One by one, Claude Code fixed them: small changes that would have sent me down a Stack Overflow rabbit hole for 30 minutes each. When ECS tasks kept dying, I watched it pull CloudWatch logs, identify the root cause, and fix the Docker build configuration. The debugging loop that usually takes me an hour of console-clicking happened in seconds.
+
+So what did I actually do? Mostly, I described what I wanted, approved actions when asked, provided credentials when needed, and said "yes, proceed" a lot. I didn't write the Terraform. I didn't write the GitHub Actions workflows. I didn't debug the CI failures manually. But I _understood_ everything that was happening. Claude Code explained its reasoning throughout. When it made architectural decisions, it told me why.
+
+By the end of the session (roughly four hours), we had 47 AWS resources deployed via Terraform, a full CI/CD pipeline running on GitHub Actions, automatic deployments on push to main, and health checks verifying everything worked. The app was live. The infrastructure was codified. The deployment was automated. Estimated cost: about $88 a month.
+
+It wasn't flawless. The first Docker build used the wrong CPU architecture. CI failed four times before passing. I still had to authenticate everything myself: AWS SSO, GitHub CLI, ECR login (preferred). The AI can't click through browser OAuth flows for you. But each problem got solved quickly, and I never felt stuck.
+
+Here's my takeaway: the barrier to building just got dramatically lower. I'm not mass-producing code these days. I'm not shipping features every week. But when I _need_ to build something, I no longer have to context-switch back into "developer mode" for a week first. I can describe the outcome I want and collaborate with an AI that handles the implementation details. I still need to understand what's happening. I still need to make architectural decisions. I still need to know when something doesn't smell right. But the mechanical parts—the syntax, the boilerplate, the debugging of obscure errors. That's where this kind of tooling shines.
+
+This project gave me something I haven't felt in a while: the confidence that I can still build things. Not because I memorized the latest React hooks or Terraform syntax, but because I have a collaborator who has. If you're a developer who's drifted away from hands-on coding, or someone who's been intimidated by the complexity of modern deployment pipelines, give this approach a try. You might be surprised how much you can accomplish in an afternoon.
