@@ -33,6 +33,7 @@ export default defineConfig({
 
   // Cloudflare adapter for server-side API routes
   adapter: cloudflare({
+    imageService: "compile",
     platformProxy: {
       enabled: true,
     },
@@ -44,6 +45,9 @@ export default defineConfig({
       alias: {
         '@': fileURLToPath(new URL('./src', import.meta.url))
       }
+    },
+    ssr: {
+      external: ['node:fs', 'stream', 'util', 'node:buffer', 'node:process']
     },
     build: {
       chunkSizeWarningLimit: 1000,
