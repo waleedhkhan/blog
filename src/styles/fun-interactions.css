@@ -227,13 +227,6 @@ img.zoomed {
   100% { transform: translateY(0); opacity: 1; }
 }
 
-/* Smooth page transitions */
-::view-transition-old(root),
-::view-transition-new(root) {
-  animation-duration: 0.5s;
-  animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
-}
-
 /* Cursor blob */
 .cursor-blob {
   position: fixed;

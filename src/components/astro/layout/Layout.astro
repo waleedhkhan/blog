@@ -105,12 +105,15 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
         to { opacity: 0; transform: translateY(-8px); }
       }
 
-      ::view-transition-old(root) {
-        animation: fade-out 150ms ease-out;
-      }
+      /* Only apply custom transitions when view transitions are supported and active */
+      @supports (view-transition-name: root) {
+        ::view-transition-old(root) {
+          animation: fade-out 150ms ease-out both;
+        }
 
-      ::view-transition-new(root) {
-        animation: slide-up 200ms ease-out;
+        ::view-transition-new(root) {
+          animation: slide-up 200ms ease-out both;
+        }
       }
 
       /* Keep nav persistent during transitions */
@@ -177,11 +180,13 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
     </style>
   </head>
   <body
-    class=":uno: transition-colors text-gray-800 dark:text-gray-300 flex flex-col font-sans min-h-screen mx-auto antialiased"
+    class=":uno: text-gray-800 dark:text-gray-300 flex flex-col font-sans min-h-screen mx-auto antialiased"
     style="background-color: var(--bg-color);"
   >
     <Navigation posts={posts} />
-    <NowPlaying client:load />
+    <div data-astro-transition-persist="now-playing">
+      <NowPlaying client:load />
+    </div>
 
     <main class=":uno: w-full mx-auto flex-1 max-w-[832px] px-8 leading-[1.75] mt-24 mb-32 md:mt-32 space-y-16">
       <slot />
