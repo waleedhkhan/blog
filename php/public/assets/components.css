@@ -215,3 +215,70 @@ astro-island,astro-slot,astro-static-slot{display:contents}
 	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
 	animation-fill-mode: both;
 	animation-name: astroFadeIn; }astro-island,astro-slot,astro-static-slot{display:contents}
+/* --- Post table of contents (native <details>) + heading anchors --- */
+.post-toc {
+  position: sticky;
+  top: 1rem;
+  float: right;
+  margin: 0 0 1rem 1.5rem;
+  z-index: 20;
+}
+.post-toc > summary {
+  list-style: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 100px;
+  cursor: pointer;
+  background: var(--bg-color);
+  user-select: none;
+}
+html.dark .post-toc > summary { border-color: rgba(255, 255, 255, 0.12); }
+.post-toc > summary::-webkit-details-marker { display: none; }
+.post-toc[open] > summary { color: var(--text-primary); }
+.post-toc-list {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin-top: 8px;
+  padding: 10px 12px;
+  min-width: 220px;
+  max-width: 280px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+  background: var(--bg-color);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+}
+html.dark .post-toc-list { border-color: rgba(255, 255, 255, 0.12); }
+.toc-link {
+  font-size: 13px;
+  line-height: 1.5;
+  padding: 3px 6px;
+  border-radius: 6px;
+  color: var(--text-secondary);
+  text-decoration: none;
+}
+.toc-link:hover { color: var(--text-primary); background: rgba(0, 0, 0, 0.04); }
+html.dark .toc-link:hover { background: rgba(255, 255, 255, 0.06); }
+.toc-l3 { padding-left: 18px; font-size: 12px; }
+
+/* Heading anchor (the # that appears on hover) */
+.heading-anchor {
+  margin-left: 0.4em;
+  opacity: 0;
+  text-decoration: none;
+  color: var(--text-muted);
+  transition: opacity .15s ease;
+}
+h2:hover > .heading-anchor,
+h3:hover > .heading-anchor { opacity: 0.6; }
+.heading-anchor:hover { opacity: 1 !important; }
+
+@media (max-width: 640px) {
+  .post-toc { float: none; margin: 0 0 1.5rem; position: static; }
+}

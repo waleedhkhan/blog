@@ -60,8 +60,11 @@ final class Content
         $parser = new Parsedown();
         $body = self::transformMdx($body, $parser);
 
+        [$html, $toc] = self::addHeadingAnchors($parser->text($body));
+
         return $meta + [
-            'html' => $parser->text($body),
+            'html' => $html,
+            'toc' => $toc,
             'readingTime' => self::readingTime($body),
         ];
     }
@@ -195,6 +198,45 @@ final class Content
         ) ?? $body;
 
         return trim($body);
+    }
+
+    /**
+     * Add stable id attributes to h2/h3 headings (for deep links) and build a
+     * table of contents.
+     *
+     * @return array{0:string, 1:list<array{level:int,text:string,id:string}>}
+     */
+    private static function addHeadingAnchors(string $html): array
+    {
+        $toc = [];
+        $used = [];
+        $html = preg_replace_callback(
+            '#<(h2|h3)>(.*?)</\1>#s',
+            static function (array $m) use (&$toc, &$used): string {
+                $tag = $m[1];
+                $text = trim(html_entity_decode(strip_tags($m[2]), ENT_QUOTES, 'UTF-8'));
+                $id = self::slugify($text);
+                // Ensure uniqueness within the document.
+                $base = $id;
+                $n = 2;
+                while (isset($used[$id])) {
+                    $id = $base . '-' . $n++;
+                }
+                $used[$id] = true;
+                $toc[] = ['level' => $tag === 'h2' ? 2 : 3, 'text' => $text, 'id' => $id];
+                return "<{$tag} id=\"{$id}\">{$m[2]}<a class=\"heading-anchor\" href=\"#{$id}\" aria-hidden=\"true\">#</a></{$tag}>";
+            },
+            $html
+        ) ?? $html;
+
+        return [$html, $toc];
+    }
+
+    private static function slugify(string $text): string
+    {
+        $text = strtolower($text);
+        $text = preg_replace('/[^a-z0-9]+/', '-', $text) ?? $text;
+        return trim($text, '-') ?: 'section';
     }
 
     private static function readingTime(string $body): int

@@ -37,6 +37,19 @@ if ($path === '') {
     $path = '/';
 }
 
+// XML feeds / sitemaps render raw (no HTML chrome) with their own content type.
+$xmlRoutes = [
+    '/rss.xml' => ['application/rss+xml', 'rss'],
+    '/sitemap.xml' => ['application/xml', 'sitemap'],
+    '/sitemap-index.xml' => ['application/xml', 'sitemap-index'],
+];
+if (isset($xmlRoutes[$path])) {
+    [$type, $view] = $xmlRoutes[$path];
+    header("Content-Type: {$type}; charset=utf-8");
+    echo render($view, ['posts' => Content::posts()]);
+    return;
+}
+
 [$status, $view, $data] = route($path);
 
 http_response_code($status);
