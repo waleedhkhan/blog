@@ -62,7 +62,26 @@ Body in **markdown**.
 
 The slug is the filename without extension. No rebuild needed — just refresh.
 
-## Not yet ported (next steps)
+## Pages
 
-`/about`, `/colophon`, `/listening`, and the full `/bookmarks` page with
-category filtering. RSS/sitemap can be regenerated or served as static files.
+All pages are ported: `/`, `/posts`, `/posts/{slug}`, `/about`, `/bookmarks`
+(with search + category filtering), `/listening` (Spotify stats dashboard),
+`/colophon` (with a live GitHub changelog), and `404`.
+
+Two server-side endpoints back the Spotify widgets:
+`/api/spotify.php` (now playing / recently played) and
+`/api/spotify-stats.php` (top tracks/artists for the listening page).
+
+## CSS provenance
+
+`assets/utilities.css` is the compiled UnoCSS bundle, reused verbatim.
+`assets/components.css` is the component CSS extracted from the old build with
+the framework scoping attributes (`[data-astro-cid-*]`, `[data-v-*]`) stripped,
+so the templates use clean class names. If you change the design, edit these
+directly — there is no build step to regenerate them.
+
+## Still on the old build (optional)
+
+`rss.xml` and `sitemap-index.xml` are currently served as the static files
+copied from the previous build. Regenerate them in PHP if you want them to
+update automatically as posts are added.

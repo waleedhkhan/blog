@@ -1,0 +1,41 @@
+<?php
+/** @var array $page */
+declare(strict_types=1);
+
+partial('head', ['page' => $page]);
+partial('nav', ['page' => $page]);
+
+$mailIcon = '<svg width="1em" height="1em" viewBox="0 0 24 24" class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m22 7l-8.991 5.727a2 2 0 0 1-2.009 0L2 7"/><rect width="20" height="16" x="2" y="4" rx="2"/></svg>';
+$linkedinIcon = '<svg width="1em" height="1em" viewBox="0 0 24 24" class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2a2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6M2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg>';
+?>
+<main class="uno-w8gqri">
+    <section class="grid grid-cols-12 gap-4 mb-12">
+        <div class="col-start-1 col-end-13 md:col-end-5">
+            <h1 class="font-normal text-lg tracking-tight text-gray-900 dark:text-gray-300">about</h1>
+        </div>
+        <div class="col-start-1 col-end-13 md:col-start-5 space-y-4">
+            <p class="text-gray-700 dark:text-gray-400 leading-relaxed">hi, i'm waleed. software engineer and entrepreneur based in berlin.</p>
+            <p class="text-gray-700 dark:text-gray-400 leading-relaxed">i grew up in vienna and studied computer science &amp; business, but fell in love with building things on the internet early on. what started as tinkering with online shops turned into a career, and eventually, a calling.</p>
+            <p class="text-gray-700 dark:text-gray-400 leading-relaxed">berlin felt like the right place for someone who wanted to build things differently. less corporate, more experimental. it's been home ever since.</p>
+            <p class="text-gray-700 dark:text-gray-400 leading-relaxed">along the way, i co-founded a company, led engineering teams, and worked with everyone from scrappy startups to large corporations. my background is technical, but these days i think as much about product and people as i do about code.</p>
+            <p class="text-gray-700 dark:text-gray-400 leading-relaxed">i believe in simplicity over complexity, autonomy over control, and substance over hype.</p>
+        </div>
+    </section>
+    <section class="grid grid-cols-12 gap-4">
+        <h2 class="col-start-1 col-end-13 md:col-end-5 font-normal text-lg tracking-tight text-gray-900 dark:text-gray-300">get in touch</h2>
+        <div class="col-start-1 col-end-13 md:col-start-5 space-y-4">
+            <p class="text-gray-700 dark:text-gray-400 leading-relaxed">i'm always happy to chat about building products, e-commerce, or anything else that's interesting.</p>
+            <div class="flex flex-wrap gap-6">
+                <a href="mailto:info@waleed.de" class="inline-flex items-center gap-1.5 text-gray-700 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-300 transition-colors">
+                    <?= $mailIcon ?>
+                    <span class="underline underline-offset-4 decoration-gray-300 dark:decoration-gray-600">info@waleed.de</span>
+                </a>
+                <a href="https://linkedin.com/in/waleedhk/" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 text-gray-700 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-300 transition-colors">
+                    <?= $linkedinIcon ?>
+                    <span class="underline underline-offset-4 decoration-gray-300 dark:decoration-gray-600">linkedin</span>
+                </a>
+            </div>
+        </div>
+    </section>
+</main>
+<?php partial('footer', ['page' => $page]); ?>

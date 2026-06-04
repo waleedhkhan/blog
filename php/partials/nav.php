@@ -18,15 +18,17 @@ $isActive = static function (string $href) use ($current): bool {
 ?>
 <nav class="nav-container">
     <div class="nav-bar">
-        <?php foreach ($items as $item): ?>
-            <a rel="noopener noreferrer" href="<?= attr($item['href']) ?>" class="nav-item"
+        <?php foreach ($items as $item): $active = $isActive($item['href']); ?>
+            <a rel="noopener noreferrer" href="<?= attr($item['href']) ?>"
+               class="nav-item<?= $active ? ' active-link' : '' ?>"
                aria-label="<?= attr($item['label']) ?>"
-               <?= $isActive($item['href']) ? 'aria-current="page"' : '' ?>>
+               <?= $active ? 'aria-current="page"' : '' ?>>
                 <div class="icon-wrapper">
                     <svg width="1em" height="1em" viewBox="0 0 24 24" class="nav-icon" fill="none"
                          stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                         aria-label="<?= attr($item['label']) ?>"><?= $item['icon'] ?></svg>
+                         aria-hidden="true"><?= $item['icon'] ?></svg>
                 </div>
+                <span class="tooltip-content nav-tooltip"><?= h($item['label']) ?></span>
             </a>
         <?php endforeach; ?>
 
