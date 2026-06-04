@@ -8,10 +8,6 @@ workers_dev = true
 directory = "./dist/client"
 binding = "ASSETS"
 
-[[routes]]
-pattern = "waleed.de"
-custom_domain = true
-
 [[kv_namespaces]]
 binding = "SESSION"
 id = "b836c4f8327f4bf7ad55ba68945e228e"
