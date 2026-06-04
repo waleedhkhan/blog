@@ -61,7 +61,15 @@ const description =
     </h2>
 
     <div class="col-start-1 col-end-13 md:col-start-5 md:col-end-13 space-y-4 leading-[1.75]">
-      <RecentBookmarks />
+      <!-- Desktop view (visible on md screens and up) -->
+      <div class=":uno: hidden md:block">
+        <RecentBookmarks />
+      </div>
+      
+      <!-- Mobile/Tablet view (hidden on md screens and up) -->
+      <div class=":uno: block md:hidden">
+        <RecentBookmarks />
+      </div>
     </div>
   </section>
 

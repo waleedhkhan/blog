@@ -10,7 +10,7 @@ interface OGProps {
 
 export const Template = (props: OGProps, imageBuffer: Buffer) => html`
   <div style="padding: 48px; margin: 0; display: flex; background-color: #FCFCFD; width: 100%; height: 100%; flex-flow: column; justify-content: space-between">
-    <img style="width: 64px; height: 64px;" src='data:image/png;base64,${imageBuffer.toString('base64')}' />
+    <img width="64" height="64" src='data:image/png;base64,${imageBuffer.toString('base64')}' />
 
     <div style="display: flex;">
       <h1 style="font-size: 64px; font-weight: 600; lineHeight: 1; letter-spacing: -2px">

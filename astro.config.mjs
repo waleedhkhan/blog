@@ -37,7 +37,6 @@ export default defineConfig({
     platformProxy: {
       enabled: true,
     },
-    prerenderEnvironment: "node",
   }),
 
   // Vite configuration
@@ -54,7 +53,9 @@ export default defineConfig({
       chunkSizeWarningLimit: 1000,
       rollupOptions: {
         output: {
-          manualChunks: {},
+          manualChunks: {
+            'vendor': ['vue', '@vueuse/core', 'radix-vue'],
+          },
         },
       },
     },
