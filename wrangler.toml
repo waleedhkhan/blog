@@ -1,6 +1,11 @@
 name = "blog"
+main = "@astrojs/cloudflare/entrypoints/server"
 compatibility_date = "2025-12-20"
 compatibility_flags = ["nodejs_compat"]
+
+[assets]
+directory = "./dist/client"
+binding = "ASSETS"
 
 [[kv_namespaces]]
 binding = "SESSION"
