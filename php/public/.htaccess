@@ -1,0 +1,27 @@
+# Front-controller routing for shared Apache hosting.
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # Serve existing files (assets, api/*.php, images) directly.
+    RewriteCond %{REQUEST_FILENAME} -f [OR]
+    RewriteCond %{REQUEST_FILENAME} -d
+    RewriteRule ^ - [L]
+
+    # Everything else goes through the front controller.
+    RewriteRule ^ index.php [L]
+</IfModule>
+
+# Never serve dotfiles (.env etc.) even if misplaced.
+<FilesMatch "^\.">
+    Require all denied
+</FilesMatch>
+
+# Long cache for fingerprinted-ish static assets.
+<IfModule mod_headers.c>
+    <FilesMatch "\.(css|js|woff2|png|jpg|jpeg|svg|ico)$">
+        Header set Cache-Control "public, max-age=2592000"
+    </FilesMatch>
+    Header set X-Content-Type-Options "nosniff"
+</IfModule>
+
+ErrorDocument 404 /index.php
