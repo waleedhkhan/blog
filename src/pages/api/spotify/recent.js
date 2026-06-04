@@ -114,7 +114,6 @@ export async function GET({ request }) {
           hasClientId: !!clientId,
           hasClientSecret: !!clientSecret,
           hasRefreshToken: !!refreshToken,
-          hasRuntime: !!runtime,
         }
       }),
       { status: 500, headers: { 'Content-Type': 'application/json' } }

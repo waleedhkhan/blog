@@ -114,6 +114,12 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
     </script>
 
     <style is:global>
+      /* Match the html background to the body so no white canvas shows
+         through during the view-transition crossfade (dark-mode blink). */
+      html {
+        background-color: var(--bg-color);
+      }
+
       :root {
         --text-primary: #1c1b19;
         --text-secondary: #1c1b19;
@@ -141,8 +147,8 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
     class=":uno: text-gray-800 dark:text-gray-300 flex flex-col font-sans min-h-screen mx-auto antialiased"
     style="background-color: var(--bg-color);"
   >
-    <Navigation posts={posts} />
-    <NowPlaying client:load />
+    <Navigation posts={posts} transition:persist />
+    <NowPlaying client:load transition:persist />
 
     <main class=":uno: w-full mx-auto flex-1 max-w-[832px] px-8 leading-[1.75] mt-24 mb-32 md:mt-32 space-y-16">
       <slot />
