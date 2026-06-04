@@ -98,15 +98,13 @@ async function getRecentlyPlayed(token, limit = 6) {
   }
 }
 
-export async function GET({ locals, request }) {
+export async function GET({ request }) {
   const url = new URL(request.url);
   const limit = parseInt(url.searchParams.get('limit') || '6', 10);
 
-  // Get env vars from Cloudflare runtime context
-  const runtime = locals.runtime;
-  const clientId = runtime?.env?.SPOTIFY_CLIENT_ID || import.meta.env.SPOTIFY_CLIENT_ID;
-  const clientSecret = runtime?.env?.SPOTIFY_CLIENT_SECRET || import.meta.env.SPOTIFY_CLIENT_SECRET;
-  const refreshToken = runtime?.env?.SPOTIFY_REFRESH_TOKEN || import.meta.env.SPOTIFY_REFRESH_TOKEN;
+  const clientId = import.meta.env.SPOTIFY_CLIENT_ID;
+  const clientSecret = import.meta.env.SPOTIFY_CLIENT_SECRET;
+  const refreshToken = import.meta.env.SPOTIFY_REFRESH_TOKEN;
 
   if (!clientId || !clientSecret || !refreshToken) {
     return new Response(
