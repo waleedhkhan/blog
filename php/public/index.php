@@ -122,8 +122,8 @@ function route(string $path): array
         if ($post === null) {
             return not_found($path);
         }
-        $og = is_file(BASE_PATH . "/public/posts/og-{$post['slug']}.png")
-            ? SITE_URL . "/posts/og-{$post['slug']}.png"
+        $og = is_file(BASE_PATH . "/public/assets/og/og-{$post['slug']}.png")
+            ? SITE_URL . "/assets/og/og-{$post['slug']}.png"
             : null;
         return [200, 'post', [
             'page' => [
