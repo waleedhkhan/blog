@@ -28,6 +28,7 @@ define('UMAMI_ID', env('UMAMI_WEBSITE_ID', 'e4767b20-41c0-4a7b-ba76-fdbca452dfe1
 
 require BASE_PATH . '/lib/Content.php';
 require BASE_PATH . '/lib/Github.php';
+require BASE_PATH . '/lib/Spotify.php';
 
 send_security_headers();
 
@@ -67,6 +68,7 @@ function route(string $path): array
             'page' => ['title' => 'Waleed | Building Impactful Digital Products', 'description' => "Hi, I'm Waleed — a software engineer based in Berlin. Personal site: writing, bookmarks, and what I'm listening to.", 'path' => '/'],
             'recent' => Content::recentPosts(6),
             'bookmarks' => array_slice(load_bookmarks(), 0, 5),
+            'tracks' => Spotify::feed(6),
         ]];
     }
 

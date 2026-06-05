@@ -41,6 +41,44 @@ final class Spotify
         return (string) $data['access_token'];
     }
 
+    /**
+     * The home/now-playing feed: current track first (if any), then recent,
+     * deduped to $limit. Cached briefly so page loads don't hammer Spotify.
+     * Returns [] when not configured or on any error.
+     */
+    public static function feed(int $limit = 6): array
+    {
+        if (!self::configured()) {
+            return [];
+        }
+
+        $cacheKey = 'spotify_feed_' . $limit;
+        $cached = cache_get($cacheKey, 30);
+        if ($cached !== null) {
+            return $cached;
+        }
+
+        try {
+            $token = self::accessToken();
+            $current = self::nowPlaying($token);
+            $recent = self::recentlyPlayed($token, $limit);
+
+            if ($current !== null) {
+                $recent = array_values(array_filter(
+                    $recent,
+                    static fn ($t) => !($t['name'] === $current['name'] && $t['artist'] === $current['artist'])
+                ));
+                $tracks = array_merge([$current], array_slice($recent, 0, $limit - 1));
+            } else {
+                $tracks = $recent;
+            }
+            cache_put($cacheKey, $tracks);
+            return $tracks;
+        } catch (Throwable) {
+            return [];
+        }
+    }
+
     public static function nowPlaying(string $token): ?array
     {
         [$code, $body] = self::get('/me/player/currently-playing', $token);

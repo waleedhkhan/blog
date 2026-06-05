@@ -68,6 +68,24 @@ function partial(string $name, array $data = []): void
     require BASE_PATH . "/partials/{$name}.php";
 }
 
+/** Read a cached value if it exists and is younger than $ttl seconds. */
+function cache_get(string $key, int $ttl): mixed
+{
+    $file = sys_get_temp_dir() . '/waleed_' . preg_replace('/[^a-z0-9_]/i', '', $key) . '.json';
+    if (is_readable($file) && (time() - (int) filemtime($file)) < $ttl) {
+        $data = json_decode((string) file_get_contents($file), true);
+        return $data === null ? null : $data;
+    }
+    return null;
+}
+
+/** Write a value to the cache. */
+function cache_put(string $key, mixed $value): void
+{
+    $file = sys_get_temp_dir() . '/waleed_' . preg_replace('/[^a-z0-9_]/i', '', $key) . '.json';
+    @file_put_contents($file, json_encode($value));
+}
+
 /** Send standard security headers. Called once per request from the front controller. */
 function send_security_headers(): void
 {

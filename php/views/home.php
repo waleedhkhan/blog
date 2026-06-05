@@ -93,7 +93,28 @@ partial('nav', ['page' => $page]);
         <div class="col-start-1 col-end-13 md:col-start-5 md:col-end-13 space-y-4 leading-[1.75]">
             <div id="recently-played" class="space-y-4">
                 <div id="tracks-container">
-                    <p class="text-sm text-gray-700 dark:text-gray-500">Loading recently played…</p>
+                    <?php if ($tracks): ?>
+                    <ul class="grid grid-cols-2 gap-4">
+                        <?php foreach ($tracks as $i => $t): ?>
+                        <li>
+                            <a class="group flex items-center gap-3 rounded-lg p-2 transition-colors hover:bg-zinc-100 dark:hover:bg-zinc-800" href="<?= attr($t['url'] ?? '#') ?>" target="_blank" rel="noopener noreferrer" data-track-index="<?= $i ?>">
+                                <div class="album-art-container<?= $i === 0 ? ' float' : '' ?>">
+                                    <div class="album-visualizer"><span></span><span></span><span></span><span></span></div>
+                                    <img src="<?= attr($t['image'] ?? '') ?>" alt="<?= attr(($t['name'] ?? '') . ' album art') ?>" class="album-art h-12 w-12 rounded-md transition-all<?= $i === 0 ? ' pulse' : '' ?>" loading="lazy" data-artist="<?= attr($t['artist'] ?? '') ?>" data-track="<?= attr($t['name'] ?? '') ?>">
+                                    <div class="album-reflection"></div>
+                                    <div class="album-glow"></div>
+                                </div>
+                                <div class="flex-1 overflow-hidden">
+                                    <p class="truncate text-sm font-medium text-gray-900 dark:text-gray-300 track-name<?= $i === 0 ? ' shimmer' : '' ?>"><?= h($t['name'] ?? '') ?></p>
+                                    <p class="truncate text-xs text-gray-700 dark:text-gray-500 track-artist"><?= h($t['artist'] ?? '') ?></p>
+                                </div>
+                            </a>
+                        </li>
+                        <?php endforeach; ?>
+                    </ul>
+                    <?php else: ?>
+                    <p class="text-sm text-gray-700 dark:text-gray-500">No recently played tracks available</p>
+                    <?php endif; ?>
                 </div>
             </div>
         </div>

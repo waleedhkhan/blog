@@ -20,27 +20,4 @@ $limit = filter_input(INPUT_GET, 'limit', FILTER_VALIDATE_INT, [
     'options' => ['default' => 6, 'min_range' => 1, 'max_range' => 24],
 ]);
 
-if (!Spotify::configured()) {
-    echo json_encode([]);
-    return;
-}
-
-try {
-    $token = Spotify::accessToken();
-    $current = Spotify::nowPlaying($token);
-    $recent = Spotify::recentlyPlayed($token, $limit);
-
-    if ($current !== null) {
-        $recent = array_values(array_filter(
-            $recent,
-            static fn ($t) => !($t['name'] === $current['name'] && $t['artist'] === $current['artist'])
-        ));
-        $tracks = array_merge([$current], array_slice($recent, 0, $limit - 1));
-    } else {
-        $tracks = $recent;
-    }
-
-    echo json_encode($tracks, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
-} catch (Throwable) {
-    echo json_encode([]);
-}
+echo json_encode(Spotify::feed($limit), JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
