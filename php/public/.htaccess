@@ -1,27 +1,44 @@
 # Front-controller routing for shared Apache hosting.
+#
+# If clean URLs (e.g. /about, /posts/slug) return 404, the usual causes are:
+#   1. This .htaccess file was not uploaded — many FTP clients hide dotfiles.
+#      Make sure it exists in the same folder as index.php on the server.
+#   2. mod_rewrite is disabled, or AllowOverride is off for this directory.
+#   3. MultiViews is on (it hijacks /about -> /about.php) — disabled below.
+
+# MultiViews breaks clean URLs; FollowSymLinks is required for rewrites.
+Options -MultiViews +FollowSymLinks
+
+DirectoryIndex index.php
+
 <IfModule mod_rewrite.c>
     RewriteEngine On
 
-    # Serve existing files (assets, api/*.php, images) directly.
+    # If the site is installed in a SUBFOLDER (not its own domain root),
+    # uncomment and set this to that folder, e.g. RewriteBase /blog/
+    # RewriteBase /
+
+    # Serve real files and directories (assets, api/*.php, images) as-is.
     RewriteCond %{REQUEST_FILENAME} -f [OR]
     RewriteCond %{REQUEST_FILENAME} -d
     RewriteRule ^ - [L]
 
-    # Everything else goes through the front controller.
+    # Route everything else through the front controller.
     RewriteRule ^ index.php [L]
 </IfModule>
 
-# Never serve dotfiles (.env etc.) even if misplaced.
+# Never serve dotfiles (.env etc.), even if one ends up in the web root.
 <FilesMatch "^\.">
     Require all denied
 </FilesMatch>
 
-# Long cache for fingerprinted-ish static assets.
+# Block direct access to application internals if they ever sit in the web root.
+RedirectMatch 404 /(lib|views|partials|content)/
+
+# Long cache for static assets.
 <IfModule mod_headers.c>
     <FilesMatch "\.(css|js|woff2|png|jpg|jpeg|svg|ico)$">
         Header set Cache-Control "public, max-age=2592000"
     </FilesMatch>
     Header set X-Content-Type-Options "nosniff"
 </IfModule>
-
-ErrorDocument 404 /index.php

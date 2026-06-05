@@ -45,6 +45,25 @@ content/
 3. Put `.env` at `php/.env` (one level above the web root — it is never served).
 4. Ensure `mod_rewrite` is enabled (it is on virtually all shared PHP hosts).
 
+### Clean URLs not working? (404 on /about, /posts/...)
+
+Almost always one of these:
+
+- **`.htaccess` wasn't uploaded.** It's a dotfile, and many FTP clients hide
+  them by default. Confirm `public/.htaccess` exists on the server next to
+  `index.php`. Enable "show hidden files" in your FTP client.
+- **`mod_rewrite` / `AllowOverride` off.** The host must allow `.htaccess`
+  overrides for the directory. Most shared hosts do; if not, ask support to
+  enable `AllowOverride All` (or `mod_rewrite`).
+- **Installed in a subfolder** (e.g. `https://host/blog/` instead of its own
+  domain root). The router already strips the subfolder so routes match, but
+  for assets to load you should still prefer pointing the document root at
+  `public/`. If you must run from a subfolder, uncomment `RewriteBase` in
+  `.htaccess` and set it to that folder.
+
+The homepage working but inner pages 404-ing is the classic signature of a
+missing/ignored `.htaccess`.
+
 ## Content
 
 Add a post by dropping a markdown file in `content/posts/` with frontmatter:

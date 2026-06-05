@@ -33,7 +33,19 @@ require BASE_PATH . '/lib/Spotify.php';
 send_security_headers();
 
 // --- Routing -----------------------------------------------------------
-$path = rtrim(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH) ?: '/', '/');
+$path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH) ?: '/';
+
+// Support installs in a subdirectory: strip the folder the front controller
+// lives in (e.g. /blog) so routes still match. Skipped under the built-in
+// server, where SCRIPT_NAME is unreliable.
+if (PHP_SAPI !== 'cli-server') {
+    $base = rtrim(str_replace('\\', '/', dirname($_SERVER['SCRIPT_NAME'] ?? '/index.php')), '/');
+    if ($base !== '' && ($path === $base || str_starts_with($path, $base . '/'))) {
+        $path = substr($path, strlen($base));
+    }
+}
+
+$path = rtrim($path, '/');
 if ($path === '') {
     $path = '/';
 }
