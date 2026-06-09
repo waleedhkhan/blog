@@ -13,7 +13,6 @@ interface Track {
 const currentTrack = ref<Track | null>(null);
 const isVisible = ref(false);
 const isGlitching = ref(false);
-const isNowPlaying = ref(false);
 const widgetRef = ref<HTMLElement | null>(null);
 const canvasRef = ref<HTMLCanvasElement | null>(null);
 
@@ -190,20 +189,22 @@ async function fetchNowPlaying() {
 
     const tracks: Track[] = await response.json();
     const playing = tracks.find(t => t.nowPlaying);
-    const mostRecent = tracks[0];
 
-    const trackToShow = playing || mostRecent;
-    if (!trackToShow) return;
-
-    const wasNowPlaying = isNowPlaying.value;
-    isNowPlaying.value = !!playing;
+    // Only show the card while something is actively playing on Spotify.
+    if (!playing) {
+      isVisible.value = false;
+      setTimeout(() => {
+        if (!isVisible.value) currentTrack.value = null;
+      }, 300);
+      return;
+    }
 
     const isFirstLoad = !currentTrack.value && !isVisible.value;
-    const trackChanged = currentTrack.value && currentTrack.value.url !== trackToShow.url;
+    const trackChanged = currentTrack.value && currentTrack.value.url !== playing.url;
 
     if (isFirstLoad) {
       // First load - just show widget, no glitch
-      currentTrack.value = trackToShow;
+      currentTrack.value = playing;
       isVisible.value = true;
       await nextTick();
       updateCanvasSize();
@@ -211,10 +212,10 @@ async function fetchNowPlaying() {
       // Track change - trigger glitch and update in the middle
       triggerGlitch();
       setTimeout(() => {
-        currentTrack.value = trackToShow;
+        currentTrack.value = playing;
       }, 400);
     } else {
-      currentTrack.value = trackToShow;
+      currentTrack.value = playing;
     }
     isVisible.value = true;
 
@@ -259,12 +260,11 @@ onUnmounted(() => {
           <div class="track-name">{{ currentTrack.name }}</div>
           <div class="track-artist">{{ currentTrack.artist }}</div>
         </div>
-        <div v-if="isNowPlaying" class="equalizer">
+        <div class="equalizer">
           <span></span>
           <span></span>
           <span></span>
         </div>
-        <div v-else class="recent-label">Recently played</div>
       </a>
     </Transition>
   </div>
@@ -401,14 +401,6 @@ onUnmounted(() => {
   overflow: hidden;
   text-overflow: ellipsis;
   line-height: 1.3;
-}
-
-.recent-label {
-  font-size: 10px;
-  color: #9ca3af;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  flex-shrink: 0;
 }
 
 .equalizer {
