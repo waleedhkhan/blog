@@ -11,9 +11,6 @@ import Layout from "@/components/astro/layout/Layout.astro";
 import Badge from "@/components/astro/ui/Badge.astro";
 import BackToTop from "@/components/vue/BackToTop.vue";
 
-import TableOfContentsWrapper from "@/components/vue/TableOfContents.vue";
-import TableOfContents from "./TableOfContents.astro";
-
 import BackButton from "./BackButton.astro";
 import SocialLinks from "./SocialLinks.astro";
 
@@ -32,22 +29,17 @@ const lastModified = !!frontmatter.lastModified
   : publishedAt;
 ---
 
-<progress
-  class=":uno: fixed w-screen z-10 reading__progress h-[2px] left-0 top-0"
-></progress>
-
 <Layout
   title={`${frontmatter.title} — Waleed`}
   description={frontmatter.subtitle}
   og={`posts/og-${frontmatter.slug}`}
 >
-  <article class=":uno: grid grid-cols-12 gap-4">
-    <TableOfContentsWrapper client:load>
-      <Icon slot="button" name="lucide:table-of-contents" class="w-5 h-auto" />
-      <TableOfContents slot="toc" headings={frontmatter.headings} />
-      <Icon slot="btt" name="lucide:corner-left-up" class=":uno: w-4 h-auto" />
-    </TableOfContentsWrapper>
+  <progress
+    class=":uno: fixed w-screen z-10 reading__progress h-[2px] left-0 top-0"
+    max="100"
+    value="0"></progress>
 
+  <article class=":uno: grid grid-cols-12 gap-4">
     <BackToTop client:visible>
       <Icon name="lucide:arrow-up" class=":uno: w-5 h-auto" />
     </BackToTop>
@@ -166,40 +158,34 @@ const lastModified = !!frontmatter.lastModified
 </style>
 
 <script>
-  // reading progress indicator
-  const progressBar = document.querySelector(".reading__progress");
-
-  const windowHeight = window.innerHeight;
-  const documentHeight = document.documentElement.scrollHeight;
-  const max = documentHeight - windowHeight;
-  progressBar?.setAttribute("max", max.toString());
-
-  function setProgress() {
-    progressBar?.setAttribute("value", window.scrollY.toString());
+  // Reading progress indicator. Module scripts run once per session, so
+  // re-bind on astro:page-load (fires on initial load and after every
+  // view-transition navigation) and recompute the max each time.
+  declare global {
+    interface Window {
+      __readingProgress?: () => void;
+    }
   }
 
-  window.addEventListener("scroll", setProgress);
-  setProgress();
-
-  // table of contents scrollspy
-  const sections = document.querySelectorAll<HTMLElement>("section[id]");
-
-  const observer = new IntersectionObserver((entries) => {
-    for (const entry of entries) {
-      const id = entry.target.id;
-
-      const link = document.querySelector<HTMLAnchorElement>(
-        `nav ul li a[href="#${id}"]`
-      );
-
-      if (!link) {
-        return;
-      }
-
-      const method = entry.intersectionRatio > 0 ? "add" : "remove";
-      link.classList[method]("text-heading", "font-medium");
+  function initReadingProgress() {
+    if (window.__readingProgress) {
+      window.removeEventListener("scroll", window.__readingProgress);
+      window.__readingProgress = undefined;
     }
-  });
 
-  sections.forEach((link) => observer.observe(link));
+    const progressBar = document.querySelector(".reading__progress");
+    if (!progressBar) return;
+
+    const update = () => {
+      const max = document.documentElement.scrollHeight - window.innerHeight;
+      progressBar.setAttribute("max", max.toString());
+      progressBar.setAttribute("value", window.scrollY.toString());
+    };
+
+    window.__readingProgress = update;
+    window.addEventListener("scroll", update, { passive: true });
+    update();
+  }
+
+  document.addEventListener("astro:page-load", initReadingProgress);
 </script>
