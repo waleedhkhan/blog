@@ -1,11 +1,6 @@
 ---
 import { Icon } from "astro-icon/components";
-import NavigationItem from "@/components/vue/NavigationItem.vue";
 import ThemeSwitcher from "./ThemeSwitcher.astro";
-
-interface Props {
-  posts: { title: string; href: string }[];
-}
 
 const links = [
   { href: "/", label: "Home", icon: "lucide:home" },
@@ -16,20 +11,27 @@ const links = [
 ];
 
 const currentPath = Astro.url.pathname;
-const { posts } = Astro.props;
+const isActive = (href: string) =>
+  currentPath === href || (href !== "/" && currentPath.startsWith(href));
 ---
 
-<nav class="nav-container">
+<!-- Persisted across view transitions: the element survives swaps, so it never
+     re-renders or flashes. Active state is updated by the script below. -->
+<nav class="nav-container" transition:persist="navbar">
   <div class="nav-bar">
     {links.map((link) => (
-      <NavigationItem
-        label={link.label}
-        className={currentPath === link.href || (link.href !== "/" && currentPath.startsWith(link.href)) ? "active-link" : ""}
+      <a
+        rel="noopener noreferrer"
         href={link.href}
-        client:load
+        class:list={["nav-item", { "active-link": isActive(link.href) }]}
+        aria-label={link.label}
+        aria-current={isActive(link.href) ? "page" : undefined}
       >
-        <Icon name={link.icon} aria-label={link.label} class="nav-icon" />
-      </NavigationItem>
+        <div class="icon-wrapper">
+          <Icon name={link.icon} aria-hidden="true" class="nav-icon" />
+        </div>
+        <span class="nav-tooltip" aria-hidden="true">{link.label}</span>
+      </a>
     ))}
 
     <div class="nav-divider"></div>
@@ -37,6 +39,28 @@ const { posts } = Astro.props;
     <ThemeSwitcher />
   </div>
 </nav>
+
+<script is:inline>
+  // The nav is persisted across view transitions, so the server-rendered
+  // active state goes stale on navigation. Refresh it after each swap.
+  (() => {
+    if (window.__navActiveSetup) return;
+    window.__navActiveSetup = true;
+
+    const update = () => {
+      const path = window.location.pathname;
+      document.querySelectorAll(".nav-container .nav-item").forEach((item) => {
+        const href = item.getAttribute("href");
+        const active = href === "/" ? path === "/" : path.startsWith(href);
+        item.classList.toggle("active-link", active);
+        if (active) item.setAttribute("aria-current", "page");
+        else item.removeAttribute("aria-current");
+      });
+    };
+
+    document.addEventListener("astro:after-swap", update);
+  })();
+</script>
 
 <style>
   .nav-container {
@@ -68,6 +92,111 @@ const { posts } = Astro.props;
     stroke-width: 1.75;
   }
 
+  .nav-item {
+    position: relative;
+    width: 44px;
+    height: 44px;
+    display: grid;
+    place-items: center;
+    margin: 0 2px;
+    border-radius: 12px;
+    color: #a0a0a0;
+    text-decoration: none;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    transition:
+      transform 0.15s cubic-bezier(0.22, 1, 0.36, 1),
+      background-color 0.15s ease,
+      color 0.15s ease,
+      box-shadow 0.15s ease;
+  }
+
+  .icon-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .nav-item:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+    color: #1c1b19;
+  }
+
+  .nav-item:hover .icon-wrapper {
+    transform: translateY(-1px);
+  }
+
+  .nav-item:active {
+    transform: scale(0.92);
+    background-color: rgba(0, 0, 0, 0.08);
+  }
+
+  .nav-item:active .icon-wrapper {
+    transform: scale(0.95);
+  }
+
+  .nav-item.active-link {
+    color: #1c1b19;
+  }
+
+  .nav-item.active-link::after {
+    content: "";
+    position: absolute;
+    bottom: 6px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 4px;
+    height: 4px;
+    background-color: currentColor;
+    border-radius: 50%;
+    opacity: 0.8;
+  }
+
+  .nav-item:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1);
+  }
+
+  /* CSS-only tooltip (replaces the radix-vue island tooltip) */
+  .nav-tooltip {
+    position: absolute;
+    bottom: calc(100% + 8px);
+    left: 50%;
+    transform: translateX(-50%) translateY(4px);
+    background-color: #1c1b19;
+    color: #ffffff;
+    border-radius: 8px;
+    padding: 6px 10px;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.01em;
+    white-space: nowrap;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    opacity: 0;
+    pointer-events: none;
+    transition:
+      opacity 0.15s cubic-bezier(0.22, 1, 0.36, 1),
+      transform 0.15s cubic-bezier(0.22, 1, 0.36, 1);
+    z-index: 100;
+  }
+
+  .nav-tooltip::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border: 4px solid transparent;
+    border-top-color: #1c1b19;
+  }
+
+  .nav-item:hover .nav-tooltip,
+  .nav-item:focus-visible .nav-tooltip {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+
   /* Mobile */
   @media (max-width: 640px) {
     .nav-container {
@@ -84,6 +213,26 @@ const { posts } = Astro.props;
     :global(.nav-icon) {
       width: 20px;
       height: 20px;
+    }
+
+    .nav-item {
+      width: 46px;
+      height: 46px;
+      margin: 0;
+      border-radius: 12px;
+    }
+
+    /* No hover on touch — tooltips are noise there */
+    .nav-tooltip {
+      display: none;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .nav-item,
+    .icon-wrapper,
+    .nav-tooltip {
+      transition: none;
     }
   }
 </style>
@@ -107,5 +256,36 @@ const { posts } = Astro.props;
 
   html.dark .nav-divider {
     background: rgba(255, 255, 255, 0.15);
+  }
+
+  html.dark .nav-item {
+    color: #606060;
+  }
+
+  html.dark .nav-item:hover {
+    background-color: rgba(255, 255, 255, 0.08);
+    color: #ffffff;
+  }
+
+  html.dark .nav-item:active {
+    background-color: rgba(255, 255, 255, 0.12);
+  }
+
+  html.dark .nav-item.active-link {
+    color: #ffffff;
+  }
+
+  html.dark .nav-item:focus-visible {
+    box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.15);
+  }
+
+  html.dark .nav-tooltip {
+    background-color: #ffffff;
+    color: #1c1b19;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  }
+
+  html.dark .nav-tooltip::after {
+    border-top-color: #ffffff;
   }
 </style>

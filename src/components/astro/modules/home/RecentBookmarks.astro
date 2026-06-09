@@ -131,7 +131,6 @@ const recentBookmarks = processedBookmarks.slice(0, 5);
       <li 
         class="bookmark-card group w-full relative border-b border-gray-200 dark:border-neutral-800 pb-3 transition-colors duration-200"
         data-url={bookmark.url}
-        transition:name={`bookmark-${bookmark.url.replace(/[^a-zA-Z0-9]/g, '-')}`}
       >
         <!-- Header with title and external link -->
         <div class="flex items-baseline justify-between mb-1">
